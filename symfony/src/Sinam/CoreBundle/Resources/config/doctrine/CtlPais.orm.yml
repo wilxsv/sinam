@@ -1,0 +1,24 @@
+Sinam\CoreBundle\Entity\CtlPais:
+    type: entity
+    table: ctl_pais
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombre:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: 'Nombre del pais'
+        activo:
+            type: boolean
+            nullable: true
+            comment: 'Si el país está activo para ser presentado en las aplicaciones del sistema'
+    lifecycleCallbacks: {  }

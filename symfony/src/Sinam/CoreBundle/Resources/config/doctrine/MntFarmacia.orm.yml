@@ -1,0 +1,27 @@
+Sinam\CoreBundle\Entity\MntFarmacia:
+    type: entity
+    table: mnt_farmacia
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        farmacia:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: 'Nombre de la Farmacia'
+        habilitadofarmacia:
+            type: string
+            nullable: false
+            length: 1
+            fixed: true
+            comment: 'almacena si esta habilitado farmacia'
+            default: S
+    lifecycleCallbacks: {  }

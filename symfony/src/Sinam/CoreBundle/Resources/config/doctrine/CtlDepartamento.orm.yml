@@ -1,0 +1,65 @@
+Sinam\CoreBundle\Entity\CtlDepartamento:
+    type: entity
+    table: ctl_departamento
+    indexes:
+        IDX_C3F1602B24308A3B:
+            columns:
+                - id_establecimiento_region
+        IDX_C3F1602BF57D32FD:
+            columns:
+                - id_pais
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombre:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: 'Nombre del departamento'
+        codigoCnr:
+            type: string
+            nullable: true
+            length: 5
+            fixed: false
+            comment: 'Codigo asignado por la Digestyc para un departamento en especifico'
+            column: codigo_cnr
+        abreviatura:
+            type: string
+            nullable: true
+            length: 5
+            fixed: false
+            comment: 'Abreviatura asignada al departamento'
+        iso31662:
+            type: string
+            nullable: true
+            length: 5
+            fixed: false
+            comment: 'Código de departamento según norma ISO 3166-2 '
+    manyToOne:
+        idEstablecimientoRegion:
+            targetEntity: CtlEstablecimiento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_establecimiento_region:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idPais:
+            targetEntity: CtlPais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_pais:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FarmCatalogoproductos</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ farmCatalogoproducto.id }}</td>
+            </tr>
+            <tr>
+                <th>Codigo</th>
+                <td>{{ farmCatalogoproducto.codigo }}</td>
+            </tr>
+            <tr>
+                <th>Idtipoproducto</th>
+                <td>{{ farmCatalogoproducto.idtipoproducto }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ farmCatalogoproducto.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Niveluso</th>
+                <td>{{ farmCatalogoproducto.niveluso }}</td>
+            </tr>
+            <tr>
+                <th>Concentracion</th>
+                <td>{{ farmCatalogoproducto.concentracion }}</td>
+            </tr>
+            <tr>
+                <th>Formafarmaceutica</th>
+                <td>{{ farmCatalogoproducto.formafarmaceutica }}</td>
+            </tr>
+            <tr>
+                <th>Presentacion</th>
+                <td>{{ farmCatalogoproducto.presentacion }}</td>
+            </tr>
+            <tr>
+                <th>Prioridad</th>
+                <td>{{ farmCatalogoproducto.prioridad }}</td>
+            </tr>
+            <tr>
+                <th>Precioactual</th>
+                <td>{{ farmCatalogoproducto.precioactual }}</td>
+            </tr>
+            <tr>
+                <th>Aplicalote</th>
+                <td>{{ farmCatalogoproducto.aplicalote }}</td>
+            </tr>
+            <tr>
+                <th>Existenciaactual</th>
+                <td>{{ farmCatalogoproducto.existenciaactual }}</td>
+            </tr>
+            <tr>
+                <th>Especificacionestecnicas</th>
+                <td>{{ farmCatalogoproducto.especificacionestecnicas }}</td>
+            </tr>
+            <tr>
+                <th>Codigonacionesunidas</th>
+                <td>{{ farmCatalogoproducto.codigonacionesunidas }}</td>
+            </tr>
+            <tr>
+                <th>Pertenecelistadooficial</th>
+                <td>{{ farmCatalogoproducto.pertenecelistadooficial }}</td>
+            </tr>
+            <tr>
+                <th>Estadoproducto</th>
+                <td>{{ farmCatalogoproducto.estadoproducto }}</td>
+            </tr>
+            <tr>
+                <th>Observacion</th>
+                <td>{{ farmCatalogoproducto.observacion }}</td>
+            </tr>
+            <tr>
+                <th>Auusuariocreacion</th>
+                <td>{{ farmCatalogoproducto.auusuariocreacion }}</td>
+            </tr>
+            <tr>
+                <th>Aufechacreacion</th>
+                <td>{% if farmCatalogoproducto.aufechacreacion %}{{ farmCatalogoproducto.aufechacreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Auusuariomodificacion</th>
+                <td>{{ farmCatalogoproducto.auusuariomodificacion }}</td>
+            </tr>
+            <tr>
+                <th>Aufechamodificacion</th>
+                <td>{% if farmCatalogoproducto.aufechamodificacion %}{{ farmCatalogoproducto.aufechamodificacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Estasincronizada</th>
+                <td>{{ farmCatalogoproducto.estasincronizada }}</td>
+            </tr>
+            <tr>
+                <th>Idestablecimiento</th>
+                <td>{{ farmCatalogoproducto.idestablecimiento }}</td>
+            </tr>
+            <tr>
+                <th>Clasificacion</th>
+                <td>{{ farmCatalogoproducto.clasificacion }}</td>
+            </tr>
+            <tr>
+                <th>Areatecnica</th>
+                <td>{{ farmCatalogoproducto.areatecnica }}</td>
+            </tr>
+            <tr>
+                <th>Tipouaci</th>
+                <td>{{ farmCatalogoproducto.tipouaci }}</td>
+            </tr>
+            <tr>
+                <th>Idespecificogasto</th>
+                <td>{{ farmCatalogoproducto.idespecificogasto }}</td>
+            </tr>
+            <tr>
+                <th>Ultimoprecio</th>
+                <td>{{ farmCatalogoproducto.ultimoprecio }}</td>
+            </tr>
+            <tr>
+                <th>Idestado</th>
+                <td>{{ farmCatalogoproducto.idestado }}</td>
+            </tr>
+            <tr>
+                <th>Divisormedicina</th>
+                <td>{{ farmCatalogoproducto.divisormedicina }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('farmcatalogoproductos_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('farmcatalogoproductos_edit', { 'id': farmCatalogoproducto.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

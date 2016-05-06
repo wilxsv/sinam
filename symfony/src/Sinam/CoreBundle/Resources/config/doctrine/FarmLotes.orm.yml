@@ -1,0 +1,56 @@
+Sinam\CoreBundle\Entity\FarmLotes:
+    type: entity
+    table: farm_lotes
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria de la tabla'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        lote:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: 'Codigo del lote'
+        preciolote:
+            type: decimal
+            nullable: false
+            precision: 5
+            scale: 2
+            comment: 'Precio del lote'
+        fechavencimiento:
+            type: date
+            nullable: false
+            comment: 'Fecha de vencimiento del lote'
+        idestablecimiento:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Codigo del establecimiento.'
+        idmodalidad:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Indicador de modalidades'
+        idprocedencia:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Llave forane del tipo de procedencia del ingreso'
+        idTransIngreso:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'id de la tabla farm_trans_ingresos para saber de donde proviene la existencia del sinab'
+            column: id_trans_ingreso
+        fechaIngreso:
+            type: date
+            nullable: true
+            comment: 'Fecha que ingreso el medicamento segun el vale de SINAB'
+            column: fecha_ingreso
+    lifecycleCallbacks: {  }

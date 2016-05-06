@@ -1,0 +1,41 @@
+Sinam\CoreBundle\Entity\MntAreafarmacia:
+    type: entity
+    table: mnt_areafarmacia
+    indexes:
+        IDX_9C2703E5947B0200:
+            columns:
+                - idfarmacia
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        area:
+            type: string
+            nullable: false
+            length: 30
+            fixed: false
+            comment: 'Nombre del Area de la Farmacia'
+        habilitado:
+            type: string
+            nullable: false
+            length: 1
+            fixed: true
+            comment: 'S: Habilitado N: No habilitado'
+            default: 'N'
+    manyToOne:
+        idfarmacia:
+            targetEntity: MntFarmacia
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idfarmacia:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,59 @@
+Sinam\CoreBundle\Entity\CtlInstitucion:
+    type: entity
+    table: ctl_institucion
+    indexes:
+        IDX_3123F0D4F57D32FD:
+            columns:
+                - id_pais
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Identificador código maestro institución'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombre:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: 'Descripción nombre de la Institución'
+        logo:
+            type: string
+            nullable: true
+            length: 35
+            fixed: false
+            comment: 'nombre archivo de imagen utilizada como logo de la institución'
+        rectora:
+            type: string
+            nullable: true
+            length: 10
+            fixed: false
+        categoria:
+            type: integer
+            nullable: true
+            unsigned: false
+        sigla:
+            type: string
+            nullable: true
+            length: 14
+            fixed: false
+            comment: 'Sigla de la institución'
+        estado:
+            type: integer
+            nullable: false
+            unsigned: false
+    manyToOne:
+        idPais:
+            targetEntity: CtlPais
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_pais:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

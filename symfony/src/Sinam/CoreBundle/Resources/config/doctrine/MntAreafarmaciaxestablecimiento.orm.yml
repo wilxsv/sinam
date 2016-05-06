@@ -1,0 +1,51 @@
+Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
+    type: entity
+    table: mnt_areafarmaciaxestablecimiento
+    indexes:
+        IDX_2B5F8AA845BCCC8:
+            columns:
+                - idarea
+    id:
+        idrelacion:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        habilitado:
+            type: string
+            nullable: false
+            length: 1
+            fixed: true
+            comment: 'Estado de Area de farmacia'
+            default: S
+        idestablecimiento:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Identificador del establecimiento '
+        idmodalidad:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Identificador del tipo de modalidad en las que se desenvuelve el establecimiento'
+        cargaSinab:
+            type: boolean
+            nullable: false
+            comment: 'define el area de la farmacia por defecto donde se cargara el vale proveniente de SINAB.'
+            default: false
+            column: carga_sinab
+    manyToOne:
+        idarea:
+            targetEntity: MntAreafarmacia
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idarea:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

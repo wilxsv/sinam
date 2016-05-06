@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>:: {% block title %}{% endblock %} | Sistema Nacional de Consulta Publica de Abastecimiento de Medicamentos  :: </title>
+  <meta name="description" content="Heera HTML5 Template by Jewel Theme" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+  <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/animate.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/css/responsive.css') }}" rel="stylesheet">
+  <!--[if IE]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  {% block js_head %}{% endblock %}
+ </head>
+ <body class="header-fixed-top" {% block body_tag %}{% endblock %}>
+  <div id="page-top" class="page-top"></div>
+  <!-- head -->
+   {% include 'SinamCoreBundle::template/head.html.twig' %}
+  <!-- //head -->
+  <section id="main-content" class="main-content blog-post-singgle-page">
+   <div class="container">
+    <div class="row">
+     <div class="col-sm-8">
+      {% block body %}
+       <!-- lateral -->
+        {% include 'SinamCoreBundle::template/body.html.twig' %}
+       <!-- //lateral -->
+      {% endblock %}
+     </div>
+     <div class="col-sm-4">
+      {% block lateral %}
+       <!-- lateral -->
+        {% include 'SinamCoreBundle::template/lateral.html.twig' %}
+       <!-- //lateral -->
+      {% endblock %}
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- footer -->
+   {% include 'SinamCoreBundle::template/footer.html.twig' %}
+  <!-- //footer -->
+  <script src="{{ asset('assets/js/modernizr-2.8.3.min.js') }}"></script>
+  <script src="{{ asset('assets/js/jquery-2.1.0.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins.js') }}"></script>
+  <script src="{{ asset('assets/js/functions.js') }}"></script>
+  <script src="{{ asset('assets/js/wow.min.js') }}"></script>
+  {% block javascripts %}{% endblock %}
+ </body>
+</html>

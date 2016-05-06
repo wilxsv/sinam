@@ -1,0 +1,61 @@
+Sinam\CoreBundle\Entity\FarmUnidadmedidas:
+    type: entity
+    table: farm_unidadmedidas
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Unidad de medida utilizada para los medicamentos'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        descripcion:
+            type: string
+            nullable: false
+            length: 6
+            fixed: false
+            comment: 'Contiene las siglas de la unidad de medida'
+        descripcionlarga:
+            type: string
+            nullable: true
+            length: 30
+            fixed: false
+            comment: 'Descripcion de la unidad de medida'
+        unidadescontenidas:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Cuantas unidad contiene CTO:100 C/U:1 etc'
+        cantidaddecimal:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'PROVIENE DE SINAB'
+        auusuariocreacion:
+            type: string
+            nullable: true
+            length: 15
+            fixed: false
+            comment: 'PROVIENE DE SINAB'
+        aufechacreacion:
+            type: datetime
+            nullable: true
+            comment: 'PROVIENE DE SINAB'
+        auusuariomodificacion:
+            type: string
+            nullable: true
+            length: 15
+            fixed: true
+            comment: 'PROVIENE DE SINAB'
+        aufechamodificacion:
+            type: datetime
+            nullable: true
+            comment: 'PROVIENE DE SINAB'
+        estasincronizada:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'PROVIENE DE SINAB'
+    lifecycleCallbacks: {  }

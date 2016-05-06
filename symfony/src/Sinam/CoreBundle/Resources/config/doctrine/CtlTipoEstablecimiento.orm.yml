@@ -1,0 +1,31 @@
+Sinam\CoreBundle\Entity\CtlTipoEstablecimiento:
+    type: entity
+    table: ctl_tipo_establecimiento
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombre:
+            type: string
+            nullable: true
+            length: 150
+            fixed: false
+            comment: 'Nombre del tipo de establecimiento'
+        codigo:
+            type: string
+            nullable: true
+            length: 6
+            fixed: false
+            comment: 'Código que distingue al tipo establecimiento'
+        idInstitucion:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: id_institucion
+    lifecycleCallbacks: {  }

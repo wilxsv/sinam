@@ -1,0 +1,8 @@
+sinam_core:
+    resource: "@SinamCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+    methods:  [GET, POST]
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

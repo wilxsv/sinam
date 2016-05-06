@@ -1,0 +1,24 @@
+ctlpais_index:
+    path:     /
+    defaults: { _controller: "SinamCoreBundle:CtlPais:index" }
+    methods:  GET
+
+ctlpais_show:
+    path:     /{id}/show
+    defaults: { _controller: "SinamCoreBundle:CtlPais:show" }
+    methods:  GET
+
+ctlpais_new:
+    path:     /new
+    defaults: { _controller: "SinamCoreBundle:CtlPais:new" }
+    methods:  [GET, POST]
+
+ctlpais_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "SinamCoreBundle:CtlPais:edit" }
+    methods:  [GET, POST]
+
+ctlpais_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "SinamCoreBundle:CtlPais:delete" }
+    methods:  DELETE

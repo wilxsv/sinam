@@ -1,0 +1,35 @@
+{% extends 'SinamCoreBundle::default.html.twig' %}
+{% block body %}
+ <div id="comments" class="comments">
+  <div class="comments-area">
+   <h3 class="comment-title">Busqueda básica</h3>
+   <div id="respond">
+   </div>
+   {% if rest == true %}
+    <h3 class="comment-title">Resultado</h3>
+    <div id="respond">
+     <table>
+      <thead>
+       <th>Nombre</th><th>Concentracion</th><th>Forma</th><th>Presentacion</th><th>Codigo UN</th><th>Establecimiento</th><th>Direccion</th><th>Distancia</th>
+      </thead>
+      <tbody>
+       {% for item in rest %}
+        <tr>
+         <td>{{item.nombre}}</td>
+         <td>{{item.concentracion}}</td>
+         <td>{{item.Formafarmaceutica}}</td>
+         <td>{{item.Presentacion}}</td>
+         <td>{{item.Codigonacionesunidas}}</td>
+         <td></td><th></td><td></td>
+        </tr>
+       {% endfor %}
+      </tbody>
+     </table>
+    </div>
+   {% endif %}
+  </div>
+ </div>
+{% endblock %}
+{% block js_head %}
+{% endblock %}
+{% block body_tag %}onload="init()"{% endblock %}

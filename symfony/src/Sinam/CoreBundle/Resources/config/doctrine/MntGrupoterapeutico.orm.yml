@@ -1,0 +1,20 @@
+Sinam\CoreBundle\Entity\MntGrupoterapeutico:
+    type: entity
+    table: mnt_grupoterapeutico
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'clave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        grupoterapeutico:
+            type: string
+            nullable: false
+            length: 50
+            fixed: false
+            comment: 'Nombre de Grupo Terapeutico'
+    lifecycleCallbacks: {  }

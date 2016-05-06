@@ -1,0 +1,161 @@
+Sinam\CoreBundle\Entity\CtlEstablecimiento:
+    type: entity
+    table: ctl_establecimiento
+    indexes:
+        IDX_332BD42CEF433A34:
+            columns:
+                - id_institucion
+        IDX_332BD42C3544B551:
+            columns:
+                - id_establecimiento_padre
+        IDX_332BD42C7EAD49C7:
+            columns:
+                - id_municipio
+        IDX_332BD42C4E0E50FD:
+            columns:
+                - id_tipo_establecimiento
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombre:
+            type: string
+            nullable: false
+            length: 150
+            fixed: false
+            comment: 'Nombre del establecimiento de salud'
+        direccion:
+            type: string
+            nullable: true
+            length: 250
+            fixed: false
+            comment: 'Lugar físico del establecimiento'
+        telefono:
+            type: string
+            nullable: true
+            length: 15
+            fixed: false
+            comment: 'Teléfono de contacto del establecimiento'
+        fax:
+            type: string
+            nullable: true
+            length: 15
+            fixed: false
+            comment: 'Fax del establecimiento'
+        latitud:
+            type: decimal
+            nullable: true
+            precision: 10
+            scale: 4
+            comment: 'Coordenadas de latitud para sistema georeferencial'
+        longitud:
+            type: decimal
+            nullable: true
+            precision: 10
+            scale: 4
+            comment: 'Coordenadas de longitud para sistema georeferencial'
+        idNivelMinsal:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Representa el nivel del establecimiento, pueden ser 1,2,3'
+            column: id_nivel_minsal
+        codUcsf:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Código asignados a la Unidad Comunitaria de Salud Familiar.'
+            column: cod_ucsf
+        activo:
+            type: boolean
+            nullable: true
+            comment: 'Estado del establecimiento'
+        tipoExpediente:
+            type: string
+            nullable: true
+            length: 1
+            fixed: true
+            comment: 'Los tipos de expedientes son: G = Utiliza guión (xxx-xx); I = Infinito'
+            column: tipo_expediente
+        configurado:
+            type: boolean
+            nullable: true
+            comment: 'Determina cual es el establecimiento que esta configurado '
+        tipoFarmacia:
+            type: boolean
+            nullable: true
+            comment: 'Representa el tipo de farmacia que opera en el establecimiento'
+            column: tipo_farmacia
+        diasIntermediosCitas:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Variable que determina entre cuantos dias se puede dejar una cita'
+            column: dias_intermedios_citas
+        citasSinExpediente:
+            type: boolean
+            nullable: true
+            comment: 'Campo que determina si el establecimiento puede dejar citas sin expedientes. Generalmente cuando es por telefono'
+            default: false
+            column: citas_sin_expediente
+        tipoImpresion:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Tipo de impresión para citas 1-comprobante , 2- ticket'
+            default: '1'
+            column: tipo_impresion
+        minutoshora:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: '1:si son minutos, 2: si es hora'
+        tiempoprevioalacita:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Tiempo previo que el paciente debe presentarse a su cita'
+    manyToOne:
+        idInstitucion:
+            targetEntity: CtlInstitucion
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_institucion:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idEstablecimientoPadre:
+            targetEntity: CtlEstablecimiento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_establecimiento_padre:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idMunicipio:
+            targetEntity: CtlMunicipio
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_municipio:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idTipoEstablecimiento:
+            targetEntity: CtlTipoEstablecimiento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipo_establecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

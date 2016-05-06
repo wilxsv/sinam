@@ -1,0 +1,203 @@
+Sinam\CoreBundle\Entity\FarmCatalogoproductos:
+    type: entity
+    table: farm_catalogoproductos
+    indexes:
+        IDX_725517AAE12A4E52:
+            columns:
+                - idunidadmedida
+        IDX_725517AAA382C6C4:
+            columns:
+                - idterapeutico
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave de la tabla'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codigo:
+            type: string
+            nullable: false
+            length: 8
+            fixed: false
+            comment: 'codigo compuesto del medicamento'
+        idtipoproducto:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'tipo de producto'
+        nombre:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: 'Nombre del medicamento'
+        niveluso:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Nivel de uso del medicamento'
+        concentracion:
+            type: string
+            nullable: true
+            length: 382
+            fixed: false
+            comment: 'concentracion del medicamento'
+        formafarmaceutica:
+            type: string
+            nullable: true
+            length: 91
+            fixed: false
+            comment: 'forma farmauceituca del medicamto'
+        presentacion:
+            type: string
+            nullable: true
+            length: 150
+            fixed: true
+            comment: 'Presentacion del medicamento'
+        prioridad:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'prioridad del medicamento'
+        precioactual:
+            type: decimal
+            nullable: true
+            precision: 20
+            scale: 3
+            comment: 'El precio actual del medicamento. Proviene de SINAB'
+        aplicalote:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+            default: '0'
+        existenciaactual:
+            type: decimal
+            nullable: true
+            precision: 15
+            scale: 3
+            comment: 'Provienen de SINAB'
+            default: '0'
+        especificacionestecnicas:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: 'Provienen de SINAB'
+        codigonacionesunidas:
+            type: string
+            nullable: true
+            length: 20
+            fixed: false
+            comment: 'Provienen de SINAB'
+        pertenecelistadooficial:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+        estadoproducto:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+            default: '1'
+        observacion:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: 'Provienen de SINAB'
+        auusuariocreacion:
+            type: string
+            nullable: true
+            length: 15
+            fixed: true
+            comment: 'Provienen de SINAB'
+        aufechacreacion:
+            type: datetime
+            nullable: true
+            comment: 'Provienen de SINAB'
+        auusuariomodificacion:
+            type: string
+            nullable: true
+            length: 15
+            fixed: false
+            comment: 'Provienen de SINAB'
+        aufechamodificacion:
+            type: datetime
+            nullable: true
+            comment: 'Provienen de SINAB'
+        estasincronizada:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+            default: '0'
+        idestablecimiento:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+        clasificacion:
+            type: string
+            nullable: true
+            length: 1
+            fixed: true
+            comment: 'Provienen de SINAB'
+        areatecnica:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+        tipouaci:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+        idespecificogasto:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Provienen de SINAB'
+        ultimoprecio:
+            type: decimal
+            nullable: true
+            precision: 20
+            scale: 3
+            comment: 'Provienen de SINAB'
+        idestado:
+            type: string
+            nullable: true
+            length: 1
+            fixed: true
+            comment: 'Estado del Medicamento ''H''=Habilitado ''I''=Inhabilitado'
+            default: H
+        divisormedicina:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Cantidad de pastillas contenidas en cada Frasco'
+    manyToOne:
+        idunidadmedida:
+            targetEntity: FarmUnidadmedidas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idunidadmedida:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idterapeutico:
+            targetEntity: MntGrupoterapeutico
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idterapeutico:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

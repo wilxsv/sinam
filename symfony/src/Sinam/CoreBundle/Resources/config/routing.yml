@@ -1,0 +1,22 @@
+sinam_core_farmcatalogoproductos:
+    resource: "@SinamCoreBundle/Resources/config/routing/farmcatalogoproductos.yml"
+    prefix:   /farmcatalogoproductos
+
+sinam_core_ctlmunicipio:
+    resource: "@SinamCoreBundle/Resources/config/routing/ctlmunicipio.yml"
+    prefix:   /ctlmunicipio
+
+sinam_core_homepage:
+    path:     /
+    defaults: { _controller: SinamCoreBundle:Default:index }
+    methods:  [POST]
+    
+sinam_busqueda:
+    path:     /buscar
+    defaults: { _controller: SinamCoreBundle:Default:search }
+ajax_busqueda:
+    path:     /buscarajax
+    defaults: { _controller: SinamCoreBundle:Default:ajax }
+    methods:  [GET|HEAD|POST]
+    requirements:
+        _method:  POST|GET

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>FarmCatalogoproductos list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Codigo</th>
+                <th>Idtipoproducto</th>
+                <th>Nombre</th>
+                <th>Niveluso</th>
+                <th>Concentracion</th>
+                <th>Formafarmaceutica</th>
+                <th>Presentacion</th>
+                <th>Prioridad</th>
+                <th>Precioactual</th>
+                <th>Aplicalote</th>
+                <th>Existenciaactual</th>
+                <th>Especificacionestecnicas</th>
+                <th>Codigonacionesunidas</th>
+                <th>Pertenecelistadooficial</th>
+                <th>Estadoproducto</th>
+                <th>Observacion</th>
+                <th>Auusuariocreacion</th>
+                <th>Aufechacreacion</th>
+                <th>Auusuariomodificacion</th>
+                <th>Aufechamodificacion</th>
+                <th>Estasincronizada</th>
+                <th>Idestablecimiento</th>
+                <th>Clasificacion</th>
+                <th>Areatecnica</th>
+                <th>Tipouaci</th>
+                <th>Idespecificogasto</th>
+                <th>Ultimoprecio</th>
+                <th>Idestado</th>
+                <th>Divisormedicina</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for farmCatalogoproducto in farmCatalogoproductos %}
+            <tr>
+                <td><a href="{{ path('farmcatalogoproductos_show', { 'id': farmCatalogoproducto.id }) }}">{{ farmCatalogoproducto.id }}</a></td>
+                <td>{{ farmCatalogoproducto.codigo }}</td>
+                <td>{{ farmCatalogoproducto.idtipoproducto }}</td>
+                <td>{{ farmCatalogoproducto.nombre }}</td>
+                <td>{{ farmCatalogoproducto.niveluso }}</td>
+                <td>{{ farmCatalogoproducto.concentracion }}</td>
+                <td>{{ farmCatalogoproducto.formafarmaceutica }}</td>
+                <td>{{ farmCatalogoproducto.presentacion }}</td>
+                <td>{{ farmCatalogoproducto.prioridad }}</td>
+                <td>{{ farmCatalogoproducto.precioactual }}</td>
+                <td>{{ farmCatalogoproducto.aplicalote }}</td>
+                <td>{{ farmCatalogoproducto.existenciaactual }}</td>
+                <td>{{ farmCatalogoproducto.especificacionestecnicas }}</td>
+                <td>{{ farmCatalogoproducto.codigonacionesunidas }}</td>
+                <td>{{ farmCatalogoproducto.pertenecelistadooficial }}</td>
+                <td>{{ farmCatalogoproducto.estadoproducto }}</td>
+                <td>{{ farmCatalogoproducto.observacion }}</td>
+                <td>{{ farmCatalogoproducto.auusuariocreacion }}</td>
+                <td>{% if farmCatalogoproducto.aufechacreacion %}{{ farmCatalogoproducto.aufechacreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ farmCatalogoproducto.auusuariomodificacion }}</td>
+                <td>{% if farmCatalogoproducto.aufechamodificacion %}{{ farmCatalogoproducto.aufechamodificacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ farmCatalogoproducto.estasincronizada }}</td>
+                <td>{{ farmCatalogoproducto.idestablecimiento }}</td>
+                <td>{{ farmCatalogoproducto.clasificacion }}</td>
+                <td>{{ farmCatalogoproducto.areatecnica }}</td>
+                <td>{{ farmCatalogoproducto.tipouaci }}</td>
+                <td>{{ farmCatalogoproducto.idespecificogasto }}</td>
+                <td>{{ farmCatalogoproducto.ultimoprecio }}</td>
+                <td>{{ farmCatalogoproducto.idestado }}</td>
+                <td>{{ farmCatalogoproducto.divisormedicina }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('farmcatalogoproductos_show', { 'id': farmCatalogoproducto.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('farmcatalogoproductos_edit', { 'id': farmCatalogoproducto.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('farmcatalogoproductos_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

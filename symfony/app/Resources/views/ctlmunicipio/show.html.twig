@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlMunicipio</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ctlMunicipio.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ ctlMunicipio.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Codigocnr</th>
+                <td>{{ ctlMunicipio.codigoCnr }}</td>
+            </tr>
+            <tr>
+                <th>Abreviatura</th>
+                <td>{{ ctlMunicipio.abreviatura }}</td>
+            </tr>
+            <tr>
+                <th>Iddepartamento</th>
+                <td>{{ ctlMunicipio.idDepartamento }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ctlmunicipio_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('ctlmunicipio_edit', { 'id': ctlMunicipio.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

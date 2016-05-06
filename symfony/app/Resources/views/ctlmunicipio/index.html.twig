@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>CtlMunicipio list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Codigocnr</th>
+                <th>Abreviatura</th>
+                <th>Iddepartamento</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ctlMunicipio in ctlMunicipios %}
+            <tr>
+                <td></td>
+                <td>{{ ctlMunicipio.nombre }}</td>
+                <td>{{ ctlMunicipio.codigoCnr }}</td>
+                <td>{{ ctlMunicipio.abreviatura }}</td>
+                <td>{{ ctlMunicipio.idDepartamento }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('ctlmunicipio_show', { 'id': ctlMunicipio.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('ctlmunicipio_edit', { 'id': ctlMunicipio.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('ctlmunicipio_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

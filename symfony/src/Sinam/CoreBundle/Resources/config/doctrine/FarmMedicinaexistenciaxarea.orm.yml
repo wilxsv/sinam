@@ -1,0 +1,75 @@
+Sinam\CoreBundle\Entity\FarmMedicinaexistenciaxarea:
+    type: entity
+    table: farm_medicinaexistenciaxarea
+    indexes:
+        IDX_FB0BA1FB75BB31F7:
+            columns:
+                - idestablecimiento
+        IDX_FB0BA1FB45BCCC8:
+            columns:
+                - idarea
+        IDX_FB0BA1FBF58EA699:
+            columns:
+                - idmedicina
+        IDX_FB0BA1FBB67BC33F:
+            columns:
+                - idlote
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria de la tabla.'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        existencia:
+            type: decimal
+            nullable: false
+            precision: 11
+            scale: 3
+            comment: 'Valo numerico de existencia de las areas de farmacia'
+        idmodalidad:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Indicador de Modalidades'
+    manyToOne:
+        idestablecimiento:
+            targetEntity: CtlEstablecimiento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idestablecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idarea:
+            targetEntity: MntAreafarmacia
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idarea:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idmedicina:
+            targetEntity: FarmCatalogoproductos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idmedicina:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idlote:
+            targetEntity: FarmLotes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idlote:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
