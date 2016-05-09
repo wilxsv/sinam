@@ -1,0 +1,36 @@
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+SET
+ALTER TABLE
+ALTER TABLE
+ setval 
+--------
+   1036
+(1 fila)
+
+ALTER TABLE
+ALTER TABLE
+ setval 
+--------
+      1
+(1 fila)
+
+ALTER TABLE
+ALTER TABLE
+ setval 
+--------
+   2473
+(1 fila)
+
+ALTER TABLE
+ALTER TABLE
+ setval 
+--------
+      9
+(1 fila)
+

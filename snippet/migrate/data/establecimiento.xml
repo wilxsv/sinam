@@ -1,7 +1,7 @@
 <?xml version='1.0'  encoding='UTF-8'?>
 <minsal>
    <nodo_establecimiento>
-      <driver>PDO_MYSQL</driver>
+      <driver><![CDATA[PDO_MYSQL]]></driver>
       <host></host>
       <user></user>
       <passwd></passwd>

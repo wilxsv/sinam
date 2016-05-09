@@ -44,10 +44,10 @@ function extrae_establecimiento($source, $target){
 			$q = "INSERT INTO ctl_establecimiento ";
 			$q = $q.'("id_tipo_establecimiento", "nombre", "direccion", "telefono", "fax", "latitud", "longitud", "id_municipio", "id_nivel_minsal", "cod_ucsf", "activo", "configurado", "tipo_farmacia", "id_institucion")';
 			$q = $q." VALUES ( id_tipo_establecimiento, nombre, direccion, telefono, fax, latitud, longitud, id_municipio, id_nivel_minsal, cod_ucsf, activo, configurado, tipo_farmacia, id_institucion )";
-			if ( pg_query($target, $q) )
+/*			if ( pg_query($target, $q) )
 			echo 'Se ingreso el establecimiento: '.$row['nombre'].'\n';
 			else
-			echo 'Se intento el ingreso el establecimiento: '.$row['nombre'].'\n';
+			echo 'Se intento el ingreso el establecimiento: '.$row['nombre'].'\n';*/
 		}
 	}
 }
@@ -57,9 +57,20 @@ function consulta_establecimiento_siap($source, $data, $municipio, $establecimie
 		registro_error('enlace a base sinam');
 	exit;
 	}
-	$result = pg_query($source, "SELECT * FROM ctl_establecimiento WHERE nombre='$data' AND id_municipio='$municipio' AND id_tipo_establecimiento='$establecimiento' AND id_institucion='$institucion'");
+//ECHO 'SELECT * FROM ctl_establecimiento WHERE nombre='.$data."' AND id_municipio='$municipio' AND id_tipo_establecimiento='$establecimiento' AND id_institucion='$institucion'".'<BR/>';
+	$cad = $data;
+	$r = ('UTF-8' != mb_detect_encoding($data)) ?  mb_convert_encoding($data, "UTF-8") : $data;
+	echo $r;
+	$result = pg_query($source, "SELECT * FROM ctl_establecimiento WHERE nombre='".$r."' AND id_municipio='$municipio' AND id_tipo_establecimiento='$establecimiento' AND id_institucion='$institucion'");
 	if ($result)
-		return TRUE;
-	else
-		return FALSE;
+		if ( pg_num_rows($result) > 0 ){
+			
+			return TRUE;
+			}
+		else{
+			echo "SELECT * FROM ctl_establecimiento WHERE nombre='$data' AND id_municipio='$municipio' AND id_tipo_establecimiento='$establecimiento' AND id_institucion='$institucion'";
+			echo 'no lo encontro en sinam';
+			}
+
+	return FALSE;
 }
