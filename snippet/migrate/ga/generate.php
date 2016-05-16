@@ -1,7 +1,8 @@
 <?php
 require 'vendor/autoload.php';
 $authenticator = new PHPGangsta_GoogleAuthenticator();
-$secret = $authenticator->createSecret();
+//$secret = $authenticator->createSecret();
+$secret = 'GVL3YGGZG4J2EJQB';
 echo "Secret: ".$secret."\n";;
 
 
