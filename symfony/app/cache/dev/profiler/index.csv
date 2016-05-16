@@ -1039,3 +1039,6 @@ fba659,127.0.0.1,GET,http://127.0.0.1:8000/buscarajax?establecimiento=49&nombre=
 0f7238,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?establecimiento=49&nombre=Amikacina,1462539022,,200
 b1ad7c,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?establecimiento=49&nombre=acina,1462539029,,200
 32327b,127.0.0.1,GET,http://localhost:8000/,1462811128,,200
+d9057a,127.0.0.1,GET,http://localhost:8000/,1463422606,,200
+14c907,127.0.0.1,GET,http://localhost:8000/update,1463422613,379524,200
+379524,127.0.0.1,GET,http://localhost:8000/update,1463422613,,404

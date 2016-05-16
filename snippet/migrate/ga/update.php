@@ -1,6 +1,6 @@
 <?php
 
-$tiempo = 10;
+$tiempo = 1;
  if ( (date("i") % $tiempo) == 0  AND isset($_GET['inside']) && $_GET['inside'] == 'g3nEr4t3')
  	genera();
  elseif ((date("i") % $tiempo+$tiempo) == 0  && isset($_POST['otp']))
@@ -37,5 +37,13 @@ function muestra(){
 }
 
 function actualiza(){
-	echo "updated";
+	while (@ ob_end_flush()); // end all output buffers if any
+	$cmd = 'cd /home/wilx/Documentos/src/acrasame-zp/ && git pull';
+	$proc = popen($cmd, 'r');
+	echo '<pre>';
+	while (!feof($proc)){
+	    echo fread($proc, 4096);
+	    @ flush();
+	}
+	echo '</pre>';
 }
