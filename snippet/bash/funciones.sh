@@ -21,10 +21,35 @@ function set_path_database(){
 	echo "SELECT last.limpia_tablas_finales();" >> $DUMP_TMP
 	cat $DUMP_FILE | grep -v 'SET search_path = public' >> $DUMP_TMP
 	cat $DUMP_TMP > $DUMP_FILE
+	rm $DUMP_TMP
+
 }
 
 function load_database(){
-	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -f $DUMP_FILE -U $DB_USER #> 2 && rm $DUMP_FILE $DUMP_TMP
+	drivers=($(cat $XML_MASTER | grep -oP '(?<=driver>)[^<]+'))
+	hosts=($(cat $XML_MASTER | grep -oP '(?<=host>)[^<]+'))
+	users=($(cat $XML_MASTER | grep -oP '(?<=user>)[^<]+'))
+	passwds=($(cat $XML_MASTER | grep -oP '(?<=passwd>)[^<]+'))
+	ports=($(cat $XML_MASTER | grep -oP '(?<=port>)[^<]+'))
+	names=($(cat $XML_MASTER | grep -oP '(?<=name>)[^<]+'))
+	systems=($(cat $XML_MASTER | grep -oP '(?<=system>)[^<]+'))
+
+	DB_NAME=NULL
+	DB_USER=NULL
+	DB_PASSWD=NULL
+
+	for i in ${!drivers[*]}
+	do
+      if [ ${systems[$i]} == SINAM ]
+      then
+    	DB_NAME=${names[$i]}
+	    DB_USER=${users[$i]}
+	    DB_PASSWD=${passwds[$i]}
+      fi
+	done
+	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -f $DUMP_FILE -U $DB_USER && rm $DUMP_FILE
+	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -U $DB_USER -c 'SELECT prepara_tablas();'
+	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -U $DB_USER -c 'SELECT carga_datos();'
 	echo ""
 }
 
@@ -34,13 +59,13 @@ function siap_dump(){
 	# $3 database name
 	# $4 user
 	# $5 passwd
-oting --verbose --no-unlogged-table-data --file "/tmp/modelo.pgsql.sql" --table "public.ctl_departamento" --table "public.ctl_establecimiento" --table "public.farm_bitacoramedicinaexistenciaxarea" --table "public.farm_catalogoproductos" --table "public.farm_catalogoproductosxestablecimiento" --table "public.mnt_areafarmaciaxestablecimiento" "siap"
+#oting --verbose --no-unlogged-table-data --file "/tmp/modelo.pgsql.sql" --table "public.ctl_departamento" --table "public.ctl_establecimiento" --table "public.farm_bitacoramedicinaexistenciaxarea" --table "public.farm_catalogoproductos" --table "public.farm_catalogoproductosxestablecimiento" --table "public.mnt_areafarmaciaxestablecimiento" "siap"
 
 	#rm $DUMP_TMP $DUMP_FILE
 
 	RESULT=$(PGPASSWORD=$5 pg_dump $3 --host $1 --port $2 --username $4 --format plain --data-only --disable-triggers --encoding UTF8 --inserts\
 	    --column-inserts --no-privileges --no-tablespaces --disable-dollar-quoting --verbose --no-unlogged-table-data --file $DUMP_FILE\
-	    --table "ctl_establecimiento" --table "farm_catalogoproductos" --table "farm_medicinaexistenciaxarea" --table "mnt_areafarmaciaxestablecimiento")
+	    --table "farm_medicinaexistenciaxarea" --table "mnt_areafarmaciaxestablecimiento")
 
 	set_path_database
 	load_database
@@ -54,3 +79,115 @@ function sinab_dump(){
 	return 0
 }
 
+#########################################################################################################
+
+function load_siaps_sinab(){
+	drivers=($(cat $XML_FILE | grep -oP '(?<=driver>)[^<]+'))
+	hosts=($(cat $XML_FILE | grep -oP '(?<=host>)[^<]+'))
+	users=($(cat $XML_FILE | grep -oP '(?<=user>)[^<]+'))
+	passwds=($(cat $XML_FILE | grep -oP '(?<=passwd>)[^<]+'))
+	ports=($(cat $XML_FILE | grep -oP '(?<=port>)[^<]+'))
+	names=($(cat $XML_FILE | grep -oP '(?<=name>)[^<]+'))
+	systems=($(cat $XML_FILE | grep -oP '(?<=system>)[^<]+'))
+
+	for i in ${!drivers[*]}
+	do
+	  if [ ${systems[$i]} == SIAP ]
+	  then
+        siap_dump ${hosts[$i]} ${ports[$i]} ${names[$i]} ${users[$i]} ${passwds[$i]}
+      elif [ ${systems[$i]} == SINAB ]
+      then
+        sinab_dump
+      else
+      	echo 'No se encontro sistema SIAP o SINAB'
+      fi
+	done
+}
+
+#########################################################################################################
+
+function load_establecimientos(){
+	drivers=($(cat $XML_MASTER | grep -oP '(?<=driver>)[^<]+'))
+	hosts=($(cat $XML_MASTER | grep -oP '(?<=host>)[^<]+'))
+	users=($(cat $XML_MASTER | grep -oP '(?<=user>)[^<]+'))
+	passwds=($(cat $XML_MASTER | grep -oP '(?<=passwd>)[^<]+'))
+	ports=($(cat $XML_MASTER | grep -oP '(?<=port>)[^<]+'))
+	names=($(cat $XML_MASTER | grep -oP '(?<=name>)[^<]+'))
+	systems=($(cat $XML_MASTER | grep -oP '(?<=system>)[^<]+'))
+
+	ehost=NULL
+	edata=NULL
+	euser=NULL
+	epass=NULL
+	lhost=NULL
+	ldata=NULL
+	luser=NULL
+	lass=NULL
+
+	for i in ${!drivers[*]}
+	do
+	  if [ ${systems[$i]} == 'ESTABLECIMIENTO' ]
+	  then
+       	ehost=${hosts[$i]}
+    	edata=${names[$i]}
+	    euser=${users[$i]}
+	    epass=${passwds[$i]}
+      elif [ ${systems[$i]} == SINAM ]
+      then
+       	lhost=${hosts[$i]}
+    	ldata=${names[$i]}
+	    luser=${users[$i]}
+	    lpass=${passwds[$i]}
+      fi
+	done
+	export RESULT=`php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
+	if [ "$RESULT" -gt "0" ]
+	then
+		echo 'Se registraron $RESULT registros'
+	fi
+}
+
+#########################################################################################################
+
+function load_medicamentos(){
+	drivers=($(cat $XML_MASTER | grep -oP '(?<=driver>)[^<]+'))
+	hosts=($(cat $XML_MASTER | grep -oP '(?<=host>)[^<]+'))
+	users=($(cat $XML_MASTER | grep -oP '(?<=user>)[^<]+'))
+	passwds=($(cat $XML_MASTER | grep -oP '(?<=passwd>)[^<]+'))
+	ports=($(cat $XML_MASTER | grep -oP '(?<=port>)[^<]+'))
+	names=($(cat $XML_MASTER | grep -oP '(?<=name>)[^<]+'))
+	systems=($(cat $XML_MASTER | grep -oP '(?<=system>)[^<]+'))
+
+	ehost=NULL
+	edata=NULL
+	euser=NULL
+	epass=NULL
+	lhost=NULL
+	ldata=NULL
+	luser=NULL
+	lass=NULL
+
+	for i in ${!drivers[*]}
+	do
+	  if [ ${systems[$i]} == 'MEDICAMENTO' ]
+	  then
+       	ehost=${hosts[$i]}
+    	edata=${names[$i]}
+	    euser=${users[$i]}
+	    epass=${passwds[$i]}
+      elif [ ${systems[$i]} == SINAM ]
+      then
+       	lhost=${hosts[$i]}
+    	ldata=${names[$i]}
+	    luser=${users[$i]}
+	    lpass=${passwds[$i]}
+      fi
+	done
+	export RESULT=`php php/load_medicamentos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
+	if [ "$RESULT" -gt "0" ]
+	then
+		echo "Se registraron $RESULT medicamentos"
+	else
+		echo "$RESULT"
+	fi
+}

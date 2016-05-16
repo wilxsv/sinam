@@ -17,26 +17,13 @@
 source $(dirname $0)/funciones.sh
 
 
-function incia_respaldos(){
-	drivers=($(cat $XML_FILE | grep -oP '(?<=driver>)[^<]+'))
-	hosts=($(cat $XML_FILE | grep -oP '(?<=host>)[^<]+'))
-	users=($(cat $XML_FILE | grep -oP '(?<=user>)[^<]+'))
-	passwds=($(cat $XML_FILE | grep -oP '(?<=passwd>)[^<]+'))
-	ports=($(cat $XML_FILE | grep -oP '(?<=port>)[^<]+'))
-	names=($(cat $XML_FILE | grep -oP '(?<=name>)[^<]+'))
-	systems=($(cat $XML_FILE | grep -oP '(?<=system>)[^<]+'))
-	for i in ${!drivers[*]}
-	do
-	  if [ ${systems[$i]} == SIAP ]
-	  then
-        siap_dump ${hosts[$i]} ${ports[$i]} ${names[$i]} ${users[$i]} ${passwds[$i]}
-      elif [ ${systems[$i]} == SINAB ]
-      then
-        sinab_dump
-      else
-      	echo 'No se encontro sistema SIAP o SINAB'
-      fi
-	done
+
+function init_data(){
+	load_establecimientos
+
+	load_medicamentos
+
+	load_siaps_sinab
 }
 
-incia_respaldos
+init_data

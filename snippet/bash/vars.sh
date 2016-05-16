@@ -14,9 +14,9 @@
 # @version		0.5
 # @licence		GPL 3.0  
 
-export dir=`pwd`
 #Files
-XML_FILE=establecimiento.xml
+XML_FILE=db/establecimiento.xml
+XML_MASTER=db/maestros.xml
 DUMP_FILE=/tmp/sumo.sql
 DUMP_TMP=/tmp/tmp.sql
 #Data Base

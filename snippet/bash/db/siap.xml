@@ -1,13 +1,13 @@
 <?xml version='1.0'  encoding='UTF-8'?>
 <minsal>
    <nodo_establecimiento>
-      <driver><![CDATA[PDO_MYSQL]]></driver>
+      <driver>PDO_MYSQL</driver>
       <host></host>
       <user></user>
       <passwd></passwd>
       <port></port>
       <name></name>
-      <system>SIAP</system>
+      <system></system>
       <schema></schema>
    </nodo_establecimiento>
    <nodo_establecimiento>
