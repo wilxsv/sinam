@@ -50,7 +50,7 @@ function load_database(){
 	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -f $DUMP_FILE -U $DB_USER && rm $DUMP_FILE
 	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -U $DB_USER -c 'SELECT prepara_tablas();'
 	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -U $DB_USER -c 'SELECT carga_datos();'
-	echo ""
+	echo "1"
 }
 
 function siap_dump(){
@@ -70,13 +70,7 @@ function siap_dump(){
 	set_path_database
 	load_database
 	
-	return 0
-}
-
-function sinab_dump(){
-	
-	echo 'extra sinab'
-	return 0
+	return 1
 }
 
 #########################################################################################################
@@ -189,5 +183,12 @@ function load_medicamentos(){
 		echo "Se registraron $RESULT medicamentos"
 	else
 		echo "$RESULT"
+	fi
+}
+
+function log( ){
+	if [ $DEBUG == 'TRUE' ]
+	  then
+	  echo "$TIMESTAMP $1" >> $LOGFILE
 	fi
 }

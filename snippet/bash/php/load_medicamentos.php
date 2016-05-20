@@ -33,6 +33,7 @@ class LoadMedicamento {
 		foreach ($dbh->query($sql) as $row){
 			$total_local = $row['total'];
 		}
+		$total_local = ($total_local) ? $total_local : 0;
         $dbh = NULL;
         $dbh = new PDO("pgsql:dbname=$this->edbname;host=$this->ehost", $this->edbuser, $this->edbpass );
 		$sql = "SELECT * FROM farm_catalogoproductos WHERE id > $total_local";

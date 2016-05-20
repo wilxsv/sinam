@@ -26,3 +26,7 @@ DB_PORT=5432
 DB_NAME=sinam-dev
 DB_USER=acrasame
 DE_PASSWD=acrasame
+#Config
+LOGFILE="/tmp/sistem-sinam.log"
+TIMESTAMP=`date "+%Y-%m-%d %H:%M:%S"`
+DEBUG="TRUE"
