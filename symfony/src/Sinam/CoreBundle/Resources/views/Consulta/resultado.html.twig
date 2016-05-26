@@ -1,0 +1,30 @@
+ <section id="services" class="services">
+ <div id="comments" class="comments">
+  <div class="comments-area">
+   {% if rest == true %}
+    {% for item in rest %}
+     <div class="item">
+      <div class="row">
+      <p>
+       <h3>{{item.nombre}}</h3>
+       Existencias: {{item.existencia}}<br />
+       Forma: {{item.formafarmaceutica}}<br />
+       Presentación: {{item.presentacion}}<br />
+       Establecimiento: {{item.nombree}}<br />
+       Direccion: {{item.direccion}}<br />
+       <p align="right">Descargar: <img src="{{ asset('images/odt.png') }}" height="34" width="32"> <img src="{{ asset('images/ods.png') }}" height="34" width="32"> <img src="{{ asset('images/pdf.png') }}" height="34" width="32"> </p>
+      </p>
+      </div>
+     </div>
+    {% endfor %}
+   {% else %}<div class="item">
+      <div class="row">
+      <p>
+       <h3>No se encontraron existencias</h3>
+      </p>
+      </div>
+     </div>
+   {% endif %}
+   </div>
+  </div>
+ </section>

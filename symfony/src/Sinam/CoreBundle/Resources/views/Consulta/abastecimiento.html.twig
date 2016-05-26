@@ -1,0 +1,204 @@
+{% extends 'SinamCoreBundle::default.html.twig' %}
+{% block body %}
+          <div class="service-accordion">
+           <div class="accordion">
+            <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
+              <div class="panel panel-default">
+                <div id="headingThree" role="tab" class="panel-heading">
+                  <h4 class="panel-title">
+                    <a aria-controls="collapseThree" aria-expanded="true" href="#collapseThree" data-parent="#accordion" data-toggle="collapse" class="collapsed">
+                      Consulta de abastecimiento
+                    </a>
+                  </h4>
+                </div>
+                <div aria-labelledby="headingThree" role="tabpanel" class="panel-collapse collapse in" id="collapseThree" aria-expanded="true" style="height: 0px;">
+                  <div class="panel-body">
+                    <p>
+                     <form class="commentform" method="post">
+                     {{ form_start(form3, {'action': '', 'attr': {'class': ''}}) }}
+                        {{ form_label(form3.nombre) }}{{ form_errors(form3.nombre) }}{{ form_widget(form3.nombre) }}<br />
+                        {{ form_label(form3.unidad) }}{{ form_errors(form3.unidad) }}{{ form_widget(form3.unidad) }}<br />
+                        {{ form_label(form3.concentracion) }}{{ form_errors(form3.concentracion) }}{{ form_widget(form3.concentracion) }}<br />
+                        {{ form_label(form3.almacen) }}{{ form_errors(form3.almacen) }}{{ form_widget(form3.almacen) }}<br />
+                        {{ form_label(form3.periodo) }}{{ form_errors(form3.periodo) }}{{ form_widget(form3.periodo) }}<br />
+                        {{ form_widget(form3.save) }}<br />
+                      </form>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><!-- /.accordion -->
+
+        </div><!-- /.service-accordion -->
+        <div  id="resultado" ></div>
+        
+        
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#establecimiento_type_departamento').change(function(){
+           var val = $(this).val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_busqueda') }}?depto_id=" + val,
+                success: function(data) {
+                    // Remove current options
+                    $('#establecimiento_type_municipio').html('');
+                    $.each(data, function(k, v) {
+                        $('#establecimiento_type_municipio').append('<option value="' + v + '">' + k + '</option>');
+                    });
+                }
+            });
+            return false;
+        });
+        $('#establecimiento_type_municipio').change(function(){
+           var val = $(this).val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_busqueda') }}?munic_id=" + val,
+                success: function(data) {
+                    // Remove current options
+                    $('#establecimiento_type_establecimiento').html('');
+                    $.each(data, function(k, v) {
+                        $('#establecimiento_type_establecimiento').append('<option value="' + v + '">' + k + '</option>');
+                    });
+                }
+            });
+            return false;
+        });
+        $('#establecimiento_type_save').click(function(){
+           var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_busqueda') }}?establecimiento=" + val + "&nombre=" + nombre,
+                success: function(data) {
+                    // Remove current options
+                    $('#resultado').html(data);
+                }
+            });
+            return false;
+        });
+        $('#mapa_type_save').click(function(){
+           var nombre = $('#mapa_type_nombre').val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_busqueda') }}?lat=" + $('#mapa_type_latitud').val() + "&lon=" + $('#mapa_type_longitud').val() + "&nombre=" + nombre,
+                success: function(data) {
+                    // Remove current options
+                    $('#resultado').html(data);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+{% endblock %}
+{% block js_head %}
+ <script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
+
+                       <script>
+                        var map;
+        var centerWGS84, centerOSM;
+        var projWGS84, projSphericalMercator;
+        var osmLayer;
+        
+        function init(){
+
+        	projWGS84 = new OpenLayers.Projection("EPSG:4326");
+			projSphericalMercator = new OpenLayers.Projection("EPSG:900913");  
+			
+			centerWGS84=new OpenLayers.LonLat(-89.218846,13.697911);
+			centerOSM = transformToSphericalMercator(centerWGS84);
+
+			map = new OpenLayers.Map("Map");
+			
+			var ctrl = new OpenLayers.Control.MousePosition()
+			ctrl.formatOutput = transformMouseCoords; 
+			map.addControl(ctrl);
+
+        	osmLayer = new OpenLayers.Layer.OSM();
+
+        	map.addLayer(osmLayer);
+        	map.setCenter(centerOSM, 9);            
+            map.events.register("mousemove", map, mouseMoveHandler);
+            
+            var click = new OpenLayers.Control.Click();
+            map.addControl(click);
+            click.activate();
+        }
+        function mouseMoveHandler(e) {
+        	var position = this.events.getMousePosition(e);
+        	var lonlat = map.getLonLatFromPixel(position);
+        	lonlat = transformMouseCoords(lonlat);					
+        }
+        function transformMouseCoords(lonlat) {
+        	var newlonlat=transformToWGS84(lonlat);
+			var x = Math.round(newlonlat.lon*10000)/10000;
+			var y = Math.round(newlonlat.lat*10000)/10000;
+			newlonlat = new OpenLayers.LonLat(x,y);
+			return newlonlat;
+        }
+        function transformToWGS84( sphMercatorCoords) {
+        	// Transforma desde SphericalMercator a WGS84
+        	// Devuelve un OpenLayers.LonLat con el pto transformado
+        	var clon = sphMercatorCoords.clone(); // Si no uso un clon me transforma el punto original
+        	var pointWGS84= clon.transform(
+                    new OpenLayers.Projection("EPSG:900913"), // to Spherical Mercator Projection;
+        			new OpenLayers.Projection("EPSG:4326")); // transform from WGS 1984
+        	return pointWGS84;
+        }
+        function transformToSphericalMercator( wgs84LonLat) {
+        	// Transforma desde SphericalMercator a WGS84
+        	// Devuelve un OpenLayers.LonLat con el pto transformado
+        	var clon = wgs84LonLat.clone(); // Si no uso un clon me transforma el punto original
+        	var pointSphMerc= clon.transform(
+                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                    new OpenLayers.Projection("EPSG:900913")); // to Spherical Mercator Projection;
+        	return pointSphMerc;
+        }
+        OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
+            defaultHandlerOptions: {
+                'single': true,
+                'double': false,
+                'pixelTolerance': 0,
+                'stopSingle': false,
+                'stopDouble': false
+            },
+
+            initialize: function(options) {
+                this.handlerOptions = OpenLayers.Util.extend(
+                    {}, this.defaultHandlerOptions
+                );
+                OpenLayers.Control.prototype.initialize.apply(
+                    this, arguments
+                ); 
+                this.handler = new OpenLayers.Handler.Click(
+                    this, {
+                        'click': this.trigger
+                    }, this.handlerOptions
+                );
+            }, 
+            trigger: function(e) {
+                var lonlat = map.getLonLatFromPixel(e.xy);
+                lonlat = transformMouseCoords(lonlat);
+        	    document.getElementById("mapa_type_latitud").value = lonlat.lat;
+			    document.getElementById("mapa_type_longitud").value = lonlat.lon
+            }
+        });
+  </script>
+  <link rel="stylesheet" href="{{ asset('assets/js/daterangepicker/daterangepicker.css') }}" />
+  <script src="{{ asset('assets/js/daterangepicker/jquery-1.11.2.min.js') }}"></script>
+  <script src="{{ asset('assets/js/daterangepicker/moment.min.js') }}"></script>
+  <script src="{{ asset('assets/js/daterangepicker/jquery.daterangepicker.js') }}"></script>
+		<script src="{{ asset('assets/js/daterangepicker/demo.js') }}"></script>
+		<style>
+		.demo { margin:30px 0;}
+		.date-picker-wrapper .month-wrapper table .day.lalala { background-color:orange; }
+		.options { display:none; border-left:6px solid #8ae; padding:10px; font-size:12px; line-height:1.4; background-color:#eee; border-radius:4px;}
+		.date-picker-wrapper.date-range-picker19 .day.first-date-selected { background-color: red !important; }
+		.date-picker-wrapper.date-range-picker19 .day.last-date-selected { background-color: orange !important; }
+		</style>
+{% endblock %}
+{% block body_tag %}onload="init()"{% endblock %}

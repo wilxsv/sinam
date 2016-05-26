@@ -42,8 +42,8 @@ class LoadEstablecimiento {
 		//Si existen datos mayores al id en el maestro se ingresaran al sistema
 		//se crea la sentencia de insercion
 		foreach ($dbh->query($sql) as $row){
-			$lat = ($row['latitud'] > 0) ? $row['latitud'] : 13.701430;
-			$lon = ($row['longitud'] > 0) ? $row['longitud'] : -89.225007;
+			$lat = ($row['latitud'] > 0) ? $row['latitud'] : 'NULL';
+			$lon = ($row['longitud'] > 0) ? $row['longitud'] : 'NULL';
 			$id_nivel_minsal = ($row['id_nivel_minsal'] > 0) ? $row['id_nivel_minsal'] : 'NULL';
 			$tipo_farmacia = ($row['tipo_farmacia'] > 0) ? $row['tipo_farmacia'] : 'NULL';
 			$insert = $insert.$str."'".$row['id']."',"."'".$row['id_tipo_establecimiento']."',"."'".$row['nombre']."',"."'".$row['direccion']."',"."'".$row['telefono']."',".$lat.",".$lon.","."'".$row['id_municipio']."',".$id_nivel_minsal.",'".$row['activo']."',"."'".$row['id_establecimiento_padre']."',".$tipo_farmacia.","."'".$row['id_institucion']."');";

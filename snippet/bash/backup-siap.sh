@@ -56,7 +56,6 @@ function sinab_dump(){
       fi
 	done
 	export RESULT=`php php/load_sinab.php $lhost $ldata $luser $lpass $ehost $eport $edata $eschm $euser $epass `
-	echo "$RESULT" > momomo
 	if [ "$RESULT" -gt "0" ]
 	then
 		echo "Se registraron $RESULT registros"
@@ -64,11 +63,11 @@ function sinab_dump(){
 }
 
 function init_data(){
-	#load_establecimientos
+	load_establecimientos
 
-	#load_medicamentos
+	load_medicamentos
 
-	#load_siaps_sinab
+	load_siaps_sinab
 
 	sinab_dump
 }

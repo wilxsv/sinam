@@ -5,7 +5,7 @@
      <div class="col-sm-8 pull-left">
       <ul class="contact-list">
        <li>
-        <a class="site-name" href="#">Inicio</a>
+        <a class="site-name" href="{{ path( 'sinam_core_homepage' ) }}">Inicio</a>
        </li>
        <li>
         <a class="site-name" href="http://www.salud.gob.sv/" target="_new">Ministerio de Salud</a>
@@ -65,10 +65,9 @@
       </div>
       <nav id="menu" class="menu collapse navbar-collapse">
        <ul id="headernavigation" class="menu-list nav navbar-nav">
-        <li><a href="{{ path( 'sinam_core_homepage' ) }}">Inicio</a></li>
-        <li><a href="{{ path( 'sinam_busqueda' ) }}">Busquedas</a></li>
-        <li><a href="{{ path( 'sinam_core_homepage' ) }}">Documentos</a></li>
-        <li><a href="{{ path( 'sinam_core_homepage' ) }}">Estadistica</a></li>
+        <li><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
+        <li><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
+        <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
         <li><a href="{{ path( 'sinam_core_homepage' ) }}">Ayuda</a></li>
         <li><a href="{{ path( 'sinam_core_homepage' ) }}">Contáctenos</a></li>
        </ul><!-- /.menu-list -->

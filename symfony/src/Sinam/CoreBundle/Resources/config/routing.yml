@@ -20,3 +20,11 @@ ajax_busqueda:
     methods:  [GET|HEAD|POST]
     requirements:
         _method:  POST|GET
+
+por_establecimiento:
+    path:     /consulta_establecimiento
+    defaults: { _controller: SinamCoreBundle:PorEstablecimiento:index }
+
+consulta_abastecimiento:
+    path:     /consulta_abastecimiento
+    defaults: { _controller: SinamCoreBundle:PorAbastecimiento:index }

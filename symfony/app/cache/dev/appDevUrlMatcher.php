@@ -269,6 +269,31 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        if (0 === strpos($pathinfo, '/consulta_')) {
+            // por_establecimiento
+            if ($pathinfo === '/consulta_establecimiento') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_por_establecimiento;
+                }
+
+                return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\PorEstablecimientoController::indexAction',  '_route' => 'por_establecimiento',);
+            }
+            not_por_establecimiento:
+
+            // consulta_abastecimiento
+            if ($pathinfo === '/consulta_abastecimiento') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_consulta_abastecimiento;
+                }
+
+                return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\PorAbastecimientoController::indexAction',  '_route' => 'consulta_abastecimiento',);
+            }
+            not_consulta_abastecimiento:
+
+        }
+
         // homepage
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {

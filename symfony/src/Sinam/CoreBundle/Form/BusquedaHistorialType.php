@@ -17,7 +17,7 @@ class BusquedaHistorialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '')))
+            ->add('nombre',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '')))/*
             ->add('presentacion',  'entity', array('label' => 'Presentación','class' => 'SinamCoreBundle:FarmCatalogoproductos','property'=>'presentacion',
 				'choices_as_values' => true,
 				'query_builder' => function(EntityRepository $er) {
@@ -26,7 +26,7 @@ class BusquedaHistorialType extends AbstractType
 					->addGroupBy('p.id')
 					->orderBy('p.presentacion', 'ASC');
 				},
-            ))
+            ))*/
             ->add('unidad',  'entity', array('label' => 'Unidad de medida','class' => 'SinamCoreBundle:FarmUnidadmedidas'))
             ->add('concentracion',  'choice', array('label' => 'Concentracion','choices'  => array('2' => '250 mg/ml','0' => '500 mg','3' => '(150 + 15)mg','0' => '1.2 MUI')))
             ->add('almacen',  'choice', array('label' => 'Incluir informacion de almacenes','choices'  => array('1' => 'Si','0' => 'No')))

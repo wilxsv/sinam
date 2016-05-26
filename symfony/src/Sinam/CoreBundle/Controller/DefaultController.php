@@ -82,11 +82,21 @@ class DefaultController extends Controller
 				->addSelect('s.direccion, s.nombre AS nombree')
 				->innerJoin('e.idmedicina', 'm')
 				->innerJoin('e.idestablecimiento', 's')
-				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND s.id =".$request->query->get('establecimiento'))
+				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND s.id =".$request->query->get('establecimiento')." AND e.existencia > 0 ")
 				->addSelect('m.nombre, m.formafarmaceutica, m.presentacion, e.existencia')
 				->getQuery();			
             return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=>$query->getResult() ));
 		}elseif($request->query->get('nombre') != null && $request->query->get('lat') != null && $request->query->get('lon') != null){
+            $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmMedicinaexistenciaxarea');
+			$query = $repository->createQueryBuilder('e')
+				->select('e')
+				->addSelect('s.direccion, s.nombre AS nombree')
+				->innerJoin('e.idmedicina', 'm')
+				->innerJoin('e.idestablecimiento', 's')
+				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND e.existencia > 0 ")
+				->addSelect('m.nombre, m.formafarmaceutica, m.presentacion, e.existencia')
+				->getQuery();			
+            return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=>$query->getResult() ));
 		}else{
 			return new JsonResponse($result);
 		}

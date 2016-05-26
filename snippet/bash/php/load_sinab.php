@@ -205,14 +205,205 @@ class LoadSinab {
         	    }
             }
         }
-
-
-            	echo "insertando almcenes $total_local : $insert";
-
         mssql_free_result($sql);
         $dbh = NULL;
 		if ( $insert != '' ){
 			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec($insert);
+			$dbh = null;
+			return $count;
+		}
+    }
+    catch(PDOException $e)
+    {
+    	return 0;
+    }
+		return $count;
+	}
+
+	function carga_establecimiento(){
+	$count = '0';
+	try {
+		//total de datos en la base local del sistema de consulta
+		$total_local = 0;
+		$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+		$sql = "SELECT MAX(id) AS total FROM sab_cat_establecimientos";		
+		foreach ($dbh->query($sql) as $row){
+			$total_local = $row['total'];
+		}
+		$total_local = ($total_local) ? $total_local : 0;
+        $dbh = NULL;
+        $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
+
+        if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
+            die('Something went wrong while connecting to MSSQL');
+        } else {
+        	$sql = mssql_query("SELECT * FROM SAB_CAT_ESTABLECIMIENTOS WHERE IDESTABLECIMIENTO > $total_local;");
+            if (!mssql_num_rows($sql)) {
+            	return 0;
+            } else {
+            	$insert = 'INSERT INTO "sab_cat_establecimientos" ("id", "codigoestablecimiento", "id_municipio", "id_tipoestablecimiento", "id_zona", "id_institucion", "nombre", "direccion", "telefono", "idpadre", "nivel", "estasincronizada", "idmaestro")VALUES';
+        	    while ($row = mssql_fetch_object($sql)) {
+        	    	$nom = "'".$this->pf( $row->NOMBRE )."'";
+        	    	$cod = ( $row->CODIGOESTABLECIMIENTO ) ? "'".$this->pf( $row->CODIGOESTABLECIMIENTO )."'" : 'NULL';
+        	    	$dir = ( $row->DIRECCION ) ? "'".$this->pf( $row->DIRECCION )."'" : 'NULL';
+        	    	$tel = ( $row->TELEFONO ) ? "'".$this->pf( $row->TELEFONO )."'" : 'NULL';
+        	    	$est = ( $row->IDPADRE ) ? $this->pf( $row->IDPADRE ) : 'NULL';
+        	    	$niv = ( $row->NIVEL ) ? $this->pf( $row->NIVEL ) : 'NULL';
+        	    	$mae = ( $row->IDMAESTRO ) ? $this->pf( $row->IDMAESTRO ) : 'NULL';
+        		    $insert = $insert."($row->IDESTABLECIMIENTO,$cod,$row->IDMUNICIPIO,$row->IDTIPOESTABLECIMIENTO,$row->IDZONA,$row->IDINSTITUCION,$nom,$dir,$tel,$est,$niv,$row->ESTASINCRONIZADA, $mae),";
+        	    }
+            }
+        }
+        $insert = substr($insert, 0, -1);
+        mssql_free_result($sql);
+        $dbh = NULL;
+		if ( $insert != '' ){
+			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec($insert);
+			$dbh = null;
+			return $count;
+		}
+    }
+    catch(PDOException $e)
+    {
+    	return 0;
+    }
+		return $count;
+	}
+
+	function carga_alternativa(){
+	$count = '0';
+	try {
+        $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
+
+        if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
+            die('Something went wrong while connecting to MSSQL');
+        } else {
+        	$sql = mssql_query("SELECT * FROM SAB_CAT_ALTERNATIVASPRODUCTO;");
+            if (!mssql_num_rows($sql)) {
+            	return 0;
+            } else {
+            	$insert = 'INSERT INTO sab_cat_alternativasproducto (id, id_producto, multiplicador, divisor, estasincronizada) VALUES ';
+        	    while ($row = mssql_fetch_object($sql)) {
+        		    $insert = $insert."($row->IDALTERNATIVA,$row->IDPRODUCTO,$row->MULTIPLICADOR,$row->DIVISOR,$row->ESTASINCRONIZADA),";
+        	    }
+            }
+        }
+        $insert = substr($insert, 0, -1);
+        mssql_free_result($sql);
+        $dbh = NULL;
+		if ( $insert != '' ){
+			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec("DELETE FROM sab_cat_alternativasproducto;");
+			$count = $dbh->exec($insert);
+			$dbh = null;
+			return $count;
+		}
+    }
+    catch(PDOException $e)
+    {
+    	return 0;
+    }
+		return $count;
+	}
+
+	function carga_almacenestablecimiento(){
+	$count = '0';
+	try {
+        $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
+
+        if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
+            die('Something went wrong while connecting to MSSQL');
+        } else {
+        	$sql = mssql_query("SELECT * FROM SAB_CAT_ALMACENESESTABLECIMIENTOS;");
+            if (!mssql_num_rows($sql)) {
+            	return 0;
+            } else {
+            	$insert = 'INSERT INTO sab_cat_almacenesestablecimientos (id_establecimiento, id_almacen, esprincipal, estasincronizada) VALUES ';
+        	    while ($row = mssql_fetch_object($sql)) {
+        		    $insert = $insert."($row->IDESTABLECIMIENTO,$row->IDALMACEN,$row->ESPRINCIPAL,$row->ESTASINCRONIZADA),";
+        	    }
+            }
+        }
+        $insert = substr($insert, 0, -1);
+        mssql_free_result($sql);
+        $dbh = NULL;
+		if ( $insert != '' ){
+			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec("DELETE FROM sab_cat_almacenesestablecimientos;");
+			$count = $dbh->exec($insert);
+			$dbh = null;
+			return $count;
+		}
+    }
+    catch(PDOException $e)
+    {
+    	return 0;
+    }
+		return $count;
+	}
+
+	function carga_existenciasalmacenes(){
+	$count = '0';
+	try {
+        $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
+
+        if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
+            die('Something went wrong while connecting to MSSQL');
+        } else {
+        	$sql = mssql_query("SELECT * FROM SAB_ALM_EXISTENCIASALMACENES;");
+            if (!mssql_num_rows($sql)) {
+            	return 0;
+            } else {
+            	$insert = 'INSERT INTO sab_alm_existenciasalmacenes (id_almacen, id_producto, cantidaddisponible, cantidadnodisponible, cantidadreservada, cantidadvencida, estasincronizada) VALUES  ';
+        	    while ($row = mssql_fetch_object($sql)) {
+        		    $insert = $insert."($row->IDALMACEN,$row->IDPRODUCTO,$row->CANTIDADDISPONIBLE,$row->CANTIDADNODISPONIBLE,$row->CANTIDADRESERVADA,$row->CANTIDADVENCIDA,$row->ESTASINCRONIZADA),";
+        	    }
+            }
+        }
+        $insert = substr($insert, 0, -1);
+        mssql_free_result($sql);
+        $dbh = NULL;
+		if ( $insert != '' ){
+			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec("DELETE FROM sab_alm_existenciasalmacenes;");
+			$count = $dbh->exec($insert);
+			$dbh = null;
+			return $count;
+		}
+    }
+    catch(PDOException $e)
+    {
+    	return 0;
+    }
+		return $count;
+	}
+
+	function carga_existenciahistorica(){
+	$count = '0';
+	try {
+        $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
+
+        if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
+            die('Something went wrong while connecting to MSSQL');
+        } else {
+        	$sql = mssql_query("SELECT * FROM SAB_ALM_EXISTENCIAHISTORICA;");
+            if (!mssql_num_rows($sql)) {
+            	return 0;
+            } else {
+            	$insert = 'INSERT INTO sab_alm_existenciahistorica (id_almacen, id_producto, fecha, cantidaddisponible, cantidadnodisponible, cantidadreservada, cantidadtemporal, cantidadvencida) VALUES ';
+        	    while ($row = mssql_fetch_object($sql)) {
+        		    $insert = $insert."($row->IDALMACEN,$row->IDPRODUCTO,$row->FECHA,$row->CANTIDADDISPONIBLE,$row->CANTIDADNODISPONIBLE,$row->CANTIDADRESERVADA,$row->CANTIDADTEMPORAL,$row->CANTIDADVENCIDA),";
+        	    }
+            }
+        }
+        $insert = substr($insert, 0, -1);
+        mssql_free_result($sql);
+        $dbh = NULL;
+		if ( $insert != '' ){
+			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec("DELETE FROM sab_alm_existenciahistorica;");
 			$count = $dbh->exec($insert);
 			$dbh = null;
 			return $count;
@@ -231,7 +422,12 @@ $obj = new LoadSinab( $argv[1], $argv[2], $argv[3], $argv[4], $argv[5], $argv[6]
 //$r = $obj->carga_departamento();
 //$r = $obj->carga_municipio();
 //$r = $obj->carga_medicamento();
+//$r = $obj->carga_almacen();
+//$r = $obj->carga_establecimiento();
+//$r = $obj->carga_alternativa();
+//$r = $obj->carga_almacenestablecimiento();
+//$r = $obj->carga_existenciasalmacenes();
+$r = $obj->carga_existenciahistorica();
 
-$r = $obj->carga_almacen();
 echo $r;
 //$r = $obj->carga_medicamento();
