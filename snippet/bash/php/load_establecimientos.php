@@ -37,19 +37,21 @@ class LoadEstablecimiento {
         $dbh = NULL;
         $dbh = new PDO("pgsql:dbname=$this->edbname;host=$this->ehost", $this->edbuser, $this->edbpass );
 		$sql = "SELECT * FROM ctl_establecimiento WHERE id > $total_local";
-		$str = "INSERT INTO ctl_establecimiento(id, id_tipo_establecimiento, nombre, direccion, telefono, latitud, longitud, id_municipio, id_nivel_minsal, activo, id_establecimiento_padre, tipo_farmacia, id_institucion) VALUES (";
+		$str = "INSERT INTO ctl_establecimiento(id, id_tipo_establecimiento, nombre, direccion, telefono, latitud, longitud, id_municipio, id_nivel_minsal, activo, id_establecimiento_padre, tipo_farmacia, id_institucion) VALUES ";
 		$insert = '';
 		//Si existen datos mayores al id en el maestro se ingresaran al sistema
 		//se crea la sentencia de insercion
+		echo "Iniciando consulta";
 		foreach ($dbh->query($sql) as $row){
 			$lat = ($row['latitud'] > 0) ? $row['latitud'] : 'NULL';
 			$lon = ($row['longitud'] > 0) ? $row['longitud'] : 'NULL';
 			$id_nivel_minsal = ($row['id_nivel_minsal'] > 0) ? $row['id_nivel_minsal'] : 'NULL';
 			$tipo_farmacia = ($row['tipo_farmacia'] > 0) ? $row['tipo_farmacia'] : 'NULL';
-			$insert = $insert.$str."'".$row['id']."',"."'".$row['id_tipo_establecimiento']."',"."'".$row['nombre']."',"."'".$row['direccion']."',"."'".$row['telefono']."',".$lat.",".$lon.","."'".$row['id_municipio']."',".$id_nivel_minsal.",'".$row['activo']."',"."'".$row['id_establecimiento_padre']."',".$tipo_farmacia.","."'".$row['id_institucion']."');";
+			$insert = $insert."(".$row['id'].","."'".$row['id_tipo_establecimiento']."',"."'".$row['nombre']."',"."'".$row['direccion']."',"."'".$row['telefono']."',".$lat.",".$lon.","."'".$row['id_municipio']."',".$id_nivel_minsal.",'".$row['activo']."',"."'".$row['id_establecimiento_padre']."',".$tipo_farmacia.","."'".$row['id_institucion']."');";
 		}
 
 		if ( $insert != '' ){
+			echo "Iniciando insercion";
 			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
 			$count = $dbh->exec($insert);
 			//echo $count;

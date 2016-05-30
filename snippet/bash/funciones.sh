@@ -135,11 +135,12 @@ function load_establecimientos(){
       fi
 	done
 	log "Iniciando conex. con $ehost"
-	export RESULT=`php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
-	if [ "$RESULT" -gt "0" ]
-	then
-		echo 'Se registraron $RESULT registros'
-	fi
+	php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass
+	#export RESULT=`php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
+	#if [ "$RESULT" -gt "0" ]
+	#then
+	#	echo 'Se registraron $RESULT registros'
+	#fi
 }
 
 #########################################################################################################
