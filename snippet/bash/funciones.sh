@@ -134,6 +134,7 @@ function load_establecimientos(){
 	    lpass=${passwds[$i]}
       fi
 	done
+	log "Iniciando conex. con $ehost"
 	export RESULT=`php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
 	if [ "$RESULT" -gt "0" ]
 	then
@@ -186,9 +187,11 @@ function load_medicamentos(){
 	fi
 }
 
-function log( ){
+function log(  ){
+	TIMESTAMP=`date "+%Y-%m-%d %H:%M:%S"`
 	if [ $DEBUG == 'TRUE' ]
 	  then
-	  echo "$TIMESTAMP $1" >> $LOGFILE
+	  echo "$TIMESTAMP $1"
 	fi
+	echo "$TIMESTAMP $1" >> $LOGFILE
 }

@@ -8,9 +8,9 @@ $tiempo = 1;
 elseif ((date("i") % $tiempo) == 0)
 	muestra();
 
-
 function genera(){
-	require 'vendor/autoload.php';
+	require dirname(__FILE__).'/vendor/autoload.php';
+	
 	$authenticator = new PHPGangsta_GoogleAuthenticator();
 	$secret = 'GVL3YGGZG4J2EJQB';
 	$website = 'http://consulta.salud.gob.sv/';

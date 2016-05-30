@@ -20,12 +20,6 @@ XML_MASTER=db/maestros.xml
 DUMP_FILE=/tmp/sumo.sql
 DUMP_TMP=/tmp/tmp.sql
 #Data Base
-SCHEMA_TMP=last
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_NAME=sinam-dev
-DB_USER=acrasame
-DE_PASSWD=acrasame
 #Config
 LOGFILE="/tmp/sistem-sinam.log"
 TIMESTAMP=`date "+%Y-%m-%d %H:%M:%S"`

@@ -63,13 +63,17 @@ function sinab_dump(){
 }
 
 function init_data(){
+	
+	log 'Iniciando Respaldo'
+	log 'Iniciando load_establecimientos'
 	load_establecimientos
+	log 'Terminando load_establecimientos'
 
-	load_medicamentos
+#	load_medicamentos
 
-	load_siaps_sinab
+#	load_siaps_sinab
 
-	sinab_dump
+#	sinab_dump
 }
 
 init_data
