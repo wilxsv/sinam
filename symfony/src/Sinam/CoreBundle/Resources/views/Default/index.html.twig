@@ -1,5 +1,6 @@
 {% extends 'SinamCoreBundle::default.html.twig' %}
 {% block body %}
+<div class="col-sm-8">
  <div id="comments" class="comments">
   <div class="comments-area">
    <h3 class="comment-title">Sistema Nacional de Consulta Publica de Abastecimiento de Medicamentos </h3>
@@ -12,7 +13,12 @@ Con la aprobación de la ley de acceso a la información y a solicitud de la “
    </div>
   </div>
  </div>
+</div>
+<div class="col-sm-4">
+      {% block lateral %}
+       <!-- lateral -->
+        {% include 'SinamCoreBundle::template/lateral.html.twig' %}
+       <!-- //lateral -->
+      {% endblock %}
+     </div>
 {% endblock %}
-{% block js_head %}
-{% endblock %}
-{% block body_tag %}onload="init()"{% endblock %}

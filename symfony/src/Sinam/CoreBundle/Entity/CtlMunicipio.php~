@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CtlMunicipio
  *
- * @ORM\Table(name="ctl_municipio")
+ * @ORM\Table(name="ctl_municipio", indexes={@ORM\Index(name="IDX_914172ED6325E299", columns={"id_departamento"})})
  * @ORM\Entity
  */
 class CtlMunicipio
@@ -44,12 +44,37 @@ class CtlMunicipio
     private $abreviatura;
 
     /**
-     * @var integer
+     * @var \CtlDepartamento
      *
-     * @ORM\Column(name="id_departamento", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="CtlDepartamento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_departamento", referencedColumnName="id")
+     * })
      */
     private $idDepartamento;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="SabCatMunicipios", inversedBy="idSiap")
+     * @ORM\JoinTable(name="ctl_alias_municipio",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_siap", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_sinab", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idSinab;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idSinab = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -134,10 +159,10 @@ class CtlMunicipio
     /**
      * Set idDepartamento
      *
-     * @param integer $idDepartamento
+     * @param \Sinam\CoreBundle\Entity\CtlDepartamento $idDepartamento
      * @return CtlMunicipio
      */
-    public function setIdDepartamento($idDepartamento)
+    public function setIdDepartamento(\Sinam\CoreBundle\Entity\CtlDepartamento $idDepartamento = null)
     {
         $this->idDepartamento = $idDepartamento;
 
@@ -147,15 +172,48 @@ class CtlMunicipio
     /**
      * Get idDepartamento
      *
-     * @return integer 
+     * @return \Sinam\CoreBundle\Entity\CtlDepartamento 
      */
     public function getIdDepartamento()
     {
         return $this->idDepartamento;
     }
-    
-    public function getMunicipio()
+
+    /**
+     * Add idSinab
+     *
+     * @param \Sinam\CoreBundle\Entity\SabCatMunicipios $idSinab
+     * @return CtlMunicipio
+     */
+    public function addIdSinab(\Sinam\CoreBundle\Entity\SabCatMunicipios $idSinab)
+    {
+        $this->idSinab[] = $idSinab;
+
+        return $this;
+    }
+
+    /**
+     * Remove idSinab
+     *
+     * @param \Sinam\CoreBundle\Entity\SabCatMunicipios $idSinab
+     */
+    public function removeIdSinab(\Sinam\CoreBundle\Entity\SabCatMunicipios $idSinab)
+    {
+        $this->idSinab->removeElement($idSinab);
+    }
+
+    /**
+     * Get idSinab
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdSinab()
+    {
+        return $this->idSinab;
+    }
+    public function __toString()
     {
         return $this->nombre;
     }
+
 }

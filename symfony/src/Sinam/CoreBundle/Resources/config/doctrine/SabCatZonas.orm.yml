@@ -1,0 +1,23 @@
+Sinam\CoreBundle\Entity\SabCatZonas:
+    type: entity
+    table: sab_cat_zonas
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        descripcion:
+            type: string
+            nullable: false
+            length: 15
+            fixed: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    lifecycleCallbacks: {  }

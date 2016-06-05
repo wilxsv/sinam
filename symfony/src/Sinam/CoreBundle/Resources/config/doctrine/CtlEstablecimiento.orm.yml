@@ -11,9 +11,6 @@ Sinam\CoreBundle\Entity\CtlEstablecimiento:
         IDX_332BD42C7EAD49C7:
             columns:
                 - id_municipio
-        IDX_332BD42C4E0E50FD:
-            columns:
-                - id_tipo_establecimiento
     id:
         id:
             type: integer
@@ -24,6 +21,12 @@ Sinam\CoreBundle\Entity\CtlEstablecimiento:
             generator:
                 strategy: SEQUENCE
     fields:
+        idTipoEstablecimiento:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: 'Llave foránea del tipo de establecimiento'
+            column: id_tipo_establecimiento
         nombre:
             type: string
             nullable: false
@@ -147,15 +150,6 @@ Sinam\CoreBundle\Entity\CtlEstablecimiento:
             inversedBy: null
             joinColumns:
                 id_municipio:
-                    referencedColumnName: id
-            orphanRemoval: false
-        idTipoEstablecimiento:
-            targetEntity: CtlTipoEstablecimiento
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_tipo_establecimiento:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

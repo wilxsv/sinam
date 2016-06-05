@@ -35,8 +35,8 @@ class BusquedaEstablecimientoType extends AbstractType
             ->add('nombre',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '')))
             ->add('tipo', 'hidden', array( 'data' => 'establecimiento',))
             ->add('save', 'submit', array('label' => 'Buscar','attr'=>  array('class' => 'submit-btn')));
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
+        //$builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+        //$builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
     }
     
     protected function addElements(FormInterface $form, $depto = null, $munis = null) {

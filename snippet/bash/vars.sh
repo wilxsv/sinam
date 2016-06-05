@@ -20,6 +20,7 @@ XML_MASTER=db/maestros.xml
 DUMP_FILE=/tmp/sumo.sql
 DUMP_TMP=/tmp/tmp.sql
 #Data Base
+SCHEMA_TMP="last"
 #Config
 LOGFILE="/tmp/sistem-sinam.log"
 TIMESTAMP=`date "+%Y-%m-%d %H:%M:%S"`

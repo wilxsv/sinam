@@ -64,10 +64,10 @@ class CtlMunicipio extends \Sinam\CoreBundle\Entity\CtlMunicipio implements \Doc
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'codigoCnr', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'abreviatura', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'idDepartamento');
+            return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'codigoCnr', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'abreviatura', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'idDepartamento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'idSinab');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'codigoCnr', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'abreviatura', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'idDepartamento');
+        return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'codigoCnr', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'abreviatura', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'idDepartamento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlMunicipio' . "\0" . 'idSinab');
     }
 
     /**
@@ -257,7 +257,7 @@ class CtlMunicipio extends \Sinam\CoreBundle\Entity\CtlMunicipio implements \Doc
     /**
      * {@inheritDoc}
      */
-    public function setIdDepartamento($idDepartamento)
+    public function setIdDepartamento(\Sinam\CoreBundle\Entity\CtlDepartamento $idDepartamento = NULL)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setIdDepartamento', array($idDepartamento));
@@ -279,12 +279,45 @@ class CtlMunicipio extends \Sinam\CoreBundle\Entity\CtlMunicipio implements \Doc
     /**
      * {@inheritDoc}
      */
-    public function getMunicipio()
+    public function addIdSinab(\Sinam\CoreBundle\Entity\SabCatMunicipios $idSinab)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMunicipio', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addIdSinab', array($idSinab));
 
-        return parent::getMunicipio();
+        return parent::addIdSinab($idSinab);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeIdSinab(\Sinam\CoreBundle\Entity\SabCatMunicipios $idSinab)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeIdSinab', array($idSinab));
+
+        return parent::removeIdSinab($idSinab);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getIdSinab()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdSinab', array());
+
+        return parent::getIdSinab();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __toString()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', array());
+
+        return parent::__toString();
     }
 
 }

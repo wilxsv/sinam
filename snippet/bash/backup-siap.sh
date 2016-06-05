@@ -16,62 +16,30 @@
 
 source $(dirname $0)/funciones.sh
 
-function sinab_dump(){
-	drivers=($(cat $XML_MASTER | grep -oP '(?<=driver>)[^<]+'))
-	hosts=($(cat $XML_MASTER | grep -oP '(?<=host>)[^<]+'))
-	users=($(cat $XML_MASTER | grep -oP '(?<=user>)[^<]+'))
-	passwds=($(cat $XML_MASTER | grep -oP '(?<=passwd>)[^<]+'))
-	ports=($(cat $XML_MASTER | grep -oP '(?<=port>)[^<]+'))
-	names=($(cat $XML_MASTER | grep -oP '(?<=name>)[^<]+'))
-	systems=($(cat $XML_MASTER | grep -oP '(?<=system>)[^<]+'))
-	schemas=($(cat $XML_MASTER | grep -oP '(?<=schema>)[^<]+'))
+function establecimientos( ){
+	log 'Iniciando Respaldo de establecimientos'
+	load_establecimientos >> $LOGFILE
+	log 'Terminando load_establecimientos'
+}
 
-	ehost=NULL
-	eport=NULL
-	edata=NULL
-	euser=NULL
-	epass=NULL
-	eschm=NULL
-	lhost=NULL
-	ldata=NULL
-	luser=NULL
-	lpass=NULL
+function medicamentos( ){
+	log 'Iniciando Respaldo de medicamentos'
+	load_medicamentos >> $LOGFILE
+	log 'Terminando load_medicamentos'
+}
 
-	for i in ${!drivers[*]}
-	do
-	  if [ ${systems[$i]} == 'SINAB' ]
-	  then
-       	ehost=${hosts[$i]}
-	    eport=${ports[$i]}
-    	edata=${names[$i]}
-	    euser=${users[$i]}
-	    epass=${passwds[$i]}
-	    eschm=${schemas[$i]}
-      elif [ ${systems[$i]} == 'SINAM' ]
-      then
-       	lhost=${hosts[$i]}
-    	ldata=${names[$i]}
-	    luser=${users[$i]}
-	    lpass=${passwds[$i]}
-      fi
-	done
-	export RESULT=`php php/load_sinab.php $lhost $ldata $luser $lpass $ehost $eport $edata $eschm $euser $epass `
-	if [ "$RESULT" -gt "0" ]
-	then
-		echo "Se registraron $RESULT registros"
-	fi
+function siap_sinab( ){
+	log 'Iniciando Respaldo de siaps'
+	load_siaps_sinab >> $LOGFILE
+	log 'Terminando load_siaps_sinab'
 }
 
 function init_data(){
 	
-	log 'Iniciando Respaldo'
-	log 'Iniciando load_establecimientos'
-	load_establecimientos
-	log 'Terminando load_establecimientos'
-
-#	load_medicamentos
-
-#	load_siaps_sinab
+	#establecimientos
+	#medicamentos
+	siap_sinab
+	
 
 #	sinab_dump
 }

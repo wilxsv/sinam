@@ -1,0 +1,133 @@
+Sinam\CoreBundle\Entity\SabCatEstablecimientos:
+    type: entity
+    table: sab_cat_establecimientos
+    indexes:
+        sab_cat_establecimientos_ix_sab_cat_establecimientos:
+            columns:
+                - idpadre
+                - nivel
+        IDX_6D791824EF433A34:
+            columns:
+                - id_institucion
+        IDX_6D79182456006F2:
+            columns:
+                - idpadre
+        IDX_6D79182482E4DF9A:
+            columns:
+                - id_tipoestablecimiento
+        IDX_6D7918242CA6181C:
+            columns:
+                - id_zona
+        IDX_6D7918247EAD49C7:
+            columns:
+                - id_municipio
+    uniqueConstraints:
+        sab_cat_establecimientos_codigoestablecimiento_key:
+            columns:
+                - codigoestablecimiento
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codigoestablecimiento:
+            type: string
+            nullable: false
+            length: 8
+            fixed: false
+        nombre:
+            type: string
+            nullable: false
+            length: 80
+            fixed: false
+        direccion:
+            type: string
+            nullable: true
+            length: 200
+            fixed: false
+        telefono:
+            type: string
+            nullable: true
+            length: 8
+            fixed: false
+        nivel:
+            type: bigint
+            nullable: true
+            unsigned: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+        idmaestro:
+            type: bigint
+            nullable: true
+            unsigned: false
+    manyToOne:
+        idInstitucion:
+            targetEntity: SabCatInstituciones
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_institucion:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idpadre:
+            targetEntity: SabCatEstablecimientos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idpadre:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idTipoestablecimiento:
+            targetEntity: SabCatTipoestablecimientos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_tipoestablecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idZona:
+            targetEntity: SabCatZonas
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_zona:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idMunicipio:
+            targetEntity: CtlMunicipio
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_municipio:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        idAlmacen:
+            targetEntity: SabCatAlmacenes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: idEstablecimiento
+            joinTable:
+                name: sab_cat_almacenesestablecimientos
+                joinColumns:
+                    -
+                        name: id_establecimiento
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: id_almacen
+                        referencedColumnName: id
+            orderBy: null
+    lifecycleCallbacks: {  }

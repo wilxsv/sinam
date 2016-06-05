@@ -5,6 +5,9 @@ Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
         IDX_2B5F8AA845BCCC8:
             columns:
                 - idarea
+        IDX_2B5F8AA875BB31F7:
+            columns:
+                - idestablecimiento
     id:
         idrelacion:
             type: integer
@@ -22,11 +25,6 @@ Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
             fixed: true
             comment: 'Estado de Area de farmacia'
             default: S
-        idestablecimiento:
-            type: integer
-            nullable: false
-            unsigned: false
-            comment: 'Identificador del establecimiento '
         idmodalidad:
             type: integer
             nullable: false
@@ -38,6 +36,11 @@ Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
             comment: 'define el area de la farmacia por defecto donde se cargara el vale proveniente de SINAB.'
             default: false
             column: carga_sinab
+        dispensarSeguimiento:
+            type: boolean
+            nullable: true
+            default: false
+            column: dispensar_seguimiento
     manyToOne:
         idarea:
             targetEntity: MntAreafarmacia
@@ -46,6 +49,15 @@ Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
             inversedBy: null
             joinColumns:
                 idarea:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idestablecimiento:
+            targetEntity: SabCatEstablecimientos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idestablecimiento:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

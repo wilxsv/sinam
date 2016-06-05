@@ -9,6 +9,7 @@ use Sinam\CoreBundle\Form\BusquedaBasicaType;
 use Sinam\CoreBundle\Form\BusquedaEstablecimientoType;
 
 use Sinam\CoreBundle\Entity\FarmCatalogoproductos;
+use Sinam\CoreBundle\Entity\CtlMunicipio;
 use Sinam\CoreBundle\Form\FarmCatalogoproductosType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -32,32 +33,39 @@ class DefaultController extends Controller
     
     public function searchAction(Request $request)
     {
-		$options = new FarmCatalogoproductos();
-		//$form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
-		$form = $this->createForm(new BusquedaEstablecimientoType($this->getDoctrine()->getManager()), $options);
-		$form2 = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
-		$form3 = $this->createForm('Sinam\CoreBundle\Form\BusquedaHistorialType');
-		$rest = false;
+		$form = $form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
 		$form->handleRequest($request);
 		if ($form->isValid()) {
-			$repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmCatalogoproductos');
-			$query = $repository->createQueryBuilder('p')->where("p.nombre LIKE :nombre")->setParameter('nombre', "%".$form->get('nombre')->getData()."%")->getQuery();
-			$rest = $query->getResult();
         }
- 		$repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmCatalogoproductos');
-    	$query = $repository->createQueryBuilder('p')
-    	->where("p.presentacion != ''")
-		->groupBy('p.presentacion, p.id')
-		->orderBy('p.presentacion', 'ASC')->getQuery();
-		$rest = $query->getResult();
+
+        $em = $this->getDoctrine()->getManager();
+        $farmCatalogoproductos = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findAll();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlMunicipio');
+        $ctlMunicipios = $repository->createQueryBuilder('p')->select('p.id, p.nombre')->addSelect('d.id AS depto')
+        	->innerJoin('p.idDepartamento', 'd')->where('p.idDepartamento = d.id')->getQuery()->getResult();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlEstablecimiento');
+        $CtlEstablecimiento = $repository->createQueryBuilder('e')->select('e.id, e.nombre')->addSelect('m.id AS idMunicipio')
+        	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
+
         
-		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'form2' => $form2->createView(), 'form3' => $form3->createView(), 'rest'=>$rest, 'select' => $query->getResult() ));
+		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'todos' => $farmCatalogoproductos, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
     }
     
         public function ajaxAction(Request $request) {
         if (! $request->isXmlHttpRequest()) {
             throw new NotFoundHttpException();
         }
+        if ($request->query->get('tipo') == 0 && $request->query->get('nombre') != NULL){
+        	$em = $this->getDoctrine()->getEntityManager();
+        	//$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByMedicamento( $request->query->get('nombre') );
+        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByNombreMedicamento( $request->query->get('nombre') );
+        	return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=> $result ));
+		} elseif ($request->query->get('tipo') == 1 && $request->query->get('nombre') != NULL){
+			return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=> false ));
+		} else {
+			return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=> FALSE ));
+		}
+        ///////////////////////////////////////
         if ($request->query->get('depto_id') != null){
 			$id = $request->query->get('depto_id');
             $result = array();

@@ -232,15 +232,4 @@ class CtlPais extends \Sinam\CoreBundle\Entity\CtlPais implements \Doctrine\ORM\
         return parent::getActivo();
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', array());
-
-        return parent::__toString();
-    }
-
 }

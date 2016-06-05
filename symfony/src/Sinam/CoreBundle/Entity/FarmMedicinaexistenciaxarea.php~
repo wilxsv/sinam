@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * FarmMedicinaexistenciaxarea
  *
- * @ORM\Table(name="farm_medicinaexistenciaxarea", indexes={@ORM\Index(name="IDX_FB0BA1FB45BCCC8", columns={"idarea"}), @ORM\Index(name="IDX_FB0BA1FBF58EA699", columns={"idmedicina"}), @ORM\Index(name="IDX_FB0BA1FBB67BC33F", columns={"idlote"})})
+ * @ORM\Table(name="farm_medicinaexistenciaxarea", indexes={@ORM\Index(name="IDX_FB0BA1FB45BCCC8", columns={"idarea"}), @ORM\Index(name="IDX_FB0BA1FBF58EA699", columns={"idmedicina"})})
  * @ORM\Entity
  */
 class FarmMedicinaexistenciaxarea
@@ -28,6 +28,13 @@ class FarmMedicinaexistenciaxarea
      * @ORM\Column(name="existencia", type="decimal", precision=11, scale=3, nullable=false)
      */
     private $existencia;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idlote", type="integer", nullable=false)
+     */
+    private $idlote;
 
     /**
      * @var integer
@@ -63,16 +70,6 @@ class FarmMedicinaexistenciaxarea
      */
     private $idmedicina;
 
-    /**
-     * @var \FarmLotes
-     *
-     * @ORM\ManyToOne(targetEntity="FarmLotes")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idlote", referencedColumnName="id")
-     * })
-     */
-    private $idlote;
-
 
 
     /**
@@ -106,6 +103,29 @@ class FarmMedicinaexistenciaxarea
     public function getExistencia()
     {
         return $this->existencia;
+    }
+
+    /**
+     * Set idlote
+     *
+     * @param integer $idlote
+     * @return FarmMedicinaexistenciaxarea
+     */
+    public function setIdlote($idlote)
+    {
+        $this->idlote = $idlote;
+
+        return $this;
+    }
+
+    /**
+     * Get idlote
+     *
+     * @return integer 
+     */
+    public function getIdlote()
+    {
+        return $this->idlote;
     }
 
     /**
@@ -198,28 +218,5 @@ class FarmMedicinaexistenciaxarea
     public function getIdmedicina()
     {
         return $this->idmedicina;
-    }
-
-    /**
-     * Set idlote
-     *
-     * @param \Sinam\CoreBundle\Entity\FarmLotes $idlote
-     * @return FarmMedicinaexistenciaxarea
-     */
-    public function setIdlote(\Sinam\CoreBundle\Entity\FarmLotes $idlote = null)
-    {
-        $this->idlote = $idlote;
-
-        return $this;
-    }
-
-    /**
-     * Get idlote
-     *
-     * @return \Sinam\CoreBundle\Entity\FarmLotes 
-     */
-    public function getIdlote()
-    {
-        return $this->idlote;
     }
 }

@@ -348,7 +348,7 @@ class LoadSinab {
 	$count = '0';
 	try {
         $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
-
+        $insert = '';
         if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
             die('Something went wrong while connecting to MSSQL');
         } else {
@@ -356,25 +356,26 @@ class LoadSinab {
             if (!mssql_num_rows($sql)) {
             	return 0;
             } else {
-            	$insert = 'INSERT INTO sab_alm_existenciasalmacenes (id_almacen, id_producto, cantidaddisponible, cantidadnodisponible, cantidadreservada, cantidadvencida, estasincronizada) VALUES  ';
         	    while ($row = mssql_fetch_object($sql)) {
         		    $insert = $insert."($row->IDALMACEN,$row->IDPRODUCTO,$row->CANTIDADDISPONIBLE,$row->CANTIDADNODISPONIBLE,$row->CANTIDADRESERVADA,$row->CANTIDADVENCIDA,$row->ESTASINCRONIZADA),";
         	    }
             }
         }
-        $insert = substr($insert, 0, -1);
         mssql_free_result($sql);
         $dbh = NULL;
 		if ( $insert != '' ){
+            $insert = substr($insert, 0, -1);
 			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+            $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$count = $dbh->exec("DELETE FROM sab_alm_existenciasalmacenes;");
-			$count = $dbh->exec($insert);
+			$count = $dbh->exec('INSERT INTO sab_alm_existenciasalmacenes (id_almacen, id_producto, cantidaddisponible, cantidadnodisponible, cantidadreservada, cantidadvencida, estasincronizada) VALUES '.$insert);
 			$dbh = null;
 			return $count;
 		}
     }
     catch(PDOException $e)
     {
+        echo date('Y-m-d H:i:s')." $e \n";
     	return 0;
     }
 		return $count;
@@ -416,18 +417,3 @@ class LoadSinab {
 		return $count;
 	}
 }
-
-$obj = new LoadSinab( $argv[1], $argv[2], $argv[3], $argv[4], $argv[5], $argv[6], $argv[7], $argv[8], $argv[9], $argv[10] );
-
-//$r = $obj->carga_departamento();
-//$r = $obj->carga_municipio();
-//$r = $obj->carga_medicamento();
-//$r = $obj->carga_almacen();
-//$r = $obj->carga_establecimiento();
-//$r = $obj->carga_alternativa();
-//$r = $obj->carga_almacenestablecimiento();
-//$r = $obj->carga_existenciasalmacenes();
-$r = $obj->carga_existenciahistorica();
-
-echo $r;
-//$r = $obj->carga_medicamento();

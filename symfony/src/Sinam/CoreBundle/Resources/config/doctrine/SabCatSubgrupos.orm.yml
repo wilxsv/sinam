@@ -1,0 +1,33 @@
+Sinam\CoreBundle\Entity\SabCatSubgrupos:
+    type: entity
+    table: sab_cat_subgrupos
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        correlativo:
+            type: string
+            nullable: false
+            length: 3
+            fixed: false
+        idGrupo:
+            type: bigint
+            nullable: false
+            unsigned: false
+            column: id_grupo
+        descripcion:
+            type: string
+            nullable: false
+            length: 90
+            fixed: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    lifecycleCallbacks: {  }

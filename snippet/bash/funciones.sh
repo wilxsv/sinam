@@ -17,15 +17,17 @@
 source $(dirname $0)/vars.sh
 
 function set_path_database(){
-	echo "SET search_path = $SCHEMA_TMP, pg_catalog;" > $DUMP_TMP
+	log "Procesando el archivo dump"
+	echo "SET search_path = last, pg_catalog;" > $DUMP_TMP
 	echo "SELECT last.limpia_tablas_finales();" >> $DUMP_TMP
 	cat $DUMP_FILE | grep -v 'SET search_path = public' >> $DUMP_TMP
 	cat $DUMP_TMP > $DUMP_FILE
 	rm $DUMP_TMP
-
+	log "Terminando de procesar el archivo dump"
 }
 
 function load_database(){
+	log "Cargando los datos del dump"
 	drivers=($(cat $XML_MASTER | grep -oP '(?<=driver>)[^<]+'))
 	hosts=($(cat $XML_MASTER | grep -oP '(?<=host>)[^<]+'))
 	users=($(cat $XML_MASTER | grep -oP '(?<=user>)[^<]+'))
@@ -51,6 +53,7 @@ function load_database(){
 	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -U $DB_USER -c 'SELECT prepara_tablas();'
 	PGPASSWORD=$DB_PASSWD psql -d $DB_NAME -U $DB_USER -c 'SELECT carga_datos();'
 	echo "1"
+	log "Finalizando carga de datos del dump"
 }
 
 function siap_dump(){
@@ -61,15 +64,12 @@ function siap_dump(){
 	# $5 passwd
 #oting --verbose --no-unlogged-table-data --file "/tmp/modelo.pgsql.sql" --table "public.ctl_departamento" --table "public.ctl_establecimiento" --table "public.farm_bitacoramedicinaexistenciaxarea" --table "public.farm_catalogoproductos" --table "public.farm_catalogoproductosxestablecimiento" --table "public.mnt_areafarmaciaxestablecimiento" "siap"
 
-	#rm $DUMP_TMP $DUMP_FILE
+	log "Iniciando dump de $1"
 
-	RESULT=$(PGPASSWORD=$5 pg_dump $3 --host $1 --port $2 --username $4 --format plain --data-only --disable-triggers --encoding UTF8 --inserts\
+	export RESULT=$(PGPASSWORD=$5 pg_dump $3 --host $1 --port $2 --username $4 --format plain --data-only --disable-triggers --encoding UTF8 --inserts\
 	    --column-inserts --no-privileges --no-tablespaces --disable-dollar-quoting --verbose --no-unlogged-table-data --file $DUMP_FILE\
 	    --table "farm_medicinaexistenciaxarea" --table "mnt_areafarmaciaxestablecimiento")
-
-	set_path_database
-	load_database
-	
+	log "Terminando dump $1"
 	return 1
 }
 
@@ -88,10 +88,20 @@ function load_siaps_sinab(){
 	do
 	  if [ ${systems[$i]} == SIAP ]
 	  then
-        siap_dump ${hosts[$i]} ${ports[$i]} ${names[$i]} ${users[$i]} ${passwds[$i]}
+	    log "Iniciando proceso de registro de datos desde ${hosts[$i]}"
+	    #
+	    #siap_dump ${hosts[$i]} ${ports[$i]} ${names[$i]} ${users[$i]} ${passwds[$i]}
+	    export RESULT=`PGPASSWORD=${passwds[$i]} pg_dump ${names[$i]} --host ${hosts[$i]} --port ${ports[$i]} --username ${users[$i]} --format plain --data-only --disable-triggers --encoding UTF8\
+	    --no-privileges --no-tablespaces --disable-dollar-quoting --verbose --no-unlogged-table-data --file $DUMP_FILE\
+	    --table "farm_medicinaexistenciaxarea" --table "mnt_areafarmaciaxestablecimiento" && set_path_database && load_database && log "Saliendo de registro de datos" && echo '1'`
+	    if [ "$RESULT" -gt "0" ]
+	    then
+	    	echo 'Se registraron $RESULT registros'
+	    fi
       elif [ ${systems[$i]} == SINAB ]
       then
-        sinab_dump
+        #sinab_dump
+        echo ""
       else
       	echo 'No se encontro sistema SIAP o SINAB'
       fi
@@ -126,7 +136,7 @@ function load_establecimientos(){
     	edata=${names[$i]}
 	    euser=${users[$i]}
 	    epass=${passwds[$i]}
-      elif [ ${systems[$i]} == SINAM ]
+      elif [ ${systems[$i]} == 'SINAM' ]
       then
        	lhost=${hosts[$i]}
     	ldata=${names[$i]}
@@ -134,7 +144,7 @@ function load_establecimientos(){
 	    lpass=${passwds[$i]}
       fi
 	done
-	log "Iniciando conex. con $ehost"
+	log "Iniciando carga de datos de $ehost"
 	php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass
 	#export RESULT=`php php/load_establecimientos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
 	#if [ "$RESULT" -gt "0" ]
@@ -179,12 +189,60 @@ function load_medicamentos(){
 	    lpass=${passwds[$i]}
       fi
 	done
-	export RESULT=`php php/load_medicamentos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
+	log "Iniciando carga de datos de $ehost"
+	php php/load_medicamentos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass
+	#export RESULT=`php php/load_medicamentos.php $lhost $ldata $luser $lpass $ehost $edata $euser $epass`
+	#if [ "$RESULT" -gt "0" ]
+	#then
+	#	echo "Se registraron $RESULT medicamentos"
+	#else
+	#	echo "$RESULT"
+	#fi
+}
+
+function sinab_dump(){
+	drivers=($(cat $XML_MASTER | grep -oP '(?<=driver>)[^<]+'))
+	hosts=($(cat $XML_MASTER | grep -oP '(?<=host>)[^<]+'))
+	users=($(cat $XML_MASTER | grep -oP '(?<=user>)[^<]+'))
+	passwds=($(cat $XML_MASTER | grep -oP '(?<=passwd>)[^<]+'))
+	ports=($(cat $XML_MASTER | grep -oP '(?<=port>)[^<]+'))
+	names=($(cat $XML_MASTER | grep -oP '(?<=name>)[^<]+'))
+	systems=($(cat $XML_MASTER | grep -oP '(?<=system>)[^<]+'))
+	schemas=($(cat $XML_MASTER | grep -oP '(?<=schema>)[^<]+'))
+
+	ehost=NULL
+	eport=NULL
+	edata=NULL
+	euser=NULL
+	epass=NULL
+	eschm=NULL
+	lhost=NULL
+	ldata=NULL
+	luser=NULL
+	lpass=NULL
+
+	for i in ${!drivers[*]}
+	do
+	  if [ ${systems[$i]} == 'SINAB' ]
+	  then
+       	ehost=${hosts[$i]}
+	    eport=${ports[$i]}
+    	edata=${names[$i]}
+	    euser=${users[$i]}
+	    epass=${passwds[$i]}
+	    eschm=${schemas[$i]}
+      elif [ ${systems[$i]} == 'SINAM' ]
+      then
+       	lhost=${hosts[$i]}
+    	ldata=${names[$i]}
+	    luser=${users[$i]}
+	    lpass=${passwds[$i]}
+      fi
+	done
+	export RESULT=`php php/load_sinab.php $lhost $ldata $luser $lpass $ehost $eport $edata $eschm $euser $epass `
 	if [ "$RESULT" -gt "0" ]
 	then
-		echo "Se registraron $RESULT medicamentos"
-	else
-		echo "$RESULT"
+		echo "Se registraron $RESULT registros"
 	fi
 }
 

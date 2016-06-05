@@ -1,0 +1,59 @@
+Sinam\CoreBundle\Entity\FarmMedicinarecetada:
+    type: entity
+    table: farm_medicinarecetada
+    indexes:
+        IDX_D91F469BF58EA699:
+            columns:
+                - idmedicina
+        IDX_D91F469B75BB31F7:
+            columns:
+                - idestablecimiento
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            comment: 'Llave primaria de la tabla'
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        cantidad:
+            type: decimal
+            nullable: false
+            precision: 11
+            scale: 3
+        fechaentrega:
+            type: date
+            nullable: true
+        totalMedicamento:
+            type: string
+            nullable: true
+            length: 10
+            fixed: false
+            column: total_medicamento
+        idEstablecimientoDespacha:
+            type: integer
+            nullable: true
+            unsigned: false
+            column: id_establecimiento_despacha
+    manyToOne:
+        idmedicina:
+            targetEntity: FarmCatalogoproductos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idmedicina:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idestablecimiento:
+            targetEntity: CtlEstablecimiento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                idestablecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

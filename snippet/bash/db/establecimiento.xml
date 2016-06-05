@@ -1,14 +1,14 @@
 <?xml version='1.0'  encoding='UTF-8'?>
 <minsal>
    <nodo_establecimiento>
-      <driver>PDO_MYSQL</driver>
-      <host></host>
-      <user></user>
-      <passwd></passwd>
-      <port></port>
-      <name></name>
-      <system></system>
-      <schema></schema>
+      <driver>PDO_PGSQL</driver>
+      <host>127.0.0.1</host>
+      <user>acrasame</user>
+      <passwd>acrasame</passwd>
+      <port>5432</port>
+      <name>siap1</name>
+      <system>SIAP</system>
+      <schema>public</schema>
    </nodo_establecimiento>
    <nodo_establecimiento>
       <driver>PDO_PGSQL</driver>
@@ -21,12 +21,32 @@
       <schema>public</schema>
    </nodo_establecimiento>
    <nodo_establecimiento>
+      <driver>PDO_PGSQL</driver>
+      <host>127.0.0.1</host>
+      <user>acrasame</user>
+      <passwd>acrasame</passwd>
+      <port>5432</port>
+      <name>siap2</name>
+      <system>SIAP</system>
+      <schema>public</schema>
+   </nodo_establecimiento>
+   <nodo_establecimiento>
+      <driver>PDO_PGSQL</driver>
+      <host>127.0.0.1</host>
+      <user>acrasame</user>
+      <passwd>acrasame</passwd>
+      <port>5432</port>
+      <name>siap3</name>
+      <system>SIAP</system>
+      <schema>public</schema>
+   </nodo_establecimiento>
+   <nodo_establecimiento>
       <driver>PDO_SQLSRV</driver>
-      <host></host>
-      <user></user>
-      <passwd></passwd>
-      <port></port>
-      <name></name>
+      <host>127.0.0.1</host>
+      <user>sa</user>
+      <passwd>passwd</passwd>
+      <port>1433</port>
+      <name>do</name>
       <system>SINAB</system>
       <schema></schema>
    </nodo_establecimiento>
