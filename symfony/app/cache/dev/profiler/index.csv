@@ -1975,3 +1975,4 @@ bc3080,127.0.0.1,POST,http://localhost:8000/buscarajax?nombre=202&tipo=0,1465243
 f01ec1,127.0.0.1,GET,http://localhost:8000/alternativo,1465244482,,200
 f97d8d,127.0.0.1,POST,http://localhost:8000/buscarajax?nombre=19&tipo=2,1465244503,,200
 721120,127.0.0.1,POST,http://localhost:8000/buscarajax?depto=8&estab=0&munic=147&nombre=19&tipo=3,1465244516,,200
+1a5b3e,127.0.0.1,GET,http://localhost:8000/alternativo,1465245279,,200

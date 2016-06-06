@@ -1,4 +1,4 @@
 *parameters.yml
-symfony/app/cache/*
-symfony/app/logs/*
-snippet/bash/db/*
+/symfony/app/cache/*
+/symfony/app/logs/*
+/snippet/bash/db/*
