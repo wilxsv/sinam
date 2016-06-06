@@ -21,8 +21,7 @@
                           Digite el nombre del medicamento
                           <select id="basica_nombre" style="width: 80%" >
                             {% for item in todos %}
-                              <option value="-1"></option>
-                              <option value=""{{item.id}}"">{{item.nombre}}</option>
+                              <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
                           </select>
                           <button id="establecimiento_save" class="submit-btn" type="submit">Buscar</button>
@@ -52,6 +51,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#establecimiento_save').click(function(){
+           $('#resultado').html('');
            $.ajax({
                 type: "POST",
                 url: "{{ url('ajax_busqueda') }}?tipo=0&nombre=" + $('#basica_nombre').val(),
@@ -63,10 +63,11 @@
             return false;
         });
         $('#establecimiento_type_save').click(function(){
+           $('#resultado').html('');
            var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
            $.ajax({
                 type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#basica_nombre').val(),
+                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#basica_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val(),
                 success: function(data) {
                     $('#resultado').html(data);
                 }
@@ -86,17 +87,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
     <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script type="text/javascript">
-jQuery(document).ready(function( $ ) {
-    var availableTags = [
-          {% for item in todos %}
-            "{{item.nombre}}",
-          {% endfor %}
-          ""
-        ];
-        $('#basica_nombre').autocomplete({ source: availableTags });
-}); 
-    </script>
 <style type="text/css">
     .box{
         padding: 20px;
@@ -172,7 +162,7 @@ jQuery(document).ready(function( $ ) {
     padding: 5px 10px;
   }
 </style>
-<script>
+  <script>
   (function( $ ) {
     $.widget( "custom.combobox", {
       _create: function() {
@@ -221,7 +211,7 @@ jQuery(document).ready(function( $ ) {
  
         $( "<a>" )
           .attr( "tabIndex", -1 )
-          .attr( "title", "Mostrar todos" )
+          .attr( "title", "Listar todos los medicamento" )
           .tooltip()
           .appendTo( this.wrapper )
           .button({
@@ -287,7 +277,7 @@ jQuery(document).ready(function( $ ) {
         // Remove invalid value
         this.input
           .val( "" )
-          .attr( "title", value + " didn't match any item" )
+          .attr( "title", value + " no encontramos medicamentos con ese nombre" )
           .tooltip( "open" );
         this.element.val( "" );
         this._delay(function() {
@@ -303,7 +293,7 @@ jQuery(document).ready(function( $ ) {
     });
   })( jQuery );
  
-  $(function() {
+  $(function($) {
     $( "#basica_nombre" ).combobox();
     $( "#toggle" ).click(function() {
       $( "#basica_nombre" ).toggle();

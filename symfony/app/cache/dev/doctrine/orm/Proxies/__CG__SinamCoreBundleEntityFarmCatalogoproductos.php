@@ -64,10 +64,10 @@ class FarmCatalogoproductos extends \Sinam\CoreBundle\Entity\FarmCatalogoproduct
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idtipoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'niveluso', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'concentracion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'formafarmaceutica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'presentacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'prioridad', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'precioactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aplicalote', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'existenciaactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'especificacionestecnicas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigonacionesunidas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'pertenecelistadooficial', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estadoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'observacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariocreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechacreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariomodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechamodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estasincronizada', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'clasificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'areatecnica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'tipouaci', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idespecificogasto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'ultimoprecio', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'divisormedicina', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idunidadmedida', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idterapeutico');
+            return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idtipoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'niveluso', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'concentracion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'formafarmaceutica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'presentacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'prioridad', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'precioactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aplicalote', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'existenciaactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'especificacionestecnicas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigonacionesunidas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'pertenecelistadooficial', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estadoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'observacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariocreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechacreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariomodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechamodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estasincronizada', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'clasificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'areatecnica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'tipouaci', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idespecificogasto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'ultimoprecio', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'divisormedicina', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'cuantificable', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idunidadmedida', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idterapeutico', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idEstablecimiento');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idtipoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'niveluso', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'concentracion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'formafarmaceutica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'presentacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'prioridad', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'precioactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aplicalote', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'existenciaactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'especificacionestecnicas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigonacionesunidas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'pertenecelistadooficial', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estadoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'observacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariocreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechacreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariomodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechamodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estasincronizada', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'clasificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'areatecnica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'tipouaci', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idespecificogasto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'ultimoprecio', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'divisormedicina', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idunidadmedida', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idterapeutico');
+        return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idtipoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'niveluso', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'concentracion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'formafarmaceutica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'presentacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'prioridad', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'precioactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aplicalote', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'existenciaactual', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'especificacionestecnicas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'codigonacionesunidas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'pertenecelistadooficial', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estadoproducto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'observacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariocreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechacreacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'auusuariomodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'aufechamodificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'estasincronizada', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'clasificacion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'areatecnica', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'tipouaci', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idespecificogasto', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'ultimoprecio', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idestado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'divisormedicina', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'cuantificable', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idunidadmedida', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idterapeutico', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\FarmCatalogoproductos' . "\0" . 'idEstablecimiento');
     }
 
     /**
@@ -664,28 +664,6 @@ class FarmCatalogoproductos extends \Sinam\CoreBundle\Entity\FarmCatalogoproduct
     /**
      * {@inheritDoc}
      */
-    public function getIdestablecimiento()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdestablecimiento', array());
-
-        return parent::getIdestablecimiento();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setClasificacion($clasificacion)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClasificacion', array($clasificacion));
-
-        return parent::setClasificacion($clasificacion);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getClasificacion()
     {
 
@@ -829,6 +807,28 @@ class FarmCatalogoproductos extends \Sinam\CoreBundle\Entity\FarmCatalogoproduct
     /**
      * {@inheritDoc}
      */
+    public function setCuantificable($cuantificable)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCuantificable', array($cuantificable));
+
+        return parent::setCuantificable($cuantificable);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCuantificable()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCuantificable', array());
+
+        return parent::getCuantificable();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setIdunidadmedida(\Sinam\CoreBundle\Entity\FarmUnidadmedidas $idunidadmedida = NULL)
     {
 
@@ -873,78 +873,45 @@ class FarmCatalogoproductos extends \Sinam\CoreBundle\Entity\FarmCatalogoproduct
     /**
      * {@inheritDoc}
      */
-    public function getTipo()
+    public function addIdEstablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTipo', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addIdEstablecimiento', array($idEstablecimiento));
 
-        return parent::getTipo();
+        return parent::addIdEstablecimiento($idEstablecimiento);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getMunicipio()
+    public function removeIdEstablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getMunicipio', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeIdEstablecimiento', array($idEstablecimiento));
 
-        return parent::getMunicipio();
+        return parent::removeIdEstablecimiento($idEstablecimiento);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getEstablecimiento()
+    public function getIdEstablecimiento()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEstablecimiento', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdEstablecimiento', array());
 
-        return parent::getEstablecimiento();
+        return parent::getIdEstablecimiento();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function addTipo()
+    public function setClasificacion($clasificacion)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addTipo', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setClasificacion', array($clasificacion));
 
-        return parent::addTipo();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeTipo()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTipo', array());
-
-        return parent::removeTipo();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setTipo($idterapeutico = NULL)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTipo', array($idterapeutico));
-
-        return parent::setTipo($idterapeutico);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', array());
-
-        return parent::__toString();
+        return parent::setClasificacion($clasificacion);
     }
 
 }

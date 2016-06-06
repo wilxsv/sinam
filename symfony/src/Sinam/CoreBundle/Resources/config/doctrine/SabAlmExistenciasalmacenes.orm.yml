@@ -1,0 +1,68 @@
+Sinam\CoreBundle\Entity\SabAlmExistenciasalmacenes:
+    type: entity
+    table: sab_alm_existenciasalmacenes
+    indexes:
+        IDX_BE44D892B2F7B20:
+            columns:
+                - id_almacen
+        IDX_BE44D892F760EA80:
+            columns:
+                - id_producto
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        cantidaddisponible:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 0
+            default: '(0)::numeric'
+        cantidadnodisponible:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 0
+            default: '(0)::numeric'
+        cantidadreservada:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 0
+            default: '(0)::numeric'
+        cantidadvencida:
+            type: decimal
+            nullable: false
+            precision: 10
+            scale: 0
+            default: '(0)::numeric'
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    manyToOne:
+        idAlmacen:
+            targetEntity: SabCatAlmacenes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_almacen:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idProducto:
+            targetEntity: SabCatCatalogoproductos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_producto:
+                    referencedColumnName: idpro
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

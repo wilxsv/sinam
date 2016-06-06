@@ -1,0 +1,49 @@
+Sinam\CoreBundle\Entity\SabCatAlmacenesestablecimientos:
+    type: entity
+    table: sab_cat_almacenesestablecimientos
+    indexes:
+        IDX_1954A17B2F7B20:
+            columns:
+                - id_almacen
+        IDX_1954A177DFA12F6:
+            columns:
+                - id_establecimiento
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        esprincipal:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    manyToOne:
+        idAlmacen:
+            targetEntity: SabCatAlmacenes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_almacen:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idEstablecimiento:
+            targetEntity: SabCatEstablecimientos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_establecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -41,44 +41,6 @@ class PorEstablecimientoController extends Controller
 		$estab = $query->getResult();
 
         
-		return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'form' => $form->createView(), 'form2' => $form2->createView(), 'form3' => $form3->createView(), 'rest'=>$rest, 'select' => $query->getResult(), 'estab' => $estab ));
-    }
-    
-        public function ajaxAction(Request $request) {
-        if (! $request->isXmlHttpRequest()) {
-            throw new NotFoundHttpException();
-        }
-        if ($request->query->get('depto_id') != null){
-			$id = $request->query->get('depto_id');
-            $result = array();
-            $repo = $this->getDoctrine()->getManager()->getRepository('SinamCoreBundle:CtlMunicipio');
-            $cities = $repo->findByIdDepartamento($id, array('nombre' => 'asc'));
-            foreach ($cities as $city) {
-                $result[$city->getNombre()] = $city->getId();
-            }
-		} elseif ($request->query->get('munic_id') != null){
-			$id = $request->query->get('munic_id');
-            $result = array();
-            $repo = $this->getDoctrine()->getManager()->getRepository('SinamCoreBundle:CtlEstablecimiento');
-            $cities = $repo->findByIdMunicipio($id, array('nombre' => 'asc'));
-            foreach ($cities as $city) {
-                $result[$city->getNombre()] = $city->getId();
-            }
-		}
-		if ($request->query->get('establecimiento') != null && $request->query->get('nombre') != null){
-            $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmMedicinaexistenciaxarea');
-			$query = $repository->createQueryBuilder('e')
-				->select('e')
-				->addSelect('s.direccion, s.nombre AS nombree')
-				->innerJoin('e.idmedicina', 'm')
-				->innerJoin('e.idestablecimiento', 's')
-				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND s.id =".$request->query->get('establecimiento'))
-				->addSelect('m.nombre, m.formafarmaceutica, m.presentacion, e.existencia')
-				->getQuery();			
-            return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=>$query->getResult() ));
-		}elseif($request->query->get('nombre') != null && $request->query->get('lat') != null && $request->query->get('lon') != null){
-		}else{
-			return new JsonResponse($result);
-		}
+		return $this->render('SinamCoreBundle:Consulta:alternativo.html.twig', array( 'form' => $form->createView(), 'form2' => $form2->createView(), 'form3' => $form3->createView(), 'rest'=>$rest, 'select' => $query->getResult(), 'estab' => $estab ));
     }
 }

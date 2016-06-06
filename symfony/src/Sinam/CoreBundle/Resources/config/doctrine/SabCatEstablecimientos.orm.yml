@@ -113,21 +113,4 @@ Sinam\CoreBundle\Entity\SabCatEstablecimientos:
                 id_municipio:
                     referencedColumnName: id
             orphanRemoval: false
-    manyToMany:
-        idAlmacen:
-            targetEntity: SabCatAlmacenes
-            cascade: {  }
-            mappedBy: null
-            inversedBy: idEstablecimiento
-            joinTable:
-                name: sab_cat_almacenesestablecimientos
-                joinColumns:
-                    -
-                        name: id_establecimiento
-                        referencedColumnName: id
-                inverseJoinColumns:
-                    -
-                        name: id_almacen
-                        referencedColumnName: id
-            orderBy: null
     lifecycleCallbacks: {  }

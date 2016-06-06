@@ -66,8 +66,8 @@
       <nav id="menu" class="menu collapse navbar-collapse">
        <ul id="headernavigation" class="menu-list nav navbar-nav">
         <li><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
-        <li><a href="{{ path( 'por_establecimiento' ) }}">Alternativas</a></li>
-        <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Localidad</a></li>
+        <li><a href="{{ path( 'alternativo' ) }}">Alternativas</a></li>
+        <li><a href="{{ path( 'por_establecimiento' ) }}">Localidad</a></li>
         {% if app.request.attributes.get('_route') != 'sinam_core_homepage' and app.request.attributes.get('_route') != 'sinam_core_homepage' %}
           <li><a href="{{ path( 'sinam_core_homepage' ) }}">Ayuda</a></li>
         {% endif %}

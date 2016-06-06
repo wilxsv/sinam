@@ -25,6 +25,10 @@ por_establecimiento:
     path:     /consulta_establecimiento
     defaults: { _controller: SinamCoreBundle:PorEstablecimiento:index }
 
+alternativo:
+    path:     /alternativo
+    defaults: { _controller: SinamCoreBundle:Default:alternativo }
+
 consulta_abastecimiento:
     path:     /consulta_abastecimiento
     defaults: { _controller: SinamCoreBundle:PorAbastecimiento:index }

@@ -74,19 +74,4 @@ Sinam\CoreBundle\Entity\SabCatCatalogoproductos:
             nullable: true
             length: 1
             fixed: true
-    manyToMany:
-        id:
-            targetEntity: SabCatCatalogoproductos
-            cascade: {  }
-            mappedBy: idProducto
-            inversedBy: null
-            joinTable: null
-            orderBy: null
-        idAlmacen:
-            targetEntity: SabCatAlmacenes
-            cascade: {  }
-            mappedBy: idProducto
-            inversedBy: null
-            joinTable: null
-            orderBy: null
     lifecycleCallbacks: {  }
