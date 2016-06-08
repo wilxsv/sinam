@@ -29,11 +29,11 @@ require 'php/load_sinab.php';
 
 
 //decriptar_variables();
-if ( date('N') >= 10 && date('N') <= 5 ){
+if ( FALSE ){//date('N') >= 10 && date('N') <= 5 ){
 	iterar_siaps($path_maestros, $path_nodos);
-}	elseif ( date('N') >= 5 && date('N') <= 6 ) {
+}	elseif ( TRUE ){//date('N') >= 5 && date('N') <= 6 ) {
 	iterar_sinab($path_maestros);
-}	elseif ( date('j') < 6 &&date('N') >= 5 && date('N') <= 6 ) {
+}	elseif ( TRUE ){//date('j') < 6 &&date('N') >= 5 && date('N') <= 6 ) {
 	carga_historico_siap($path_maestros, $path_nodos);
 }
 
@@ -74,13 +74,13 @@ function iterar_sinab($maestro) {
 		foreach ($xmlm->maestro as $e) {
 			if ($e->system == 'SINAB'){
 					$obj = new LoadSinab( $l->host, $l->name, $l->user, $l->passwd, $e->host, $e->port, $e->name, $e->schema, $e->user, $e->passwd );
-					$r = $obj->carga_departamento();
-					$r = $obj->carga_municipio();
-					$r = $obj->carga_medicamento();
-					$r = $obj->carga_almacen();
-					$r = $obj->carga_establecimiento();
+					//$r = $obj->carga_departamento();
+					//$r = $obj->carga_municipio();
+					//$r = $obj->carga_medicamento();
+					//$r = $obj->carga_almacen();
+					//$r = $obj->carga_establecimiento();
 					$r = $obj->carga_alternativa();
-					$r = $obj->carga_almacenestablecimiento();
+					//$r = $obj->carga_almacenestablecimiento();
 					$r = $obj->carga_existenciasalmacenes();
 				}
 			}//$r = $obj->carga_existenciahistorica();

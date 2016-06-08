@@ -81,10 +81,14 @@ class LoadSinab {
 		//total de datos en la base local del sistema de consulta
 		$total_local = 0;
 		$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
-		$sql = "SELECT MAX(id) AS total FROM sab_cat_catalogoproductos";		
-		foreach ($dbh->query($sql) as $row){
-			$total_local = $row['total'];
-		}
+		$sql = "SELECT MAX(id) AS total FROM sab_cat_catalogoproductos";
+        $sql = $dbh->query($sql);
+        if ( $sql )
+        {
+            foreach ($sql as $row){
+                $total_local = $row['total'];
+            }
+        }
 		$total_local = ($total_local) ? $total_local : 0;
         $dbh = NULL;
         $dbh = mssql_connect("$this->ehost:$this->eport", $this->edbuser, $this->edbpass );
@@ -92,29 +96,27 @@ class LoadSinab {
         if (!$dbh || !mssql_select_db($this->edbname, $dbh)) {
             die('Something went wrong while connecting to MSSQL');
         } else {
-        	$sql = mssql_query("SELECT * FROM SAB_CAT_CATALOGOPRODUCTOS WHERE IDPRODUCTO > $total_local;");
-            if (!mssql_num_rows($sql)) {
+        	$sql = "SELECT * FROM vv_CATALOGOPRODUCTOS WHERE IDPRODUCTO > $total_local;";
+            $sql = mssql_query($sql);
+            if (FALSE){//!mssql_num_rows($sql)) {
             	return 0;
             } else {
 
             	$insert = '';
-            	$str = 'INSERT INTO "sab_cat_catalogoproductos" ("id","codigo", "id_tipoproducto", "id_unidadmedida", "nombre", "niveluso", "concentracion", "formafarmaceutica", "presentacion", "pertenecelistadooficial","estadoproducto","observacion", "estasincronizada", "clasificacion") VALUES (';
+            	$str = 'INSERT INTO "sab_cat_catalogoproductos" ("idpro","codigo", "id_tipoproducto", "id_unidadmedida", "nombre", "niveluso", "concentracion", "formafarmaceutica", "presentacion", "pertenecelistadooficial","estadoproducto", "estasincronizada", "clasificacion") VALUES ';
         	    while ($row = mssql_fetch_object($sql)) {
-        	    	$nom = "'".$this->pf( $row->NOMBRE )."'";
-        	    	$con = ( $row->CONCENTRACION ) ? "'".$this->pf( $row->CONCENTRACION )."'" : 'NULL';
-        	    	$for = ( $row->FORMAFARMACEUTICA ) ? "'".$this->pf( $row->FORMAFARMACEUTICA )."'" : 'NULL';
-        	    	$pre = ( $row->PRESENTACION ) ? "'".$this->pf( $row->PRESENTACION )."'" : 'NULL';
+        	    	$nom = "'".$this->pf( $row->DESCLARGO )."'";
         	    	$cla = ( $row->CLASIFICACION ) ? "'".$this->pf( $row->CLASIFICACION )."'" : 'NULL';
-        	    	$obs = ( $row->OBSERVACION ) ? "'".$this->pf( $row->OBSERVACION )."'" : 'NULL';
-        		    $insert = $insert.$str."$row->IDPRODUCTO,'$row->CODIGO', $row->IDTIPOPRODUCTO, $row->IDUNIDADMEDIDA, $nom, $row->NIVELUSO, $con, $for, $pre, $row->PERTENECELISTADOOFICIAL, $row->ESTADOPRODUCTO, $obs, $row->ESTASINCRONIZADA, $cla); \n";
+        		    $insert = $insert."($row->IDPRODUCTO,'$row->CORRPRODUCTO', $row->IDSUBGRUPO, $row->IDUNIDADMEDIDA, $nom, $row->IDNIVELUSO, NULL, NULL, NULL, $row->PERTENECELISTADOOFICIAL, $row->ESTADOPRODUCTO, 0, $cla),\n";
         	    }
             }
         }
         mssql_free_result($sql);
         $dbh = NULL;
 		if ( $insert != '' ){
-			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
-			$count = $dbh->exec($insert);
+            $insert = substr($insert, 0, -2);
+    		$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
+			$count = $dbh->exec($str.$insert);
 			$dbh = null;
 			return $count;
 		}
@@ -242,7 +244,8 @@ class LoadSinab {
             if (!mssql_num_rows($sql)) {
             	return 0;
             } else {
-            	$insert = 'INSERT INTO "sab_cat_establecimientos" ("id", "codigoestablecimiento", "id_municipio", "id_tipoestablecimiento", "id_zona", "id_institucion", "nombre", "direccion", "telefono", "idpadre", "nivel", "estasincronizada", "idmaestro")VALUES';
+            	$str = 'INSERT INTO "sab_cat_establecimientos" ("id", "codigoestablecimiento", "id_municipio", "id_tipoestablecimiento", "id_zona", "id_institucion", "nombre", "direccion", "telefono", "idpadre", "nivel", "estasincronizada", "idmaestro")VALUES';
+                $insert ='';
         	    while ($row = mssql_fetch_object($sql)) {
         	    	$nom = "'".$this->pf( $row->NOMBRE )."'";
         	    	$cod = ( $row->CODIGOESTABLECIMIENTO ) ? "'".$this->pf( $row->CODIGOESTABLECIMIENTO )."'" : 'NULL';
@@ -255,12 +258,12 @@ class LoadSinab {
         	    }
             }
         }
-        $insert = substr($insert, 0, -1);
         mssql_free_result($sql);
         $dbh = NULL;
 		if ( $insert != '' ){
+            $insert = substr($insert, 0, -1);
 			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
-			$count = $dbh->exec($insert);
+			$count = $dbh->exec($str.$insert);
 			$dbh = null;
 			return $count;
 		}
@@ -284,19 +287,21 @@ class LoadSinab {
             if (!mssql_num_rows($sql)) {
             	return 0;
             } else {
-            	$insert = 'INSERT INTO sab_cat_alternativasproducto (id, id_producto, multiplicador, divisor, estasincronizada) VALUES ';
+            	$str = 'INSERT INTO sab_cat_alternativasproducto (id, id_producto, multiplicador, divisor, estasincronizada) VALUES ';
+                $insert = '';
         	    while ($row = mssql_fetch_object($sql)) {
         		    $insert = $insert."($row->IDALTERNATIVA,$row->IDPRODUCTO,$row->MULTIPLICADOR,$row->DIVISOR,$row->ESTASINCRONIZADA),";
         	    }
             }
         }
-        $insert = substr($insert, 0, -1);
+        
         mssql_free_result($sql);
         $dbh = NULL;
 		if ( $insert != '' ){
+            $insert = substr($insert, 0, -1);
 			$dbh = new PDO("pgsql:dbname=$this->dbname;host=$this->host", $this->dbuser, $this->dbpass );
 			$count = $dbh->exec("DELETE FROM sab_cat_alternativasproducto;");
-			$count = $dbh->exec($insert);
+			$count = $dbh->exec($str.$insert);
 			$dbh = null;
 			return $count;
 		}
