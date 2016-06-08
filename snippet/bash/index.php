@@ -29,11 +29,11 @@ require 'php/load_sinab.php';
 
 
 //decriptar_variables();
-if ( FALSE ){//date('N') >= 10 && date('N') <= 5 ){
+if ( date('N') >= 10 && date('N') <= 5 ){
 	iterar_siaps($path_maestros, $path_nodos);
-}	elseif ( TRUE ){//date('N') >= 5 && date('N') <= 6 ) {
+}	elseif ( date('N') >= 5 && date('N') <= 6 ) {
 	iterar_sinab($path_maestros);
-}	elseif ( TRUE ){//date('j') < 6 &&date('N') >= 5 && date('N') <= 6 ) {
+}	elseif ( date('j') < 6 &&date('N') >= 5 && date('N') <= 6 ) {
 	carga_historico_siap($path_maestros, $path_nodos);
 }
 
