@@ -1,0 +1,408 @@
+{% extends 'SinamCoreBundle::default.html.twig' %}
+{% block body %}
+<div class="col-sm-12">
+          <div class="service-accordion">
+           <div class="accordion">
+            <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
+              <div class="panel panel-default">
+                <div id="headingOne" role="tab" class="panel-heading">
+                  <h4 class="panel-title">
+                    <a aria-controls="collapseOne" aria-expanded="true" href="#collapseOne" data-parent="#accordion" data-toggle="collapse">
+                      Busqueda medicamento
+                    </a>
+                  </h4>
+                </div>
+                <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapseOne" aria-expanded="true">
+                  <div class="panel-body">
+                    <p>
+                     <div id="respond">
+                      <form class="commentform" method="post">
+                        
+                          Digite el nombre del medicamento
+                          <div class="ui-widget"><select id="basica_nombre" style="width: 90%" >
+                            <option value="">Ingrese el medicamento</option>
+                            {% for item in todos %}
+                              <option value="{{item.idpro}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select></div>
+                          <button id="establecimiento_save" class="submit-btn" type="submit">Buscar</button>
+                        
+                        <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
+                        <div class="filtro box">
+                        {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
+                        {{ form_label(form.municipio) }}<br />{{ form_widget(form.municipio) }}<br />
+                        {{ form_label(form.establecimiento) }}<br />{{ form_widget(form.establecimiento) }}<br />
+                          <div data-role="main" class="ui-content">
+                        Numero de establecimientos: 5 <input type="range" name="points" id="points" value="7" min="5" max="25"> 25
+                          </div>
+                         <p align="right">
+                          <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
+                         </p> 
+
+                        </div>
+                      </form>
+                     </div>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>    
+        </div>
+</div>
+<div id="resMap" class="col-sm-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
+      <div class="panel-body">
+        <br /><br /><br /><br />
+      </div>
+    </div>
+</div>
+<div  id="Map" class="col-sm-8" style="height: 400px;></div>
+<div  id="resultado" class="col-sm-12"></div>
+{% endblock %}
+{% block js_head %}
+<script src="http://maps.google.com/maps?file=api&amp;v=3&key=AIzaSyCC_eXrd8k_iquhO1y9HT1QLu_HaBBG588" type="text/javascript"></script> 
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript"> 
+    //setting up the dual maps
+    var mapA;
+    
+   //setting up the variables for the different map type to appear in the dropdown above each map.  There needs to be a new var for each new wms layer
+
+    var openlayersWMS;
+    
+ 
+    function initialize() {
+        //Set the center of the map
+        var map_center = new google.maps.LatLng(38.87, -94.63);
+        //Set the map properties
+        var mapA_setup = {
+            zoom: 4,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            MapTypeControl: true,
+            mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
+            navigationControl: true,
+            navigationControlOptions: { style: google.maps.NavigationControlStyle.ZOOM_PAN },
+            backgroundColor: 'White',
+            scrollwheel: false,
+            maxZoom: 17,
+            minZoom: 1,
+            scaleControl: true,
+            center: map_center
+        }
+ 
+        mapA = new google.maps.Map(document.getElementById("Map"), mapA_setup);
+      
+        //Creating the WMS layer options.  This code creates the Google imagemaptype options for each wms layer.  In the options the function that calls the individual 
+        //wms layer is set 
+ 
+        var wmsOptions = {
+            alt: "OpenLayers",
+            getTileUrl: WMSGetTileUrl,
+            isPng: false,
+            maxZoom: 17,
+            minZoom: 1,
+            name: "OpenLayers",
+            tileSize: new google.maps.Size(256, 256)
+
+        };
+
+        
+ 
+        //Creating the object to create the ImageMapType that will call the WMS Layer Options.
+
+        openlayersWMS = new google.maps.ImageMapType(wmsOptions);
+        
+      
+        //Layers to appear on Map A.  The first string will give the map the map a name in the dropdown and the second object calls the map type
+
+        mapA.mapTypes.set('OpenLayers', openlayersWMS);
+        
+       
+ 
+        //Controling the Layers that appear in Map A.  You can set certain maps to appear in Map A.
+        mapA.setOptions({
+            mapTypeControlOptions: {
+                mapTypeIds: [
+      'OpenLayers',
+     
+       google.maps.MapTypeId.ROADMAP
+    ],
+                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+            }
+        });
+ 
+    //Where the initial map type is set.  This can be adjusted as necessary.  The map name in ' ' indicates the default map viewed when the user 
+    //visits the page
+    mapA.setMapTypeId('OpenLayers');
+    
+    
+}
+ 
+ //Complete path to OpenLayers WMS layer
+ 
+  function WMSGetTileUrl(tile, zoom) {
+      var projection = window.mapA.getProjection();
+      var zpow = Math.pow(2, zoom);
+      var ul = new google.maps.Point(tile.x * 256.0 / zpow, (tile.y + 1) * 256.0 / zpow);
+      var lr = new google.maps.Point((tile.x + 1) * 256.0 / zpow, (tile.y) * 256.0 / zpow);
+      var ulw = projection.fromPointToLatLng(ul);
+      var lrw = projection.fromPointToLatLng(lr);
+      //The user will enter the address to the public WMS layer here.  The data must be in WGS84
+      var baseURL = "http://demo.cubewerx.com/cubewerx/cubeserv.cgi?";
+      var version = "1.3.0";
+      var request = "GetMap";
+      var format = "image%2Fjpeg"; //type of image returned  or image/jpeg
+      //The layer ID.  Can be found when using the layers properties tool in ArcMap or from the WMS settings 
+      var layers = "Foundation.GTOPO30";
+      //projection to display. This is the projection of google map. Don't change unless you know what you are doing.  
+      //Different from other WMS servers that the projection information is called by crs, instead of srs
+      var crs = "EPSG:4326"; 
+      //With the 1.3.0 version the coordinates are read in LatLon, as opposed to LonLat in previous versions
+      var bbox = ulw.lat() + "," + ulw.lng() + "," + lrw.lat() + "," + lrw.lng();
+      var service = "WMS";
+      //the size of the tile, must be 256x256
+      var width = "256";
+      var height = "256";
+      //Some WMS come with named styles.  The user can set to default.
+      var styles = "default";
+      //Establish the baseURL.  Several elements, including &EXCEPTIONS=INIMAGE and &Service are unique to openLayers addresses.
+      var url = baseURL + "Layers=" + layers + "&version=" + version + "&EXCEPTIONS=INIMAGE" + "&Service=" + service + "&request=" + request + "&Styles=" + styles + "&format=" + format + "&CRS=" + crs + "&BBOX=" + bbox + "&width=" + width + "&height=" + height;
+      return url;
+  }
+</script>  
+
+<link rel="stylesheet" href="http://___code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-bootstrap-master/jquery.ui.theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
+    <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
+    <script src="{{ asset('assets/css/jquery-ui/jquery-ui.js') }}"></script>
+<script src="http://___code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<style type="text/css">
+    .box{
+        padding: 20px;
+        display: none;
+        margin-top: 20px;
+        border: 1px solid #000;
+    }
+</style>
+<script type="text/javascript">
+jQuery(document).ready(function( $ ) {
+    $('input[type="checkbox"]').click(function(){
+        if($(this).attr("value")=="filtro"){
+            $(".filtro").toggle();
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+  function cargarMun(valor) {
+    var arrayValores=new Array( 
+      {% for item in muni %}
+        new Array({{item.depto}},{{item.id}},"{{item.nombre}}"),
+      {% endfor %}
+      new Array(-1,1,"") );
+    if(valor==0) {
+      document.getElementById("basica_municipio").options.length=0;
+      document.getElementById("basica_establecimiento").options.length=0;
+      document.getElementById("basica_municipio").disabled=true; 
+      document.getElementById("basica_establecimiento").disabled=true; 
+    }else{
+      document.getElementById("basica_municipio").options.length=0;
+      document.getElementById("basica_municipio").options[0]=new Option("Selecciona un municipio", "0");
+      for(i=0;i<arrayValores.length;i++) {
+        if(arrayValores[i][0]==valor) { 
+          document.getElementById("basica_municipio").options[document.getElementById("establecimiento_municipio").options.length]=new Option( arrayValores[i][2], arrayValores[i][1]);
+        }
+      }
+      document.getElementById("establecimiento_municipio").disabled=false;
+    }
+  }
+  function cargarEsta(valor) {
+    var arrayValores=new Array( 
+      {% for item in establecimiento %}
+        new Array({{item.idMunicipio}},{{item.id}},"{{item.nombre}}"),
+      {% endfor %}
+      new Array(-1,1,"") );
+    if(valor>0) {
+      document.getElementById("basica_establecimiento").options.length=0;
+      document.getElementById("basica_establecimiento").options[0]=new Option("Selecciona un establecimiento", "0");
+      for(i=0;i<arrayValores.length;i++) {
+        if(arrayValores[i][0]==valor) { 
+          document.getElementById("basica_establecimiento").options[document.getElementById("basica_establecimiento").options.length]=new Option(arrayValores[i][2], arrayValores[i][1]);
+        } 
+      }
+      document.getElementById("basica_establecimiento").disabled=false;
+    }
+  }
+</script>
+<style>
+  .custom-combobox {
+    width: 80%;
+    position: relative;
+    display: inline-block;
+  }
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+  }
+  .custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+  }
+</style>
+  <script>  (function( $ ) {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+ 
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+ 
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+ 
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          })
+          .tooltip({
+            tooltipClass: "ui-state-highlight"
+          });
+ 
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+ 
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+ 
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+ 
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Show All Items" )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .mousedown(function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .click(function() {
+            input.focus();
+ 
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+ 
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+ 
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+ 
+      _removeIfInvalid: function( event, ui ) {
+ 
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+ 
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+ 
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+ 
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.autocomplete( "instance" ).term = "";
+      },
+ 
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+  })( jQuery );
+ 
+  $(function($) {
+    $( "#basica_nombre" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_nombre" ).toggle();
+    });
+    $( "#basica_departamento" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_nombre" ).toggle();
+    });
+    $( "#basica_municipio" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_departamento" ).toggle();
+    });
+    $( "#basica_establecimiento" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_establecimiento" ).toggle();
+    });
+  });
+  </script>
+{% endblock %}
+{% block body_tag %}onload="initialize()"{% endblock %}
