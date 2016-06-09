@@ -295,3 +295,16 @@ f06509,127.0.0.1,GET,http://localhost:8000/app_dev.php/consulta_establecimiento,
 652334,127.0.0.1,GET,http://localhost:8000/app_dev.php/consulta_establecimiento,1465497033,,200
 bc5f30,127.0.0.1,GET,http://localhost:8000/app_dev.php/consulta_establecimiento,1465497134,,200
 edf9d9,127.0.0.1,POST,http://localhost:8000/app_dev.php/consulta_establecimiento,1465497746,,200
+5f54c9,127.0.0.1,GET,http://127.0.0.1:8000/,1465502618,,200
+42f1ed,127.0.0.1,GET,http://127.0.0.1:8000/consulta_establecimiento,1465502652,,200
+5194c3,127.0.0.1,GET,http://127.0.0.1:8000/consulta_establecimiento,1465502866,,200
+2638d1,127.0.0.1,GET,http://127.0.0.1:8000/consulta_establecimiento,1465502956,,200
+802111,127.0.0.1,GET,http://127.0.0.1:8000/buscar,1465503123,,200
+6b8a1b,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=1&estab=null&munic=null&nombre=1&tipo=1,1465503371,,200
+075080,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=2&estab=null&munic=null&nombre=1&tipo=1,1465503413,,200
+30969a,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?nombre=1&tipo=0,1465503468,,200
+08aa7e,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=12&estab=null&munic=null&nombre=1&tipo=1,1465503731,,200
+0cbd38,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?nombre=1&tipo=0,1465504086,,200
+845afc,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=9&estab=null&munic=null&nombre=25&tipo=1,1465504098,,200
+cd8667,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=9&estab=null&munic=null&nombre=41&tipo=1,1465504115,,200
+0a0090,127.0.0.1,GET,http://127.0.0.1:8000/consulta_establecimiento,1465504156,,200
