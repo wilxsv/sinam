@@ -17,11 +17,11 @@ class BusquedaBasicaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre',  'entity', array('label' => 'Nombre del medicamento','attr'=>  array('style' => 'width: 80%'), 'class' => 'SinamCoreBundle:FarmCatalogoproductos','property'=>'nombre',
+            ->add('nombre',  'entity', array('label' => 'Nombre del medicamento','attr'=>  array('style' => 'width: 80%'), 'class' => 'SinamCoreBundle:SabCatCatalogoproductos','property'=>'nombre',
                 'choices_as_values' => true,
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('p')
-                    ->where('p.id > 0')
+                    ->where('p.idTipoproducto = 1')
                     ->orderBy('p.nombre', 'ASC');
                 },
             ))

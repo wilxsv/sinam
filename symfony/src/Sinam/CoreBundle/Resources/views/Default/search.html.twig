@@ -17,15 +17,16 @@
                     <p>
                      <div id="respond">
                       <form class="commentform" method="post">
-                        <div class="ui-widget">
+                        
                           Digite el nombre del medicamento
-                          <select id="basica_nombre" style="width: 80%" >
+                          <div class="ui-widget"><select id="basica_nombre" style="width: 90%" >
+                            <option value="">Ingrese el medicamento</option>
                             {% for item in todos %}
-                              <option value="{{item.id}}">{{item.nombre}}</option>
+                              <option value="{{item.idpro}}">{{item.nombre}}</option>
                             {% endfor %}
-                          </select>
+                          </select></div>
                           <button id="establecimiento_save" class="submit-btn" type="submit">Buscar</button>
-                        </div>
+                        
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
                         {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
@@ -45,9 +46,6 @@
           </div><!-- /.accordion -->      
         </div><!-- /.service-accordion -->
         <div  id="resultado" ></div>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('#establecimiento_save').click(function(){
@@ -84,9 +82,10 @@
 </div>
 {% endblock %}
 {% block js_head %}
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-bootstrap-master/jquery.ui.theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
+    <script src="{{ asset('assets/css/jquery-ui/jquery-ui.js') }}"></script>
 <style type="text/css">
     .box{
         padding: 20px;
@@ -147,6 +146,7 @@ jQuery(document).ready(function( $ ) {
 </script>
 <style>
   .custom-combobox {
+    width: 80%;
     position: relative;
     display: inline-block;
   }
@@ -162,8 +162,7 @@ jQuery(document).ready(function( $ ) {
     padding: 5px 10px;
   }
 </style>
-  <script>
-  (function( $ ) {
+  <script>  (function( $ ) {
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -211,7 +210,7 @@ jQuery(document).ready(function( $ ) {
  
         $( "<a>" )
           .attr( "tabIndex", -1 )
-          .attr( "title", "Listar todos los medicamento" )
+          .attr( "title", "Show All Items" )
           .tooltip()
           .appendTo( this.wrapper )
           .button({
@@ -234,7 +233,7 @@ jQuery(document).ready(function( $ ) {
             }
  
             // Pass empty string as value to search for, displaying all results
-            input.autocomplete( "buscar", "" );
+            input.autocomplete( "search", "" );
           });
       },
  
@@ -277,7 +276,7 @@ jQuery(document).ready(function( $ ) {
         // Remove invalid value
         this.input
           .val( "" )
-          .attr( "title", value + " no encontramos medicamentos con ese nombre" )
+          .attr( "title", value + " didn't match any item" )
           .tooltip( "open" );
         this.element.val( "" );
         this._delay(function() {
@@ -297,6 +296,18 @@ jQuery(document).ready(function( $ ) {
     $( "#basica_nombre" ).combobox();
     $( "#toggle" ).click(function() {
       $( "#basica_nombre" ).toggle();
+    });
+    $( "#basica_departamento" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_nombre" ).toggle();
+    });
+    $( "#basica_municipio" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_departamento" ).toggle();
+    });
+    $( "#basica_establecimiento" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#basica_establecimiento" ).toggle();
     });
   });
   </script>
