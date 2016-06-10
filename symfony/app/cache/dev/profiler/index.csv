@@ -308,3 +308,13 @@ edf9d9,127.0.0.1,POST,http://localhost:8000/app_dev.php/consulta_establecimiento
 845afc,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=9&estab=null&munic=null&nombre=25&tipo=1,1465504098,,200
 cd8667,127.0.0.1,POST,http://127.0.0.1:8000/buscarajax?depto=9&estab=null&munic=null&nombre=41&tipo=1,1465504115,,200
 0a0090,127.0.0.1,GET,http://127.0.0.1:8000/consulta_establecimiento,1465504156,,200
+cb3482,127.0.0.1,GET,http://localhost:8000/,1465560840,ae2ee2,200
+ae2ee2,127.0.0.1,GET,http://localhost:8000/,1465560841,,500
+29ce2d,127.0.0.1,GET,http://localhost:8000/,1465560882,,200
+b37c22,127.0.0.1,GET,http://localhost:8000/buscar,1465560894,,200
+abdc6a,127.0.0.1,GET,http://localhost:8000/buscar,1465561079,,200
+cf0e4e,127.0.0.1,GET,http://localhost:8000/buscar,1465561240,,200
+38ecde,127.0.0.1,GET,http://localhost:8000/buscar,1465561309,,200
+c20981,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1465561332,,200
+d06fe8,127.0.0.1,POST,http://localhost:8000/app_dev.php/buscarajax?nombre=&tipo=0,1465561382,,200
+6af733,127.0.0.1,POST,http://localhost:8000/app_dev.php/buscarajax?nombre=30&tipo=0,1465561407,,200
