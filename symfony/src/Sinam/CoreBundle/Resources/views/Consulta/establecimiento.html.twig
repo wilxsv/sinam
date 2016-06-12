@@ -63,7 +63,7 @@
 {% endblock %}
 {% block js_head %}
 <script src="http://maps.google.com/maps?file=api&amp;v=3&key=AIzaSyCC_eXrd8k_iquhO1y9HT1QLu_HaBBG588" type="text/javascript"></script> 
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
 <script type="text/javascript"> 
     //setting up the dual maps
     var mapA;
@@ -92,7 +92,7 @@
             center: map_center
         }
  
-        mapA = new google.maps.Map(document.getElementById("Map"), mapA_setup);
+        mapA = new google.maps.Map(document.getElementById("mapA"), mapA_setup);
       
         //Creating the WMS layer options.  This code creates the Google imagemaptype options for each wms layer.  In the options the function that calls the individual 
         //wms layer is set 
@@ -150,7 +150,7 @@
       var ulw = projection.fromPointToLatLng(ul);
       var lrw = projection.fromPointToLatLng(lr);
       //The user will enter the address to the public WMS layer here.  The data must be in WGS84
-      var baseURL = "http://geo.salud.gob.sv/cgi-bin/mapserv?MAP=/var/www/geo/geo/maps/wms/minsal.map?";
+      var baseURL = "https://geo.salud.gob.sv/cgi-bin/mapserv?MAP=/var/www/geo/geo/maps/wms/minsal.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=minsal&SRS=EPSG:4326&BBOX=-90.1913,12.7068,-87.6231,14.9026&WIDTH=700&HEIGHT=650&FORMAT=image/png?";
       var version = "1.3.0";
       var request = "GetMap";
       var format = "image%2Fjpeg"; //type of image returned  or image/jpeg
@@ -169,7 +169,7 @@
       var styles = "default";
       //Establish the baseURL.  Several elements, including &EXCEPTIONS=INIMAGE and &Service are unique to openLayers addresses.
       var url = baseURL + "Layers=" + layers + "&version=" + version + "&EXCEPTIONS=INIMAGE" + "&Service=" + service + "&request=" + request + "&Styles=" + styles + "&format=" + format + "&CRS=" + crs + "&BBOX=" + bbox + "&width=" + width + "&height=" + height;
-      return url;
+      return baseURL;
   }
 </script>  
 

@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Sinam\CoreBundle\SinamCoreBundle(),
             new Genemu\Bundle\FormBundle\GenemuFormBundle(),
-
+            new EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

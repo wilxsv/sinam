@@ -18,17 +18,8 @@ use Doctrine\ORM\EntityRepository;
 class DefaultController extends Controller
 {
     public function indexAction(Request $request)
-    {
-		$form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
-		$rest = false;
-		$form->handleRequest($request);
-		if ($form->isValid()) {
-			$repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmCatalogoproductos');
-			$query = $repository->createQueryBuilder('p')->where("p.nombre LIKE :nombre")->setParameter('nombre', "%".$form->get('nombre')->getData()."%")->getQuery();
-			$rest = $query->getResult();
-        }
-		
-        return $this->render('SinamCoreBundle:Default:index.html.twig', array( 'form' => $form->createView(), 'rest'=>$rest ));
+    {	
+        return $this->render('SinamCoreBundle:Default:index.html.twig');
     }
     
     public function searchAction(Request $request)
@@ -39,7 +30,8 @@ class DefaultController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $farmCatalogoproductos = $em->getRepository('SinamCoreBundle:SabCatCatalogoproductos')->findAll();
+        $farmCatalogoproductos = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findBySELECT( );
+        $depto = $em->getRepository('SinamCoreBundle:CtlDepartamento')->findByidPais( 68 );
         $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlMunicipio');
         $ctlMunicipios = $repository->createQueryBuilder('p')->select('p.id, p.nombre')->addSelect('d.id AS depto')
         	->innerJoin('p.idDepartamento', 'd')->where('p.idDepartamento = d.id')->getQuery()->getResult();
@@ -48,7 +40,7 @@ class DefaultController extends Controller
         	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
 
         
-		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'todos' => $farmCatalogoproductos, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
+		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'todos' => $farmCatalogoproductos, 'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
     }
 
     public function alternativoAction(Request $request)

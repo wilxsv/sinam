@@ -17,27 +17,43 @@
                     <p>
                      <div id="respond">
                       <form class="commentform" method="post">
-                        
-                          Digite el nombre del medicamento
-                          <div class="ui-widget"><select id="basica_nombre" style="width: 90%" >
+                          <label class="required" for="basica_departamento">Digite el nombre del medicamento</label><br/>
+                          <select id="basica_nombre">
                             <option value="">Ingrese el medicamento</option>
                             {% for item in todos %}
-                              <option value="{{item.idpro}}">{{item.nombre}}</option>
+                              <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
-                          </select></div>
-                          <button id="establecimiento_save" class="submit-btn" type="submit">Buscar</button>
-                        
+                          </select>
+                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
+                        <br/>
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
-                        {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
-                        {{ form_label(form.municipio) }}<br />{{ form_widget(form.municipio) }}<br />
-                        {{ form_label(form.establecimiento) }}<br />{{ form_widget(form.establecimiento) }}<br />
+                        {{ form_label(form.departamento) }}<br />
+                        <select id="basica_departamento" onchange="cargarMun(this.value);">
+                            {% for item in depto %}
+                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select>
+                        <br />
+                        {{ form_label(form.municipio) }}<br />
+                        <select id="basica_municipio">
+                            {% for item in muni %}
+                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select><br />
+                        {{ form_label(form.establecimiento) }}<br />
+                        <select id="basica_establecimiento">
+                            {% for item in establecimiento %}
+                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select><br />
                          <p align="right">
                           <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
                          </p> 
                         </div>
                       </form>
                      </div>
+                     <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
                     </p>
                   </div>
                 </div>
@@ -82,6 +98,7 @@
 </div>
 {% endblock %}
 {% block js_head %}
+    <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-bootstrap-master/jquery.ui.theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
     <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
@@ -146,7 +163,6 @@ jQuery(document).ready(function( $ ) {
 </script>
 <style>
   .custom-combobox {
-    width: 80%;
     position: relative;
     display: inline-block;
   }
@@ -161,8 +177,17 @@ jQuery(document).ready(function( $ ) {
     margin: 0;
     padding: 5px 10px;
   }
+  .ui-autocomplete-input
+{ 
+    width: 700px;
+}
+.title .ui-autocomplete-input
+{ 
+    width: 700px
+}
 </style>
-  <script>  (function( $ ) {
+  <script>  
+     (function( $ ) {
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -185,8 +210,9 @@ jQuery(document).ready(function( $ ) {
           .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
           .autocomplete({
             delay: 0,
-            minLength: 0,
-            source: $.proxy( this, "_source" )
+            minLength: 3,
+            source: $.proxy( this, "_source" ),
+            open: function(event, ui) { $(this).autocomplete("widget").css({ "width": 400 }); }
           })
           .tooltip({
             tooltipClass: "ui-state-highlight"
@@ -294,21 +320,145 @@ jQuery(document).ready(function( $ ) {
  
   $(function($) {
     $( "#basica_nombre" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_nombre" ).toggle();
+  });
+  </script>
+
+  <script>  
+     (function( $ ) {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+ 
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+ 
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+ 
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" ),
+            open: function(event, ui) { $(this).autocomplete("widget").css({ "width": 200 }); }
+          })
+          .tooltip({
+            tooltipClass: "ui-state-highlight"
+          });
+ 
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+ 
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+ 
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+ 
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Show All Items" )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .mousedown(function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .click(function() {
+            input.focus();
+ 
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+ 
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+ 
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+ 
+      _removeIfInvalid: function( event, ui ) {
+ 
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+ 
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+ 
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+ 
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.autocomplete( "instance" ).term = "";
+      },
+ 
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
     });
+  })( jQuery );
+ 
+  $(function($) {
     $( "#basica_departamento" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_nombre" ).toggle();
-    });
     $( "#basica_municipio" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_departamento" ).toggle();
-    });
     $( "#basica_establecimiento" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_establecimiento" ).toggle();
-    });
   });
   </script>
 {% endblock %}

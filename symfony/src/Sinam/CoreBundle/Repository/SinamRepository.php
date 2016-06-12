@@ -110,12 +110,24 @@ class SinamRepository extends EntityRepository
    $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
    $estab = ($estab > 0) ? " AND e.id = $estab " : '';
    $query = $this->getEntityManager()
-   			->createQuery('SELECT f.farmacia AS farmacia, u.descripcion AS unidad, SUM(ex.existencia) AS existencia, e.id AS id
-   				FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:FarmMedicinaexistenciaxarea AS ex, SinamCoreBundle:MntAreafarmacia AS af, SinamCoreBundle:MntFarmacia AS f, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u 
-   				WHERE ms.idpro = :medicamento AND ms.codigo = m.codigo AND m.id = ex.idmedicina AND ex.idarea = af.id AND ex.idestablecimiento = e.id AND af.idfarmacia = f.id AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND ex.existencia > 0  '.$depto.$munic.$estab.'
-   				GROUP BY ms.nombre, f.farmacia, u.descripcion, e.id
-   				ORDER BY f.farmacia ASC')
-   			->setParameters(array('medicamento' => $id));
+        ->createQuery('SELECT f.farmacia AS farmacia, u.descripcion AS unidad, SUM(ex.existencia) AS existencia, e.id AS id
+          FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:FarmMedicinaexistenciaxarea AS ex, SinamCoreBundle:MntAreafarmacia AS af, SinamCoreBundle:MntFarmacia AS f, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u 
+          WHERE ms.idpro = :medicamento AND ms.codigo = m.codigo AND m.id = ex.idmedicina AND ex.idarea = af.id AND ex.idestablecimiento = e.id AND af.idfarmacia = f.id AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND ex.existencia > 0  '.$depto.$munic.$estab.'
+          GROUP BY ms.nombre, f.farmacia, u.descripcion, e.id
+          ORDER BY f.farmacia ASC')
+        ->setParameters(array('medicamento' => $id));
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }             
+  } 
+  public function findBySELECT( ){
+   $query = $this->getEntityManager()
+        ->createQuery('SELECT m.idpro AS id, m.nombre AS nombre
+          FROM SinamCoreBundle:SabCatCatalogoproductos AS m
+          WHERE m.niveluso < 7
+          ORDER BY m.nombre ASC')->setMaxResults(100);
    try {
         return $query->getResult();
        } catch (\Doctrine\Orm\NoResultException $e) {
