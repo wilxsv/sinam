@@ -12,6 +12,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints as Recaptcha;
 
 class BusquedaEstablecimientoType extends AbstractType
 {
@@ -23,41 +26,13 @@ class BusquedaEstablecimientoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre',  'entity', array('label' => 'Nombre del medicamento','attr'=>  array('style' => 'width: 80%'), 'class' => 'SinamCoreBundle:SabCatCatalogoproductos','property'=>'nombre',
-                'choices_as_values' => true,
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('p')
-                    ->where('p.idTipoproducto = 1')
-                    ->orderBy('p.nombre', 'ASC');
-                },
-            ))
+            ->add('nombre',  'entity', array('label' => 'Nombre del medicamento','attr'=>  array('style' => 'width: 80%'), 'class' => 'SinamCoreBundle:SabCatCatalogoproductos','choice_label'=>'nombre'))
             ->add('lugar',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '90%')))
             ->add('limite',  'number', array('label' => 'Numero de establecimientos a mostrar','attr'=>  array('size' => '90%')))
-            ->add('departamento',  'entity', array('label' => 'departamento','attr'=>  array('onchange' => 'cargarMun(this.value);', 'style' => 'width: 90%'), 'class' => 'SinamCoreBundle:CtlDepartamento','property'=>'nombre',
-                'choices_as_values' => true,
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('p')
-                    ->where('p.idPais = 68')
-                    ->orderBy('p.nombre', 'ASC');
-                },
-            ))
-            ->add('municipio',  'entity', array('label' => 'municipio','attr'=>  array('onchange' => 'cargarEsta(this.value);', 'style' => 'width: 90%'), 'class' => 'SinamCoreBundle:CtlMunicipio','property'=>'nombre',
-                'choices_as_values' => true,
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('p')
-                    ->orderBy('p.nombre', 'ASC');
-                },
-            ))
-            ->add('establecimiento', 'entity', array('label' => 'establecimiento','attr'=>  array('style' => 'width: 90%'), 'class' => 'SinamCoreBundle:CtlEstablecimiento','property'=>'nombre', 'choices_as_values' => true,
-                'query_builder' => function(EntityRepository $er) { return $er->createQueryBuilder('p')->orderBy('p.nombre', 'ASC'); }, ))
+            ->add('departamento',  EntityType::class, array('label' => 'Seleccione el departamento','attr'=>  array('onchange' => 'cargarMun(this.value);', 'class' => 'custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input'), 'class' => 'SinamCoreBundle:CtlDepartamento','choice_label'=>'nombre'))
+            ->add('municipio',  EntityType::class, array('label' => 'Seleccione el municipio', 'class' => 'SinamCoreBundle:CtlMunicipio','choice_label'=>'nombre', 'attr'=>  array('onchange' => 'cargarEsta(this.value);', 'class' => 'custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input')))
+            ->add('establecimiento', EntityType::class, array('label' => 'Seleccione el establecimiento','class' => 'SinamCoreBundle:CtlEstablecimiento', 'choice_label' => 'nombre'))
             ->add('save', 'submit', array('label' => 'Buscar','attr'=>  array('class' => 'submit-btn')));
-        ;
-        $builder
-            
-            ->add('tipo', 'hidden', array( 'data' => 'establecimiento',))
-            ->add('save', 'submit', array('label' => 'Buscar','attr'=>  array('class' => 'submit-btn')));
-        //$builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
-        //$builder->addEventListener(FormEvents::PRE_SUBMIT, array($this, 'onPreSubmit'));
     }
 
     public function getName()

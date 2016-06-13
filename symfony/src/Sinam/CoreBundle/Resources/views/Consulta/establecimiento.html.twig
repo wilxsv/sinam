@@ -32,9 +32,9 @@
                         {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
                         {{ form_label(form.municipio) }}<br />{{ form_widget(form.municipio) }}<br />
                         {{ form_label(form.establecimiento) }}<br />{{ form_widget(form.establecimiento) }}<br />
-                          <div data-role="main" class="ui-content">
-                        Numero de establecimientos: 5 <input type="range" name="points" id="points" value="7" min="5" max="25"> 25
-                          </div>
+                        Numero de establecimientos: 
+                          <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                          <div id="slider-range-min"></div><br />
                          <p align="right">
                           <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
                          </p> 
@@ -62,123 +62,37 @@
 <div  id="resultado" class="col-sm-12"></div>
 {% endblock %}
 {% block js_head %}
-<script src="http://maps.google.com/maps?file=api&amp;v=3&key=AIzaSyCC_eXrd8k_iquhO1y9HT1QLu_HaBBG588" type="text/javascript"></script> 
+ <script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
+    <script type="text/javascript">
+        var lon = -89.218846;
+        var lat = 13.697911;
+        var zoom = 9;
+        var map, layer;
 
-<script type="text/javascript"> 
-    //setting up the dual maps
-    var mapA;
-    
-   //setting up the variables for the different map type to appear in the dropdown above each map.  There needs to be a new var for each new wms layer
+        function init(){
+          map = new OpenLayers.Map("Basico");
+          var mapnik         = new OpenLayers.Layer.OSM();
+          var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+          var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+          var position       = new OpenLayers.LonLat(lon,lat).transform( fromProjection, toProjection);
 
-    var openlayersWMS;
-    
- 
-    function initialize() {
-        //Set the center of the map
-        var map_center = new google.maps.LatLng(38.87, -94.63);
-        //Set the map properties
-        var mapA_setup = {
-            zoom: 4,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
-            MapTypeControl: true,
-            mapTypeControlOptions: { style: google.maps.MapTypeControlStyle.DROPDOWN_MENU },
-            navigationControl: true,
-            navigationControlOptions: { style: google.maps.NavigationControlStyle.ZOOM_PAN },
-            backgroundColor: 'White',
-            scrollwheel: false,
-            maxZoom: 17,
-            minZoom: 1,
-            scaleControl: true,
-            center: map_center
+            map = new OpenLayers.Map( 'Map' );
+            layer = new OpenLayers.Layer.MapServer( "Establecimientos", 
+                    "https://geo.salud.gob.sv/cgi-bin/mapserv?MAP=/var/www/geo/geo/maps/wms/minsal.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=minsal&SRS=EPSG:4326&BBOX=-90.1913,12.7068,-87.6231,14.9026&FORMAT=image/png", {layers: 'basic'},
+                    {gutter: 15});
+
+            map.addLayer(layer);
+            map.addLayer(mapnik);
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            map.addControl( new OpenLayers.Control.LayerSwitcher() );
         }
- 
-        mapA = new google.maps.Map(document.getElementById("mapA"), mapA_setup);
-      
-        //Creating the WMS layer options.  This code creates the Google imagemaptype options for each wms layer.  In the options the function that calls the individual 
-        //wms layer is set 
- 
-        var wmsOptions = {
-            alt: "OpenLayers",
-            getTileUrl: WMSGetTileUrl,
-            isPng: false,
-            maxZoom: 17,
-            minZoom: 1,
-            name: "OpenLayers",
-            tileSize: new google.maps.Size(256, 256)
-
-        };
-
         
- 
-        //Creating the object to create the ImageMapType that will call the WMS Layer Options.
-
-        openlayersWMS = new google.maps.ImageMapType(wmsOptions);
-        
-      
-        //Layers to appear on Map A.  The first string will give the map the map a name in the dropdown and the second object calls the map type
-
-        mapA.mapTypes.set('OpenLayers', openlayersWMS);
-        
-       
- 
-        //Controling the Layers that appear in Map A.  You can set certain maps to appear in Map A.
-        mapA.setOptions({
-            mapTypeControlOptions: {
-                mapTypeIds: [
-      'OpenLayers',
-     
-       google.maps.MapTypeId.ROADMAP
-    ],
-                style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-            }
-        });
- 
-    //Where the initial map type is set.  This can be adjusted as necessary.  The map name in ' ' indicates the default map viewed when the user 
-    //visits the page
-    mapA.setMapTypeId('OpenLayers');
-    
-    
-}
- 
- //Complete path to OpenLayers WMS layer
- 
-  function WMSGetTileUrl(tile, zoom) {
-      var projection = window.mapA.getProjection();
-      var zpow = Math.pow(2, zoom);
-      var ul = new google.maps.Point(tile.x * 256.0 / zpow, (tile.y + 1) * 256.0 / zpow);
-      var lr = new google.maps.Point((tile.x + 1) * 256.0 / zpow, (tile.y) * 256.0 / zpow);
-      var ulw = projection.fromPointToLatLng(ul);
-      var lrw = projection.fromPointToLatLng(lr);
-      //The user will enter the address to the public WMS layer here.  The data must be in WGS84
-      var baseURL = "https://geo.salud.gob.sv/cgi-bin/mapserv?MAP=/var/www/geo/geo/maps/wms/minsal.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=minsal&SRS=EPSG:4326&BBOX=-90.1913,12.7068,-87.6231,14.9026&WIDTH=700&HEIGHT=650&FORMAT=image/png?";
-      var version = "1.3.0";
-      var request = "GetMap";
-      var format = "image%2Fjpeg"; //type of image returned  or image/jpeg
-      //The layer ID.  Can be found when using the layers properties tool in ArcMap or from the WMS settings 
-      var layers = "Foundation.GTOPO30";
-      //projection to display. This is the projection of google map. Don't change unless you know what you are doing.  
-      //Different from other WMS servers that the projection information is called by crs, instead of srs
-      var crs = "EPSG:4326"; 
-      //With the 1.3.0 version the coordinates are read in LatLon, as opposed to LonLat in previous versions
-      var bbox = ulw.lat() + "," + ulw.lng() + "," + lrw.lat() + "," + lrw.lng();
-      var service = "WMS";
-      //the size of the tile, must be 256x256
-      var width = "256";
-      var height = "256";
-      //Some WMS come with named styles.  The user can set to default.
-      var styles = "default";
-      //Establish the baseURL.  Several elements, including &EXCEPTIONS=INIMAGE and &Service are unique to openLayers addresses.
-      var url = baseURL + "Layers=" + layers + "&version=" + version + "&EXCEPTIONS=INIMAGE" + "&Service=" + service + "&request=" + request + "&Styles=" + styles + "&format=" + format + "&CRS=" + crs + "&BBOX=" + bbox + "&width=" + width + "&height=" + height;
-      return baseURL;
-  }
-</script>  
-
-<link rel="stylesheet" href="http://___code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-bootstrap-master/jquery.ui.theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
     <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
     <script src="{{ asset('assets/css/jquery-ui/jquery-ui.js') }}"></script>
-<script src="http://___code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <style type="text/css">
     .box{
         padding: 20px;
@@ -239,7 +153,6 @@ jQuery(document).ready(function( $ ) {
 </script>
 <style>
   .custom-combobox {
-    width: 80%;
     position: relative;
     display: inline-block;
   }
@@ -254,8 +167,17 @@ jQuery(document).ready(function( $ ) {
     margin: 0;
     padding: 5px 10px;
   }
+  .ui-autocomplete-input
+{ 
+    width: 700px;
+}
+.title .ui-autocomplete-input
+{ 
+    width: 700px
+}
 </style>
-  <script>  (function( $ ) {
+  <script>  
+     (function( $ ) {
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<span>" )
@@ -278,8 +200,9 @@ jQuery(document).ready(function( $ ) {
           .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
           .autocomplete({
             delay: 0,
-            minLength: 0,
-            source: $.proxy( this, "_source" )
+            minLength: 3,
+            source: $.proxy( this, "_source" ),
+            open: function(event, ui) { $(this).autocomplete("widget").css({ "width": 400 }); }
           })
           .tooltip({
             tooltipClass: "ui-state-highlight"
@@ -384,25 +307,20 @@ jQuery(document).ready(function( $ ) {
       }
     });
   })( jQuery );
- 
+  
   $(function($) {
-    $( "#basica_nombre" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_nombre" ).toggle();
+    $( "#establecimiento_nombre" ).combobox();
+    $( "#slider-range-min" ).slider({
+      range: "min",
+      value: 7,
+      min: 1,
+      max: 25,
+      slide: function( event, ui ) {
+        $( "#limite" ).val( "" + ui.value );
+      }
     });
-    $( "#basica_departamento" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_nombre" ).toggle();
-    });
-    $( "#basica_municipio" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_departamento" ).toggle();
-    });
-    $( "#basica_establecimiento" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#basica_establecimiento" ).toggle();
-    });
+    $( "#limite" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
   });
   </script>
 {% endblock %}
-{% block body_tag %}onload="initialize()"{% endblock %}
+{% block body_tag %}onload="init()"{% endblock %}
