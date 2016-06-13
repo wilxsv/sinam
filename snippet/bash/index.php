@@ -45,7 +45,7 @@ function iterar_siaps($maestro, $cliente) {
 		if ($nodo->system == 'SIAP' && $nodo->driver == 'PDO_PGSQL'){
 			$DUMP_FILE = uniqid();
 			$DUMP_TMP = uniqid();
-			$comando = "PGPASSWORD=$nodo->passwd pg_dump $nodo->name --host $nodo->host --port $nodo->port --username $nodo->user --format plain --data-only --disable-triggers --encoding UTF8\
+			$comando = "PGPASSWORD=$nodo->passwd pg_dump $nodo->name --host $nodo->host --port $nodo->port --username $nodo->user --format plain --data-only --disable-triggers --encoding UTF8 --no-owner\
 	    --no-privileges --no-tablespaces --disable-dollar-quoting --verbose --no-unlogged-table-data --file \"$DUMP_FILE\" --table \"farm_medicinaexistenciaxarea\" --table \"mnt_areafarmaciaxestablecimiento\"";
 			$output = shell_exec($comando);
 			$comando = "echo \"SET search_path = last, pg_catalog;\" > $DUMP_TMP && echo \"SELECT last.limpia_tablas_finales();\" >> $DUMP_TMP && ";

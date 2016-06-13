@@ -307,7 +307,7 @@ jQuery(document).ready(function( $ ) {
       }
     });
   })( jQuery );
-  
+
   $(function($) {
     $( "#establecimiento_nombre" ).combobox();
     $( "#slider-range-min" ).slider({
@@ -321,6 +321,7 @@ jQuery(document).ready(function( $ ) {
     });
     $( "#limite" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
   });
+  /*g-recaptcha-response*/
   </script>
 {% endblock %}
 {% block body_tag %}onload="init()"{% endblock %}
