@@ -8,7 +8,7 @@
                 <div id="headingOne" role="tab" class="panel-heading">
                   <h4 class="panel-title">
                     <a aria-controls="collapseOne" aria-expanded="true" href="#collapseOne" data-parent="#accordion" data-toggle="collapse">
-                      Busqueda medicamento
+                      Búsqueda de Medicamento (Localización)
                     </a>
                   </h4>
                 </div>
@@ -17,16 +17,12 @@
                     <p>
                      <div id="respond">
                       <form class="commentform" method="post">
-                        
-                          Digite el nombre del medicamento
-                          <div class="ui-widget"><select id="basica_nombre" style="width: 90%" >
-                            <option value="">Ingrese el medicamento</option>
-                            {% for item in todos %}
-                              <option value="{{item.idpro}}">{{item.nombre}}</option>
-                            {% endfor %}
-                          </select></div>
-                          <button id="establecimiento_save" class="submit-btn" type="submit">Buscar</button>
-                        
+                          <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
+                          {{ form_widget(form.nombre) }}<br/>
+                          <label class="required" for="basica_departamento">Ingresa su úbicación o algún lugar cercano de referencia</label><br/>
+                          {{ form_widget(form.lugar) }}
+                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
+                        <br/>
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
                         {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
@@ -45,6 +41,7 @@
                     </p>
                   </div>
                 </div>
+                <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
               </div>
             </div>
           </div>    
@@ -60,6 +57,50 @@
 </div>
 <div  id="Map" class="col-sm-8" style="height: 400px;></div>
 <div  id="resultado" class="col-sm-12"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#establecimiento_save').click(function(){
+        var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
+        if($('#g-recaptcha-response').val() == 0){
+          $('#msg').html(msg);
+          return false;
+        }
+        if($('#g-recaptcha-response').val() == ''){
+          $('#msg').html(msg);
+          return false;
+        }
+        $('#msg').html('');
+           $('#resultado').html('');
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_busqueda') }}?tipo=0&nombre=" + $('#establecimiento_nombre').val()+"&max="+$('#limite').val(),
+                success: function(data) {
+                    // Remove current options
+                    $('#resultado').html(data);
+                }
+            });
+            return false;
+        });
+        $('#establecimiento_type_save').click(function(){
+           $('#resultado').html('');
+           var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#establecimiento_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&max="+$('#limite').val(),
+                success: function(data) {
+                    $('#resultado').html(data);
+                }
+            });
+            return false;
+        });
+        $('input[type="checkbox"]').click(function(){
+        if($(this).attr("value")=="red"){
+            $(".red").toggle();
+        }
+    });
+    });
+</script>
 {% endblock %}
 {% block js_head %}
  <script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
@@ -150,166 +191,9 @@ jQuery(document).ready(function( $ ) {
       document.getElementById("basica_establecimiento").disabled=false;
     }
   }
-</script>
-<style>
-  .custom-combobox {
-    position: relative;
-    display: inline-block;
-  }
-  .custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-  }
-  .custom-combobox-input {
-    margin: 0;
-    padding: 5px 10px;
-  }
-  .ui-autocomplete-input
-{ 
-    width: 700px;
-}
-.title .ui-autocomplete-input
-{ 
-    width: 700px
-}
-</style>
-  <script>  
-     (function( $ ) {
-    $.widget( "custom.combobox", {
-      _create: function() {
-        this.wrapper = $( "<span>" )
-          .addClass( "custom-combobox" )
-          .insertAfter( this.element );
- 
-        this.element.hide();
-        this._createAutocomplete();
-        this._createShowAllButton();
-      },
- 
-      _createAutocomplete: function() {
-        var selected = this.element.children( ":selected" ),
-          value = selected.val() ? selected.text() : "";
- 
-        this.input = $( "<input>" )
-          .appendTo( this.wrapper )
-          .val( value )
-          .attr( "title", "" )
-          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
-          .autocomplete({
-            delay: 0,
-            minLength: 3,
-            source: $.proxy( this, "_source" ),
-            open: function(event, ui) { $(this).autocomplete("widget").css({ "width": 400 }); }
-          })
-          .tooltip({
-            tooltipClass: "ui-state-highlight"
-          });
- 
-        this._on( this.input, {
-          autocompleteselect: function( event, ui ) {
-            ui.item.option.selected = true;
-            this._trigger( "select", event, {
-              item: ui.item.option
-            });
-          },
- 
-          autocompletechange: "_removeIfInvalid"
-        });
-      },
- 
-      _createShowAllButton: function() {
-        var input = this.input,
-          wasOpen = false;
- 
-        $( "<a>" )
-          .attr( "tabIndex", -1 )
-          .attr( "title", "Show All Items" )
-          .tooltip()
-          .appendTo( this.wrapper )
-          .button({
-            icons: {
-              primary: "ui-icon-triangle-1-s"
-            },
-            text: false
-          })
-          .removeClass( "ui-corner-all" )
-          .addClass( "custom-combobox-toggle ui-corner-right" )
-          .mousedown(function() {
-            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-          })
-          .click(function() {
-            input.focus();
- 
-            // Close if already visible
-            if ( wasOpen ) {
-              return;
-            }
- 
-            // Pass empty string as value to search for, displaying all results
-            input.autocomplete( "search", "" );
-          });
-      },
- 
-      _source: function( request, response ) {
-        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-        response( this.element.children( "option" ).map(function() {
-          var text = $( this ).text();
-          if ( this.value && ( !request.term || matcher.test(text) ) )
-            return {
-              label: text,
-              value: text,
-              option: this
-            };
-        }) );
-      },
- 
-      _removeIfInvalid: function( event, ui ) {
- 
-        // Selected an item, nothing to do
-        if ( ui.item ) {
-          return;
-        }
- 
-        // Search for a match (case-insensitive)
-        var value = this.input.val(),
-          valueLowerCase = value.toLowerCase(),
-          valid = false;
-        this.element.children( "option" ).each(function() {
-          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-            this.selected = valid = true;
-            return false;
-          }
-        });
- 
-        // Found a match, nothing to do
-        if ( valid ) {
-          return;
-        }
- 
-        // Remove invalid value
-        this.input
-          .val( "" )
-          .attr( "title", value + " didn't match any item" )
-          .tooltip( "open" );
-        this.element.val( "" );
-        this._delay(function() {
-          this.input.tooltip( "close" ).attr( "title", "" );
-        }, 2500 );
-        this.input.autocomplete( "instance" ).term = "";
-      },
- 
-      _destroy: function() {
-        this.wrapper.remove();
-        this.element.show();
-      }
-    });
-  })( jQuery );
-
+</script> 
+<script> 
   $(function($) {
-    $( "#establecimiento_nombre" ).combobox();
     $( "#slider-range-min" ).slider({
       range: "min",
       value: 7,
@@ -322,6 +206,55 @@ jQuery(document).ready(function( $ ) {
     $( "#limite" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
   });
   /*g-recaptcha-response*/
+  </script>
+
+    <script>
+  $(function($) {
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#establecimiento_nombre" )
+      // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        source: function( request, response ) {
+          $.getJSON( "jsonmedicamentos", {
+            term: extractLast( request.term )
+          }, response );
+        },
+        search: function() {
+          // custom minLength
+          var term = extractLast( this.value );
+          if ( term.length < 4 ) {
+            return false;
+          }
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( "" );
+          return false;
+        }
+      });
+  });
   </script>
 {% endblock %}
 {% block body_tag %}onload="init()"{% endblock %}

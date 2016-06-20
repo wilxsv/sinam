@@ -40,7 +40,7 @@ class DefaultController extends Controller
         	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
 
         
-		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'todos' => $farmCatalogoproductos, 'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
+		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
     }
 
     public function alternativoAction(Request $request)
@@ -60,24 +60,25 @@ class DefaultController extends Controller
         	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
 
         
-		return $this->render('SinamCoreBundle:Consulta:alternativo.html.twig', array( 'form' => $form->createView(), 'todos' => $farmCatalogoproductos, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
+		return $this->render('SinamCoreBundle:Consulta:alternativo.html.twig', array( 'form' => $form->createView(), 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
     }
     
-        public function ajaxAction(Request $request) {
+        public function ajaxAction(Request $request) 
+    {
         if (! $request->isXmlHttpRequest()) {
             throw new NotFoundHttpException();
         }
         $em = $this->getDoctrine()->getEntityManager();
         if ($request->query->get('tipo') == 0 && $request->query->get('nombre') != NULL){
         
-        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), 0, 0, 0 );
+        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), 0, 0, 0, 7 );
             $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), 0, 0, 0 );
             $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
         	return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap ));
 		
         } elseif ($request->query->get('tipo') == 1 && $request->query->get('nombre') != NULL){
         
-        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
+        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
             $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
             $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
 			return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => true ));
@@ -129,5 +130,15 @@ class DefaultController extends Controller
 		}else{
 			return new JsonResponse($result);
 		}
+    }
+
+    public function jsonmedicamentosAction(Request $request)
+    {   
+        $term = trim( strtolower( $request->query->get('term') ) );
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery("SELECT m.nombre AS value FROM SinamCoreBundle:SabCatCatalogoproductos m WHERE m.idTipoproducto >= 1 AND LOWER(m.nombre) LIKE '%$term%' ORDER BY m.nombre ASC");
+        $array = $query->getArrayResult();
+
+        return new JsonResponse($array);
     }
 }

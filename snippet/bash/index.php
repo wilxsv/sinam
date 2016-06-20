@@ -1,5 +1,5 @@
 <?php
-/**
+/** aDm1n$TR8r
  * Rutina de consulta, extraccion y carga de datos de diferentes 
  * fuentes de datos a usando el estandar SQL:2008.
  * El objetivo es mantener un repositorio de registros de bases SIAP y

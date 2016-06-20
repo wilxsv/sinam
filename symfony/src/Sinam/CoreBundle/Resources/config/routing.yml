@@ -14,9 +14,17 @@ sinam_core_homepage:
 sinam_busqueda:
     path:     /buscar
     defaults: { _controller: SinamCoreBundle:Default:search }
+    
 ajax_busqueda:
     path:     /buscarajax
     defaults: { _controller: SinamCoreBundle:Default:ajax }
+    methods:  [GET|HEAD|POST]
+    requirements:
+        _method:  POST|GET
+
+jsonmedicamentos:
+    path:     /jsonmedicamentos
+    defaults: { _controller: SinamCoreBundle:Default:jsonmedicamentos }
     methods:  [GET|HEAD|POST]
     requirements:
         _method:  POST|GET

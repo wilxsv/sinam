@@ -269,6 +269,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // jsonmedicamentos
+        if ($pathinfo === '/jsonmedicamentos') {
+            if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                goto not_jsonmedicamentos;
+            }
+
+            return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\DefaultController::jsonmedicamentosAction',  '_route' => 'jsonmedicamentos',);
+        }
+        not_jsonmedicamentos:
+
         // por_establecimiento
         if ($pathinfo === '/consulta_establecimiento') {
             if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {

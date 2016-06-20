@@ -1,6 +1,7 @@
 {% extends 'SinamCoreBundle::default.html.twig' %}
 {% block body %}
 <div class="col-sm-12">
+           <div  id="msg" ></div>
           <div class="service-accordion">
            <div class="accordion">
             <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
@@ -17,13 +18,8 @@
                     <p>
                      <div id="respond">
                       <form class="commentform" method="post">
-                          <label class="required" for="basica_departamento">Digite el nombre del medicamento</label><br/>
-                          <select id="basica_nombre">
-                            <option value="">Ingrese el medicamento</option>
-                            {% for item in todos %}
-                              <option value="{{item.id}}">{{item.nombre}}</option>
-                            {% endfor %}
-                          </select>
+                          <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
+                          {{ form_widget(form.nombre) }}
                           <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
                         <br/>
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
@@ -48,17 +44,20 @@
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
                           </select><br />
+                        Numero de establecimientos: 
+                          <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                          <div id="slider-range-min"></div><br />
                          <p align="right">
                           <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
                          </p> 
                         </div>
-                      </form>
                      </div>
                      <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
                     </p>
                   </div>
                 </div>
               </div>
+                      </form>
             </div>
           </div><!-- /.accordion -->      
         </div><!-- /.service-accordion -->
@@ -66,10 +65,20 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#establecimiento_save').click(function(){
+        var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
+        if($('#g-recaptcha-response').val() == 0){
+          $('#msg').html(msg);
+          return false;
+        }
+        if($('#g-recaptcha-response').val() == ''){
+          $('#msg').html(msg);
+          return false;
+        }
+        $('#msg').html('');
            $('#resultado').html('');
            $.ajax({
                 type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=0&nombre=" + $('#basica_nombre').val(),
+                url: "{{ url('ajax_busqueda') }}?tipo=0&nombre=" + $('#basica_nombre').val()+"&max="+$('#limite').val(),
                 success: function(data) {
                     // Remove current options
                     $('#resultado').html(data);
@@ -78,11 +87,21 @@
             return false;
         });
         $('#establecimiento_type_save').click(function(){
+        var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
+        if($('#g-recaptcha-response').val() == 0){
+          $('#msg').html(msg);
+          return false;
+        }
+        if($('#g-recaptcha-response').val() == ''){
+          $('#msg').html(msg);
+          return false;
+        }
+        $('#msg').html('');
            $('#resultado').html('');
            var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
            $.ajax({
                 type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#basica_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val(),
+                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#basica_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&max="+$('#limite').val(),
                 success: function(data) {
                     $('#resultado').html(data);
                 }
@@ -214,7 +233,7 @@ jQuery(document).ready(function( $ ) {
           .autocomplete({
             delay: 0,
             minLength: 3,
-            source: $.proxy( this, "_source" ),
+            source: 'jsonmedicamentos',//$.proxy( this, "_source" ),
             open: function(event, ui) { $(this).autocomplete("widget").css({ "width": 400 }); }
           })
           .tooltip({
@@ -322,7 +341,65 @@ jQuery(document).ready(function( $ ) {
   })( jQuery );
  
   $(function($) {
-    $( "#basica_nombre" ).combobox();
+    $( "#slider-range-min" ).slider({
+      range: "min",
+      value: 7,
+      min: 1,
+      max: 25,
+      slide: function( event, ui ) {
+        $( "#limite" ).val( "" + ui.value );
+      }
+    });
+    $( "#limite" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
+  });
+  </script>
+
+    <script>
+  $(function($) {
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#basica_nombre" )
+      // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        source: function( request, response ) {
+          $.getJSON( "jsonmedicamentos", {
+            term: extractLast( request.term )
+          }, response );
+        },
+        search: function() {
+          // custom minLength
+          var term = extractLast( this.value );
+          if ( term.length < 4 ) {
+            return false;
+          }
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( "" );
+          return false;
+        }
+      });
   });
   </script>
 {% endblock %}
