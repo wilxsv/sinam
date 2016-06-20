@@ -63,7 +63,7 @@
         </div><!-- /.service-accordion -->
         <div  id="resultado" ></div>
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function ( $ ) {
         $('#establecimiento_save').click(function(){
         var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
         if($('#g-recaptcha-response').val() == 0){
