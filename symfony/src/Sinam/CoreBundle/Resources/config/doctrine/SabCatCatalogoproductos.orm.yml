@@ -1,0 +1,77 @@
+Sinam\CoreBundle\Entity\SabCatCatalogoproductos:
+    type: entity
+    table: sab_cat_catalogoproductos
+    id:
+        idpro:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codigo:
+            type: string
+            nullable: false
+            length: 8
+            fixed: false
+        idTipoproducto:
+            type: bigint
+            nullable: false
+            unsigned: false
+            column: id_tipoproducto
+        idUnidadmedida:
+            type: bigint
+            nullable: false
+            unsigned: false
+            column: id_unidadmedida
+        nombre:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+        niveluso:
+            type: smallint
+            nullable: false
+            unsigned: false
+        concentracion:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+        formafarmaceutica:
+            type: string
+            nullable: true
+            length: 100
+            fixed: false
+        presentacion:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+        pertenecelistadooficial:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+        estadoproducto:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '(1)::numeric'
+        observacion:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+        clasificacion:
+            type: string
+            nullable: true
+            length: 1
+            fixed: true
+    lifecycleCallbacks: {  }

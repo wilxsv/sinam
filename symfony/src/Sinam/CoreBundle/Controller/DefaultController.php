@@ -9,6 +9,7 @@ use Sinam\CoreBundle\Form\BusquedaBasicaType;
 use Sinam\CoreBundle\Form\BusquedaEstablecimientoType;
 
 use Sinam\CoreBundle\Entity\FarmCatalogoproductos;
+use Sinam\CoreBundle\Entity\CtlMunicipio;
 use Sinam\CoreBundle\Form\FarmCatalogoproductosType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,47 +18,75 @@ use Doctrine\ORM\EntityRepository;
 class DefaultController extends Controller
 {
     public function indexAction(Request $request)
-    {
-		$form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
-		$rest = false;
-		$form->handleRequest($request);
-		if ($form->isValid()) {
-			$repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmCatalogoproductos');
-			$query = $repository->createQueryBuilder('p')->where("p.nombre LIKE :nombre")->setParameter('nombre', "%".$form->get('nombre')->getData()."%")->getQuery();
-			$rest = $query->getResult();
-        }
-		
-        return $this->render('SinamCoreBundle:Default:index.html.twig', array( 'form' => $form->createView(), 'rest'=>$rest ));
+    {	
+        return $this->render('SinamCoreBundle:Default:index.html.twig');
     }
     
     public function searchAction(Request $request)
     {
-		$options = new FarmCatalogoproductos();
-		//$form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
-		$form = $this->createForm(new BusquedaEstablecimientoType($this->getDoctrine()->getManager()), $options);
-		$form2 = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
-		$form3 = $this->createForm('Sinam\CoreBundle\Form\BusquedaHistorialType');
-		$rest = false;
+		$form = $form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
 		$form->handleRequest($request);
 		if ($form->isValid()) {
-			$repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmCatalogoproductos');
-			$query = $repository->createQueryBuilder('p')->where("p.nombre LIKE :nombre")->setParameter('nombre', "%".$form->get('nombre')->getData()."%")->getQuery();
-			$rest = $query->getResult();
         }
- 		$repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmCatalogoproductos');
-    	$query = $repository->createQueryBuilder('p')
-    	->where("p.presentacion != ''")
-		->groupBy('p.presentacion, p.id')
-		->orderBy('p.presentacion', 'ASC')->getQuery();
-		$rest = $query->getResult();
+
+        $em = $this->getDoctrine()->getManager();
+        $depto = $em->getRepository('SinamCoreBundle:CtlDepartamento')->findByidPais( 68 );
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlMunicipio');
+        $ctlMunicipios = $repository->createQueryBuilder('p')->select('p.id, p.nombre')->addSelect('d.id AS depto')
+        	->innerJoin('p.idDepartamento', 'd')->where('p.idDepartamento = d.id')->getQuery()->getResult();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlEstablecimiento');
+        $CtlEstablecimiento = $repository->createQueryBuilder('e')->select('e.id, e.nombre')->addSelect('m.id AS idMunicipio')
+        	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
+
         
-		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'form2' => $form2->createView(), 'form3' => $form3->createView(), 'rest'=>$rest, 'select' => $query->getResult() ));
+		return $this->render('SinamCoreBundle:Default:search.html.twig', array( 'form' => $form->createView(), 'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
+    }
+
+    public function alternativoAction(Request $request)
+    {
+		$form = $form = $this->createForm('Sinam\CoreBundle\Form\BusquedaBasicaType');
+		$form->handleRequest($request);
+		if ($form->isValid()) {
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $farmCatalogoproductos = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findAll();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlMunicipio');
+        $ctlMunicipios = $repository->createQueryBuilder('p')->select('p.id, p.nombre')->addSelect('d.id AS depto')
+        	->innerJoin('p.idDepartamento', 'd')->where('p.idDepartamento = d.id')->getQuery()->getResult();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlEstablecimiento');
+        $CtlEstablecimiento = $repository->createQueryBuilder('e')->select('e.id, e.nombre')->addSelect('m.id AS idMunicipio')
+        	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
+
+        
+		return $this->render('SinamCoreBundle:Consulta:alternativo.html.twig', array( 'form' => $form->createView(), 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
     }
     
-        public function ajaxAction(Request $request) {
+        public function ajaxAction(Request $request) 
+    {
         if (! $request->isXmlHttpRequest()) {
             throw new NotFoundHttpException();
         }
+        $em = $this->getDoctrine()->getEntityManager();
+        if ($request->query->get('tipo') == 0 && $request->query->get('nombre') != NULL){
+        
+        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), 0, 0, 0, 7 );
+            $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), 0, 0, 0 );
+            $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
+        	return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap ));
+		
+        } elseif ($request->query->get('tipo') == 1 && $request->query->get('nombre') != NULL){
+        
+        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
+            $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
+            $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
+			return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => true ));
+		
+        } else {
+            $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
+			return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> FALSE, 'alt'=> $alt ));
+		}
+        ///////////////////////////////////////
         if ($request->query->get('depto_id') != null){
 			$id = $request->query->get('depto_id');
             $result = array();
@@ -82,13 +111,33 @@ class DefaultController extends Controller
 				->addSelect('s.direccion, s.nombre AS nombree')
 				->innerJoin('e.idmedicina', 'm')
 				->innerJoin('e.idestablecimiento', 's')
-				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND s.id =".$request->query->get('establecimiento'))
+				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND s.id =".$request->query->get('establecimiento')." AND e.existencia > 0 ")
 				->addSelect('m.nombre, m.formafarmaceutica, m.presentacion, e.existencia')
 				->getQuery();			
             return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=>$query->getResult() ));
 		}elseif($request->query->get('nombre') != null && $request->query->get('lat') != null && $request->query->get('lon') != null){
+            $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:FarmMedicinaexistenciaxarea');
+			$query = $repository->createQueryBuilder('e')
+				->select('e')
+				->addSelect('s.direccion, s.nombre AS nombree')
+				->innerJoin('e.idmedicina', 'm')
+				->innerJoin('e.idestablecimiento', 's')
+				->where("m.nombre LIKE '%".$request->query->get('nombre')."%' AND e.existencia > 0 ")
+				->addSelect('m.nombre, m.formafarmaceutica, m.presentacion, e.existencia')
+				->getQuery();			
+            return $this->render('SinamCoreBundle:Default:resultado.html.twig', array( 'rest'=>$query->getResult() ));
 		}else{
 			return new JsonResponse($result);
 		}
+    }
+
+    public function jsonmedicamentosAction(Request $request)
+    {   
+        $term = trim( strtolower( $request->query->get('term') ) );
+        $em = $this->getDoctrine()->getEntityManager();
+        $query = $em->createQuery("SELECT m.nombre AS value FROM SinamCoreBundle:SabCatCatalogoproductos m WHERE m.idTipoproducto >= 1 AND LOWER(m.nombre) LIKE '%$term%' ORDER BY m.nombre ASC");
+        $array = $query->getArrayResult();
+
+        return new JsonResponse($array);
     }
 }

@@ -51,6 +51,13 @@ class MntAreafarmaciaxestablecimiento
     private $cargaSinab;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="dispensar_seguimiento", type="boolean", nullable=true)
+     */
+    private $dispensarSeguimiento;
+
+    /**
      * @var \MntAreafarmacia
      *
      * @ORM\ManyToOne(targetEntity="MntAreafarmacia")
@@ -162,6 +169,29 @@ class MntAreafarmaciaxestablecimiento
     public function getCargaSinab()
     {
         return $this->cargaSinab;
+    }
+
+    /**
+     * Set dispensarSeguimiento
+     *
+     * @param boolean $dispensarSeguimiento
+     * @return MntAreafarmaciaxestablecimiento
+     */
+    public function setDispensarSeguimiento($dispensarSeguimiento)
+    {
+        $this->dispensarSeguimiento = $dispensarSeguimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get dispensarSeguimiento
+     *
+     * @return boolean 
+     */
+    public function getDispensarSeguimiento()
+    {
+        return $this->dispensarSeguimiento;
     }
 
     /**

@@ -1,5 +1,6 @@
 Sinam\CoreBundle\Entity\FarmCatalogoproductos:
     type: entity
+    repositoryClass: Sinam\CoreBundle\Repository\SinamRepository
     table: farm_catalogoproductos
     indexes:
         IDX_725517AAE12A4E52:
@@ -181,6 +182,12 @@ Sinam\CoreBundle\Entity\FarmCatalogoproductos:
             nullable: true
             unsigned: false
             comment: 'Cantidad de pastillas contenidas en cada Frasco'
+        cuantificable:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: 'Bandera que permite saber si un medicamento es cuantificable 0: No es cuantificable, 1: Es cuantificable'
+            default: '0'
     manyToOne:
         idunidadmedida:
             targetEntity: FarmUnidadmedidas

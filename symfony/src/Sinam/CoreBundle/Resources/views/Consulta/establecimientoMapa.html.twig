@@ -1,0 +1,70 @@
+ <section id="services" class="services">
+ <div id="comments" class="comments">
+  <div class="comments-area">
+   {% set max = 100 %}
+   {% set id = 0 %}
+   {% if rest == true %}
+    {% set med = 0 %}
+    {% for item in rest %}
+    {% set id = id + 1 %}
+    {% if med == 0 %}
+      <h3 class="comment-title">{{ item.nombre }}</h3>
+      <p>Descripción: {{ item.observacion}}<br/>
+      Presentación: {{ item.presentacion}}</p>
+      {% set med = 1 %}
+    {% endif %}
+    {% if id < max %}
+      <div class="comments-details">
+        <ul class="comment-list">
+         <li class="parent">
+          <article class="comment">
+           <div class="comment-author"></div>
+            <div class="comment-content">
+            <h4 class="author-name pull-left">Establecimiento: {{ item.establecimiento }} 
+            {% if item.latitud != 0 %}
+              <a target="_blank" href="whatsapp://send?data-text=Instrucciones para llegar a : <a></a>" data-href"minsal"><span class="label label-success pull-right">Enviar por whatsapp</span></a> <a target="_blank" href="http://maps.google.com/maps/?saddr=san salvador&daddr={{item.latitud}},{{item.longitud}}"><span class="label label-info pull-right">¿como llegar?</span></a> <a target="_blank" href="//waze.to/?q={{item.latitud}},{{item.longitud}}"><span class="label label-warning pull-right">ver en waze</span></a>
+            {% endif %}</h4>
+            <p>Municipio: {{ item.municipio }}, Departamento: {{ item.depto }}<br/>
+            <b>Existencias: {{ item.cantidaddisponible|number_format(0, '.', ',') }} {{ item.unidad }} [Almacén: {{ item.almacen }}]</b>
+            </p>
+            {% for s in siap %}
+              {% if s.id == item.id %}
+                <p><b>Farmacia: {{ s.farmacia }}</b><br/>Existencias: {{ s.existencia|number_format(0, '.', ',') }} {{ s.unidad }}</p>
+              {% endif %}
+            {% endfor %}
+          </div>
+          </article>
+         </li>
+        </ul>
+      </div>
+    {% endif %}
+    {% endfor %}
+   {% else %}<div class="item">
+      <div class="row">
+      <p align="center">
+        <div class="alert alert-warning" role="alert"><strong>Aviso!</strong> No encontramos un lugar de referencia con ese nombre<br />
+       Se recomienda hacer nombrar el lugar como:  "lugar, departamento"</div>
+
+        <div class="alert alert-danger" role="alert">
+          <p><strong>:: No se encontraron existencias ::</strong></p>
+          <p>No se pudo encontrar el medicamento búscado, Intente repetir la búsqueda utilizando los filtros o consulte los medicamentos de la tabla de medicamentos alternativos para hacer una nueva búsqueda.</p>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h2 class="panel-title">Medicamentos alternativos</h2></div>
+          <div class="panel-body">
+            <table class="table table-condensed">
+             <thead><th><b>Medicamento</b></th><th><b>Medicamento Alternativo</b></th></thead>
+             {% for item in alt %}
+              <tr><td>{{ item.nombre }}</td><td>{{ item.alternativa }}</td></tr>
+             {% endfor %}
+            </table> 
+          </div>
+        </div>
+      </p>
+      </div>
+     </div>
+   {% endif %}
+   </div>
+  </div>
+ </section>
+ <div  id="Mapa" class="col-sm-12"></div>

@@ -1,0 +1,36 @@
+Sinam\CoreBundle\Entity\SabCatUnidadmedidas:
+    type: entity
+    table: sab_cat_unidadmedidas
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        descripcion:
+            type: string
+            nullable: false
+            length: 6
+            fixed: false
+        descripcionlarga:
+            type: string
+            nullable: true
+            length: 30
+            fixed: false
+        unidadescontenidas:
+            type: integer
+            nullable: false
+            unsigned: false
+        cantidaddecimal:
+            type: smallint
+            nullable: true
+            unsigned: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    lifecycleCallbacks: {  }

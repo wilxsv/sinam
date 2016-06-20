@@ -1,6 +1,10 @@
 Sinam\CoreBundle\Entity\CtlMunicipio:
     type: entity
     table: ctl_municipio
+    indexes:
+        IDX_914172ED6325E299:
+            columns:
+                - id_departamento
     id:
         id:
             type: integer
@@ -30,10 +34,31 @@ Sinam\CoreBundle\Entity\CtlMunicipio:
             length: 5
             fixed: false
             comment: 'Abreviatura asignada al municipio'
+    manyToOne:
         idDepartamento:
-            type: integer
-            nullable: false
-            unsigned: false
-            comment: 'Representa la llave foranea que proviene de ctl_departamento'
-            column: id_departamento
+            targetEntity: CtlDepartamento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_departamento:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        idSinab:
+            targetEntity: SabCatMunicipios
+            cascade: {  }
+            mappedBy: null
+            inversedBy: idSiap
+            joinTable:
+                name: ctl_alias_municipio
+                joinColumns:
+                    -
+                        name: id_siap
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    -
+                        name: id_sinab
+                        referencedColumnName: id
+            orderBy: null
     lifecycleCallbacks: {  }

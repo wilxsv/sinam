@@ -303,8 +303,4 @@ class FarmUnidadmedidas
     {
         return $this->estasincronizada;
     }
-    
-    public function __toString() {
-    return $this->descripcion;
-}
 }

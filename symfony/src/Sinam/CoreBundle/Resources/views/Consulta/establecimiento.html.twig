@@ -1,0 +1,262 @@
+{% extends 'SinamCoreBundle::default.html.twig' %}
+{% block body %}
+<div class="col-sm-12">
+          <div  id="msg" ></div>
+          <div class="service-accordion">
+           <div class="accordion">
+            <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
+              <div class="panel panel-default">
+                <div id="headingOne" role="tab" class="panel-heading">
+                  <h4 class="panel-title">
+                    <a aria-controls="collapseOne" aria-expanded="true" href="#collapseOne" data-parent="#accordion" data-toggle="collapse">
+                      Búsqueda de Medicamento (Localización)
+                    </a>
+                  </h4>
+                </div>
+                <div aria-labelledby="headingOne" role="tabpanel" class="panel-collapse collapse in" id="collapseOne" aria-expanded="true">
+                  <div class="panel-body">
+                    <p>
+                     <div id="respond">
+                      <form class="commentform" method="post">
+                          <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
+                          {{ form_widget(form.nombre) }}<br/>
+                          <label class="required" for="basica_departamento">Ingresa su úbicación o algún lugar cercano de referencia</label><br/>
+                          {{ form_widget(form.lugar) }}
+                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
+                        <br/>
+                        <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
+                        <div class="filtro box">
+                        {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
+                        {{ form_label(form.municipio) }}<br />{{ form_widget(form.municipio) }}<br />
+                        {{ form_label(form.establecimiento) }}<br />{{ form_widget(form.establecimiento) }}<br />
+                        Numero de establecimientos: 
+                          <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                          <div id="slider-range-min"></div><br />
+                         <p align="right">
+                          <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
+                         </p> 
+
+                        </div>
+                      </form>
+                     </div>
+                    </p>
+                  </div>
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
+              </div>
+            </div>
+          </div>    
+        </div>
+</div>
+<div  id="resultado2" class="col-sm-12"></div>
+<div id="resMap" class="col-sm-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
+      <div class="panel-body">
+        <br /><br /><br /><br />
+      </div>
+    </div>
+</div>
+<div  id="Map" class="col-sm-8" style="height: 400px;></div>
+<div  id="resultado" class="col-sm-12"></div>
+
+<script type="text/javascript">
+    $(document).ready(function ( $ ) {
+        $('#establecimiento_save').click(function(){
+        var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
+        /*if($('#g-recaptcha-response').val() == 0){
+          $('#msg').html(msg);
+          return false;
+        }
+        if($('#g-recaptcha-response').val() == ''){
+          $('#msg').html(msg);
+          return false;
+        }*/
+        $('#msg').html('');
+           $('#resultado2').html('');
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_localidad') }}?tipo=0&nombre=" + $('#establecimiento_nombre').val()+"&lugar="+$('#establecimiento_lugar').val()+"&max="+$('#limite').val(),
+                success: function(data) {
+                    // Remove current options
+                    $('#resultado2').html(data);
+                }
+            });
+            return false;
+        });
+        $('#establecimiento_type_save').click(function(){
+           $('#resultado2').html('');
+           var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
+           $.ajax({
+                type: "POST",
+                url: "{{ url('ajax_localidad') }}?tipo=1&nombre=" + $('#establecimiento_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&lugar="+$('#establecimiento_lugar').val()+"&max="+$('#limite').val(),
+                success: function(data) {
+                    $('#resultado2').html(data);
+                }
+            });
+            return false;
+        });
+        $('input[type="checkbox"]').click(function(){
+        if($(this).attr("value")=="red"){
+            $(".red").toggle();
+        }
+    });
+    });
+</script>
+{% endblock %}
+{% block js_head %}
+ <script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
+    <script type="text/javascript">
+        var lon = -89.218846;
+        var lat = 13.697911;
+        var zoom = 9;
+        var map, layer;
+
+        function init(){
+          map = new OpenLayers.Map("Basico");
+          var mapnik         = new OpenLayers.Layer.OSM();
+          var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+          var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+          var position       = new OpenLayers.LonLat(lon,lat).transform( fromProjection, toProjection);
+
+            map = new OpenLayers.Map( 'Map' );
+            layer = new OpenLayers.Layer.MapServer( "Establecimientos", 
+                    "https://geo.salud.gob.sv/cgi-bin/mapserv?MAP=/var/www/geo/geo/maps/wms/minsal.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=minsal&SRS=EPSG:4326&BBOX=-90.1913,12.7068,-87.6231,14.9026&FORMAT=image/png", {layers: 'basic'},
+                    {gutter: 15});
+
+            map.addLayer(layer);
+            map.addLayer(mapnik);
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            map.addControl( new OpenLayers.Control.LayerSwitcher() );
+        }
+        
+    </script>
+    <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-bootstrap-master/jquery.ui.theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
+    <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
+    <script src="{{ asset('assets/css/jquery-ui/jquery-ui.js') }}"></script>
+<style type="text/css">
+    .box{
+        padding: 20px;
+        display: none;
+        margin-top: 20px;
+        border: 1px solid #000;
+    }
+</style>
+<script type="text/javascript">
+jQuery(document).ready(function( $ ) {
+    $('input[type="checkbox"]').click(function(){
+        if($(this).attr("value")=="filtro"){
+            $(".filtro").toggle();
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+  function cargarMun(valor) {
+    var arrayValores=new Array( 
+      {% for item in muni %}
+        new Array({{item.depto}},{{item.id}},"{{item.nombre}}"),
+      {% endfor %}
+      new Array(-1,1,"") );
+    if(valor==0) {
+      document.getElementById("basica_municipio").options.length=0;
+      document.getElementById("basica_establecimiento").options.length=0;
+      document.getElementById("basica_municipio").disabled=true; 
+      document.getElementById("basica_establecimiento").disabled=true; 
+    }else{
+      document.getElementById("basica_municipio").options.length=0;
+      document.getElementById("basica_municipio").options[0]=new Option("Selecciona un municipio", "0");
+      for(i=0;i<arrayValores.length;i++) {
+        if(arrayValores[i][0]==valor) { 
+          document.getElementById("basica_municipio").options[document.getElementById("establecimiento_municipio").options.length]=new Option( arrayValores[i][2], arrayValores[i][1]);
+        }
+      }
+      document.getElementById("establecimiento_municipio").disabled=false;
+    }
+  }
+  function cargarEsta(valor) {
+    var arrayValores=new Array( 
+      {% for item in establecimiento %}
+        new Array({{item.idMunicipio}},{{item.id}},"{{item.nombre}}"),
+      {% endfor %}
+      new Array(-1,1,"") );
+    if(valor>0) {
+      document.getElementById("basica_establecimiento").options.length=0;
+      document.getElementById("basica_establecimiento").options[0]=new Option("Selecciona un establecimiento", "0");
+      for(i=0;i<arrayValores.length;i++) {
+        if(arrayValores[i][0]==valor) { 
+          document.getElementById("basica_establecimiento").options[document.getElementById("basica_establecimiento").options.length]=new Option(arrayValores[i][2], arrayValores[i][1]);
+        } 
+      }
+      document.getElementById("basica_establecimiento").disabled=false;
+    }
+  }
+</script> 
+<script> 
+  $(function($) {
+    $( "#slider-range-min" ).slider({
+      range: "min",
+      value: 7,
+      min: 1,
+      max: 25,
+      slide: function( event, ui ) {
+        $( "#limite" ).val( "" + ui.value );
+      }
+    });
+    $( "#limite" ).val( "" + $( "#slider-range-min" ).slider( "value" ) );
+  });
+  /*g-recaptcha-response*/
+  </script>
+
+    <script>
+  $(function($) {
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $( "#establecimiento_nombre" )
+      // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).autocomplete( "instance" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        source: function( request, response ) {
+          $.getJSON( "jsonmedicamentos", {
+            term: extractLast( request.term )
+          }, response );
+        },
+        search: function() {
+          // custom minLength
+          var term = extractLast( this.value );
+          if ( term.length < 4 ) {
+            return false;
+          }
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          // remove the current input
+          terms.pop();
+          // add the selected item
+          terms.push( ui.item.value );
+          // add placeholder to get the comma-and-space at the end
+          terms.push( "" );
+          this.value = terms.join( "" );
+          return false;
+        }
+      });
+  });
+  </script>
+{% endblock %}
+{% block body_tag %}onload="init()"{% endblock %}

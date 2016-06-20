@@ -7,7 +7,7 @@
       <div class="row">
       <p>
        <h3>{{item.nombre}}</h3>
-       Existencias: {{item.existencia}}<br />
+       Existencias: {{item.existencia|number_format(0, '.', ',')}}<br />
        Forma: {{item.formafarmaceutica}}<br />
        Presentación: {{item.presentacion}}<br />
        Establecimiento: {{item.nombree}}<br />

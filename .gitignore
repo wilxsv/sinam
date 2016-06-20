@@ -1,3 +1,3 @@
 *parameters.yml
-symfony/app/cache/*
-symfony/app/logs/*
+/symfony/app/cache/*
+/symfony/app/logs/*

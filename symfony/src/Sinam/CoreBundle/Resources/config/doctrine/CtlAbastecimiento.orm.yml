@@ -1,0 +1,53 @@
+Sinam\CoreBundle\Entity\CtlAbastecimiento:
+    type: entity
+    table: ctl_abastecimiento
+    indexes:
+        IDX_C36938037DFA12F6:
+            columns:
+                - id_establecimiento
+        IDX_C3693803F760EA80:
+            columns:
+                - id_producto
+    uniqueConstraints:
+        un_abastecimiento:
+            columns:
+                - id_producto
+                - id_establecimiento
+                - mes
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        mes:
+            type: bigint
+            nullable: false
+            unsigned: false
+        cantidad:
+            type: bigint
+            nullable: false
+            unsigned: false
+    manyToOne:
+        idEstablecimiento:
+            targetEntity: CtlEstablecimiento
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_establecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idProducto:
+            targetEntity: FarmCatalogoproductos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_producto:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

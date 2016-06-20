@@ -23,12 +23,11 @@
   <section id="main-content" class="main-content blog-post-singgle-page">
    <div class="container">
     <div class="row">
+     {% block body %}
      <div class="col-sm-8">
-      {% block body %}
        <!-- lateral -->
         {% include 'SinamCoreBundle::template/body.html.twig' %}
        <!-- //lateral -->
-      {% endblock %}
      </div>
      <div class="col-sm-4">
       {% block lateral %}
@@ -37,6 +36,7 @@
        <!-- //lateral -->
       {% endblock %}
      </div>
+    {% endblock %}
     </div>
    </div>
   </section>

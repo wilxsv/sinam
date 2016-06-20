@@ -6,118 +6,192 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * CtlEstablecimiento
+ *
+ * @ORM\Table(name="ctl_establecimiento", indexes={@ORM\Index(name="IDX_332BD42CEF433A34", columns={"id_institucion"}), @ORM\Index(name="IDX_332BD42C3544B551", columns={"id_establecimiento_padre"}), @ORM\Index(name="IDX_332BD42C7EAD49C7", columns={"id_municipio"})})
+ * @ORM\Entity
  */
 class CtlEstablecimiento
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="SEQUENCE")
+     * @ORM\SequenceGenerator(sequenceName="ctl_establecimiento_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_tipo_establecimiento", type="integer", nullable=false)
+     */
+    private $idTipoEstablecimiento;
+
+    /**
      * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="direccion", type="string", length=250, nullable=true)
      */
     private $direccion;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="telefono", type="string", length=15, nullable=true)
      */
     private $telefono;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="fax", type="string", length=15, nullable=true)
      */
     private $fax;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="latitud", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $latitud;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="longitud", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $longitud;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id_nivel_minsal", type="integer", nullable=true)
      */
     private $idNivelMinsal;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="cod_ucsf", type="integer", nullable=true)
      */
     private $codUcsf;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="activo", type="boolean", nullable=true)
      */
     private $activo;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="tipo_expediente", type="string", length=1, nullable=true)
      */
     private $tipoExpediente;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="configurado", type="boolean", nullable=true)
      */
     private $configurado;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="tipo_farmacia", type="boolean", nullable=true)
      */
     private $tipoFarmacia;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="dias_intermedios_citas", type="integer", nullable=true)
      */
     private $diasIntermediosCitas;
 
     /**
      * @var boolean
+     *
+     * @ORM\Column(name="citas_sin_expediente", type="boolean", nullable=true)
      */
     private $citasSinExpediente;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="tipo_impresion", type="integer", nullable=true)
      */
     private $tipoImpresion;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="minutoshora", type="integer", nullable=true)
      */
     private $minutoshora;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="tiempoprevioalacita", type="integer", nullable=true)
      */
     private $tiempoprevioalacita;
 
     /**
-     * @var \Sinam\CoreBundle\Entity\CtlInstitucion
+     * @var \CtlInstitucion
+     *
+     * @ORM\ManyToOne(targetEntity="CtlInstitucion")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_institucion", referencedColumnName="id")
+     * })
      */
     private $idInstitucion;
 
     /**
-     * @var \Sinam\CoreBundle\Entity\CtlEstablecimiento
+     * @var \CtlEstablecimiento
+     *
+     * @ORM\ManyToOne(targetEntity="CtlEstablecimiento")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_establecimiento_padre", referencedColumnName="id")
+     * })
      */
     private $idEstablecimientoPadre;
 
     /**
-     * @var \Sinam\CoreBundle\Entity\CtlMunicipio
+     * @var \CtlMunicipio
+     *
+     * @ORM\ManyToOne(targetEntity="CtlMunicipio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_municipio", referencedColumnName="id")
+     * })
      */
     private $idMunicipio;
 
     /**
-     * @var \Sinam\CoreBundle\Entity\CtlTipoEstablecimiento
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="FarmCatalogoproductos", mappedBy="idEstablecimiento")
      */
-    private $idTipoEstablecimiento;
+    private $idProducto;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idProducto = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -128,6 +202,29 @@ class CtlEstablecimiento
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set idTipoEstablecimiento
+     *
+     * @param integer $idTipoEstablecimiento
+     * @return CtlEstablecimiento
+     */
+    public function setIdTipoEstablecimiento($idTipoEstablecimiento)
+    {
+        $this->idTipoEstablecimiento = $idTipoEstablecimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get idTipoEstablecimiento
+     *
+     * @return integer 
+     */
+    public function getIdTipoEstablecimiento()
+    {
+        return $this->idTipoEstablecimiento;
     }
 
     /**
@@ -591,26 +688,35 @@ class CtlEstablecimiento
     }
 
     /**
-     * Set idTipoEstablecimiento
+     * Add idProducto
      *
-     * @param \Sinam\CoreBundle\Entity\CtlTipoEstablecimiento $idTipoEstablecimiento
+     * @param \Sinam\CoreBundle\Entity\FarmCatalogoproductos $idProducto
      * @return CtlEstablecimiento
      */
-    public function setIdTipoEstablecimiento(\Sinam\CoreBundle\Entity\CtlTipoEstablecimiento $idTipoEstablecimiento = null)
+    public function addIdProducto(\Sinam\CoreBundle\Entity\FarmCatalogoproductos $idProducto)
     {
-        $this->idTipoEstablecimiento = $idTipoEstablecimiento;
+        $this->idProducto[] = $idProducto;
 
         return $this;
     }
 
     /**
-     * Get idTipoEstablecimiento
+     * Remove idProducto
      *
-     * @return \Sinam\CoreBundle\Entity\CtlTipoEstablecimiento 
+     * @param \Sinam\CoreBundle\Entity\FarmCatalogoproductos $idProducto
      */
-    public function getIdTipoEstablecimiento()
+    public function removeIdProducto(\Sinam\CoreBundle\Entity\FarmCatalogoproductos $idProducto)
     {
-        return $this->idTipoEstablecimiento;
+        $this->idProducto->removeElement($idProducto);
     }
 
+    /**
+     * Get idProducto
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdProducto()
+    {
+        return $this->idProducto;
+    }
 }

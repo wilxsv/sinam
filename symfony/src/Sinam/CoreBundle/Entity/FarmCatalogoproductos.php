@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * FarmCatalogoproductos
  *
  * @ORM\Table(name="farm_catalogoproductos", indexes={@ORM\Index(name="IDX_725517AAE12A4E52", columns={"idunidadmedida"}), @ORM\Index(name="IDX_725517AAA382C6C4", columns={"idterapeutico"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Sinam\CoreBundle\Repository\SinamRepository")
  */
 class FarmCatalogoproductos
 {
@@ -226,6 +226,13 @@ class FarmCatalogoproductos
     private $divisormedicina;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="cuantificable", type="integer", nullable=true)
+     */
+    private $cuantificable;
+
+    /**
      * @var \FarmUnidadmedidas
      *
      * @ORM\ManyToOne(targetEntity="FarmUnidadmedidas")
@@ -245,6 +252,28 @@ class FarmCatalogoproductos
      */
     private $idterapeutico;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CtlEstablecimiento", inversedBy="idProducto")
+     * @ORM\JoinTable(name="ctl_abastecimiento",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_establecimiento", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $idEstablecimiento;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idEstablecimiento = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     /**
@@ -757,24 +786,24 @@ class FarmCatalogoproductos
      * Get idestablecimiento
      *
      * @return integer 
-     */
+    
     public function getIdestablecimiento()
     {
         return $this->idestablecimiento;
-    }
+    } */
 
     /**
      * Set clasificacion
      *
-     * @param string $clasificacion
+     * @param string $clasificacio
      * @return FarmCatalogoproductos
-     */
+  
     public function setClasificacion($clasificacion)
     {
         $this->clasificacion = $clasificacion;
 
         return $this;
-    }
+    }   */
 
     /**
      * Get clasificacion
@@ -925,6 +954,29 @@ class FarmCatalogoproductos
     }
 
     /**
+     * Set cuantificable
+     *
+     * @param integer $cuantificable
+     * @return FarmCatalogoproductos
+     */
+    public function setCuantificable($cuantificable)
+    {
+        $this->cuantificable = $cuantificable;
+
+        return $this;
+    }
+
+    /**
+     * Get cuantificable
+     *
+     * @return integer 
+     */
+    public function getCuantificable()
+    {
+        return $this->cuantificable;
+    }
+
+    /**
      * Set idunidadmedida
      *
      * @param \Sinam\CoreBundle\Entity\FarmUnidadmedidas $idunidadmedida
@@ -969,19 +1021,50 @@ class FarmCatalogoproductos
     {
         return $this->idterapeutico;
     }
-    
-    public function getTipo()
+
+    /**
+     * Add idEstablecimiento
+     *
+     * @param \Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento
+     * @return FarmCatalogoproductos
+     */
+    public function addIdEstablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento)
     {
-        return $this->idtipoproducto;
+        $this->idEstablecimiento[] = $idEstablecimiento;
+
+        return $this;
     }
-    public function getMunicipio()
+
+    /**
+     * Remove idEstablecimiento
+     *
+     * @param \Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento
+     */
+    public function removeIdEstablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento)
     {
-        return $this->nombre;
+        $this->idEstablecimiento->removeElement($idEstablecimiento);
     }
-    public function getEstablecimiento(){ return $this->nombre; }
-    public function addTipo(){ return $this->nombre; }
-    public function removeTipo(){ return $this->nombre; }
-    public function setTipo($idterapeutico = null){ return $this; }
-    public function __toString() { return $this->nombre; }
-    
+
+    /**
+     * Get idEstablecimiento
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdEstablecimiento()
+    {
+        return $this->idEstablecimiento;
+    }
+
+    /**
+     * Set clasificacion
+     *
+     * @param string $clasificacion
+     * @return FarmCatalogoproductos
+     */
+    public function setClasificacion($clasificacion)
+    {
+        $this->clasificacion = $clasificacion;
+
+        return $this;
+    }
 }

@@ -1,0 +1,32 @@
+Sinam\CoreBundle\Entity\SabCatTipoestablecimientos:
+    type: entity
+    table: sab_cat_tipoestablecimientos
+    uniqueConstraints:
+        sab_cat_tipoestablecimientos_nombrecorto_key:
+            columns:
+                - nombrecorto
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nombrecorto:
+            type: string
+            nullable: false
+            length: 4
+            fixed: true
+        descripcion:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    lifecycleCallbacks: {  }

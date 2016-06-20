@@ -1,0 +1,54 @@
+Sinam\CoreBundle\Entity\SabCatMunicipios:
+    type: entity
+    table: sab_cat_municipios
+    indexes:
+        sab_cat_municipios_ix_municipios:
+            columns:
+                - id_departamento
+                - codigomunicipio
+        IDX_63E572D16325E299:
+            columns:
+                - id_departamento
+    id:
+        id:
+            type: bigint
+            nullable: false
+            unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        codigomunicipio:
+            type: string
+            nullable: false
+            length: 2
+            fixed: true
+        nombre:
+            type: string
+            nullable: true
+            length: 25
+            fixed: false
+        estasincronizada:
+            type: smallint
+            nullable: false
+            unsigned: false
+            default: '0'
+    manyToOne:
+        idDepartamento:
+            targetEntity: SabCatDepartamentos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_departamento:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        idSiap:
+            targetEntity: CtlMunicipio
+            cascade: {  }
+            mappedBy: idSinab
+            inversedBy: null
+            joinTable: null
+            orderBy: null
+    lifecycleCallbacks: {  }
