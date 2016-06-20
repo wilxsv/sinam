@@ -20,15 +20,32 @@
                       <form class="commentform" method="post">
                           <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
                           {{ form_widget(form.nombre) }}<br/>
-                          <label class="required" for="basica_departamento">Ingresa su úbicación o algún lugar cercano de referencia</label><br/>
+                          <label class="required" for="basica_departamento" >Ingresa su úbicación o algún lugar cercano de referencia</label><br/>
                           {{ form_widget(form.lugar) }}
                           <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
                         <br/>
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
-                        {{ form_label(form.departamento) }}<br />{{ form_widget(form.departamento) }}<br />
-                        {{ form_label(form.municipio) }}<br />{{ form_widget(form.municipio) }}<br />
-                        {{ form_label(form.establecimiento) }}<br />{{ form_widget(form.establecimiento) }}<br />
+                        {{ form_label(form.departamento) }}<br />
+                        <select id="basica_departamento" onchange="cargarMun(this.value);" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                              <option value="0">Todos</option>
+                            {% for item in depto %}
+                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select>
+                        <br />
+                        {{ form_label(form.municipio) }}<br />
+                        <select id="basica_municipio" onchange="cargarEsta(this.value);" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                            {% for item in muni %}
+                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select><br />
+                        {{ form_label(form.establecimiento) }}<br />
+                        <select id="basica_establecimiento" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                            {% for item in establecimiento %}
+                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% endfor %}
+                          </select><br />
                         Numero de establecimientos: 
                           <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
                           <div id="slider-range-min"></div><br />
@@ -132,6 +149,7 @@
         
     </script>
     <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
+    <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui-bootstrap-master/jquery.ui.theme.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui/jquery-ui.css') }}">
     <script src="{{ asset('assets/js/jquery-1.11.2.min.js') }}"></script>
@@ -163,17 +181,19 @@ jQuery(document).ready(function( $ ) {
     if(valor==0) {
       document.getElementById("basica_municipio").options.length=0;
       document.getElementById("basica_establecimiento").options.length=0;
+      document.getElementById("basica_municipio").options[0]=new Option("Todos", "0");
+      document.getElementById("basica_establecimiento").options[0]=new Option("Todos", "0");
       document.getElementById("basica_municipio").disabled=true; 
       document.getElementById("basica_establecimiento").disabled=true; 
     }else{
       document.getElementById("basica_municipio").options.length=0;
-      document.getElementById("basica_municipio").options[0]=new Option("Selecciona un municipio", "0");
+      document.getElementById("basica_municipio").options[0]=new Option("Todos", "0");
       for(i=0;i<arrayValores.length;i++) {
         if(arrayValores[i][0]==valor) { 
-          document.getElementById("basica_municipio").options[document.getElementById("establecimiento_municipio").options.length]=new Option( arrayValores[i][2], arrayValores[i][1]);
+          document.getElementById("basica_municipio").options[document.getElementById("basica_municipio").options.length]=new Option( arrayValores[i][2], arrayValores[i][1]);
         }
       }
-      document.getElementById("establecimiento_municipio").disabled=false;
+      document.getElementById("basica_municipio").disabled=false;
     }
   }
   function cargarEsta(valor) {
@@ -184,7 +204,7 @@ jQuery(document).ready(function( $ ) {
       new Array(-1,1,"") );
     if(valor>0) {
       document.getElementById("basica_establecimiento").options.length=0;
-      document.getElementById("basica_establecimiento").options[0]=new Option("Selecciona un establecimiento", "0");
+      document.getElementById("basica_establecimiento").options[0]=new Option("Todos", "0");
       for(i=0;i<arrayValores.length;i++) {
         if(arrayValores[i][0]==valor) { 
           document.getElementById("basica_establecimiento").options[document.getElementById("basica_establecimiento").options.length]=new Option(arrayValores[i][2], arrayValores[i][1]);
@@ -193,7 +213,32 @@ jQuery(document).ready(function( $ ) {
       document.getElementById("basica_establecimiento").disabled=false;
     }
   }
-</script> 
+</script>
+<style>
+  .custom-combobox {
+    position: relative;
+    display: inline-block;
+  }
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+  }
+  .custom-combobox-input {
+    margin: 0;
+    padding: 5px 10px;
+  }
+  .ui-autocomplete-input
+{ 
+    width: 700px;
+}
+.title .ui-autocomplete-input
+{ 
+    width: 700px
+}
+</style>
 <script> 
   $(function($) {
     $( "#slider-range-min" ).slider({

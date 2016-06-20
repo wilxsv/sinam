@@ -142,23 +142,27 @@ class SinamRepository extends EntityRepository
    $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
    $estab = ($estab > 0) ? " AND e.id = $estab " : '';
    $max = ($max > 0) ? $max : 7;
-   $lat = ($lat > 0) ? " AND e.id = $estab " : '';
-   $lng = ($lng > 0) ? " AND e.id = $estab " : '';
 //m.formafarmaceutica AS , m.presentacion AS presentacion, ea.cantidaddisponible, ep.id AS id, e.nombre AS establecimiento, mu.nombre AS municipio, d.nombre AS depto, a.nombre AS almacen, u.descripcion AS unidad, ep.latitud AS latitud, ep.longitud AS longitud
-   $sql = "SELECT ms.nombre, m.formafarmaceutica AS observacion, m.presentacion AS presentacion, s2_.cantidaddisponible AS cantidaddisponible3, c3_.id AS id4, s4_.nombre AS nombre5, c5_.nombre AS nombre6, c6_.nombre AS nombre7, s7_.nombre AS nombre8, s8_.descripcion AS descripcion9, c3_.latitud AS latitud10, c3_.longitud AS longitud11, ms.idpro
-   FROM farm_catalogoproductos m, sab_cat_catalogoproductos ms, sab_alm_existenciasalmacenes s2_, sab_cat_almacenes s7_, sab_cat_almacenesestablecimientos s9_, sab_cat_establecimientos s4_, ctl_municipio c5_, ctl_departamento c6_, sab_cat_unidadmedidas s8_, ctl_establecimiento c3_ 
-   WHERE ms.nombre = '$id' AND m.codigo = ms.codigo AND ms.idpro = s2_.id_producto AND s2_.id_almacen = s7_.id AND s7_.id = s9_.id_almacen AND s9_.id_establecimiento = s4_.id AND s4_.idmaestro = c3_.id AND c3_.id_municipio = c5_.id AND c5_.id_departamento = c6_.id AND ms.id_unidadmedida = s8_.id AND s2_.cantidaddisponible > 0 ORDER BY m.nombre ASC LIMIT $max";
+   $sql = "SELECT ms.nombre, m.formafarmaceutica AS observacion, m.presentacion AS presentacion, mu.nombre AS codigo,
+   (round( CAST(s2_.cantidaddisponible as numeric), 0)::TEXT ||' '|| s8_.descripcion ) AS idTipoproducto, c3_.id AS estadoproducto, c3_.nombre AS formafarmaceutica, d.nombre AS idPro, s7_.nombre AS concentracion, c3_.latitud AS idunidadmedida, c3_.longitud AS clasificacion,
+     get_distancia( $lat, $lng, c3_.latitud, c3_.longitud ) AS distancia
+   FROM farm_catalogoproductos m, sab_cat_catalogoproductos ms, sab_alm_existenciasalmacenes s2_, sab_cat_almacenes s7_, sab_cat_almacenesestablecimientos s9_, sab_cat_establecimientos s4_, ctl_municipio mu, ctl_departamento d, sab_cat_unidadmedidas s8_, ctl_establecimiento c3_ 
+   WHERE ms.nombre = '$id' AND m.codigo = ms.codigo AND ms.idpro = s2_.id_producto AND s2_.id_almacen = s7_.id AND s7_.id = s9_.id_almacen AND s9_.id_establecimiento = s4_.id AND s4_.idmaestro = c3_.id AND c3_.id_municipio = mu.id AND mu.id_departamento = d.id AND ms.id_unidadmedida = s8_.id AND s2_.cantidaddisponible > 0 ORDER BY m.nombre, distancia ASC LIMIT $max";
 
-   /*$sql = "SELECT sm.idpro , sm.nombre AS nombre 
-    FROM sab_cat_catalogoproductos AS sm 
-    WHERE sm.nombre = '$id' ";
-*/
    $rsm = new ResultSetMapping;
-   $rsm->addEntityResult('SinamCoreBundle:SabCatCatalogoproductos', 'ms');
-   $rsm->addJoinedEntityResult('SinamCoreBundle:SabAlmExistenciasalmacenes' , 's2_', 'ms', 'idpro');
-   //$rsm->addFieldResult('m', 'descripcion', 'descripcion');
-   $rsm->addFieldResult('ms', 'idpro', 'idpro');
-   $rsm->addFieldResult('ms', 'nombre', 'nombre');
+   $rsm->addEntityResult('SinamCoreBundle:SabCatCatalogoproductos', 'm');
+   $rsm->addFieldResult('m', 'idpro', 'idpro');
+   $rsm->addFieldResult('m', 'nombre', 'nombre');
+   $rsm->addFieldResult('m', 'observacion', 'observacion');
+   $rsm->addFieldResult('m', 'presentacion', 'presentacion');
+   $rsm->addFieldResult('m', 'codigo', 'codigo');
+   $rsm->addFieldResult('m', 'idtipoproducto', 'idTipoproducto');
+   $rsm->addFieldResult('m', 'idunidadmedida', 'idUnidadmedida');
+   $rsm->addFieldResult('m', 'pertenecelistadooficial', 'pertenecelistadooficial');
+   $rsm->addFieldResult('m', 'clasificacion', 'clasificacion');
+   $rsm->addFieldResult('m', 'estadoproducto', 'estadoproducto');
+   $rsm->addFieldResult('m', 'concentracion', 'concentracion');
+   $rsm->addFieldResult('m', 'formafarmaceutica', 'formafarmaceutica');
    $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
 

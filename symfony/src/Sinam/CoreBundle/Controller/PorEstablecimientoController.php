@@ -13,6 +13,7 @@ use Sinam\CoreBundle\Form\FarmCatalogoproductosType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 use Sinam\CoreBundle\Entity\CtlMunicipio;
 
@@ -62,14 +63,14 @@ class PorEstablecimientoController extends Controller
             $result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByLocalidad( $request->query->get('nombre'), 0, 0, 0, 7, $lat, $lng );
             $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), 0, 0, 0 );
             $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
-            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap ));
+            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap, 'lat' => $lat, 'lng' => $lng ));
         }
         elseif ( $request->query->get('tipo') == 1 )
         {
             $result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByLocalidad( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max'), $lat, $lng );
             $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
             $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
-            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap ));
+            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap, 'lat' => $lat, 'lng' => $lng ));
         }
 
         /*
