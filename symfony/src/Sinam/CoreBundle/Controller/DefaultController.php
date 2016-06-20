@@ -30,7 +30,6 @@ class DefaultController extends Controller
         }
 
         $em = $this->getDoctrine()->getManager();
-        $farmCatalogoproductos = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findBySELECT( );
         $depto = $em->getRepository('SinamCoreBundle:CtlDepartamento')->findByidPais( 68 );
         $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlMunicipio');
         $ctlMunicipios = $repository->createQueryBuilder('p')->select('p.id, p.nombre')->addSelect('d.id AS depto')

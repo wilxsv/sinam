@@ -269,6 +269,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // ajax_localidad
+        if ($pathinfo === '/ajax_localidad') {
+            if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                goto not_ajax_localidad;
+            }
+
+            return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\PorEstablecimientoController::ajaxAction',  '_route' => 'ajax_localidad',);
+        }
+        not_ajax_localidad:
+
         // jsonmedicamentos
         if ($pathinfo === '/jsonmedicamentos') {
             if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {

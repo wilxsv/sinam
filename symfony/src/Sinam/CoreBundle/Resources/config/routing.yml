@@ -22,6 +22,13 @@ ajax_busqueda:
     requirements:
         _method:  POST|GET
 
+ajax_localidad:
+    path:     /ajax_localidad
+    defaults: { _controller: SinamCoreBundle:PorEstablecimiento:ajax }
+    methods:  [GET|HEAD|POST]
+    requirements:
+        _method:  POST|GET
+
 jsonmedicamentos:
     path:     /jsonmedicamentos
     defaults: { _controller: SinamCoreBundle:Default:jsonmedicamentos }

@@ -1,6 +1,7 @@
 {% extends 'SinamCoreBundle::default.html.twig' %}
 {% block body %}
 <div class="col-sm-12">
+          <div  id="msg" ></div>
           <div class="service-accordion">
            <div class="accordion">
             <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
@@ -47,6 +48,7 @@
           </div>    
         </div>
 </div>
+<div  id="resultado2" class="col-sm-12"></div>
 <div id="resMap" class="col-sm-4">
   <div class="panel panel-primary">
     <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
@@ -59,37 +61,37 @@
 <div  id="resultado" class="col-sm-12"></div>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).ready(function ( $ ) {
         $('#establecimiento_save').click(function(){
         var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
-        if($('#g-recaptcha-response').val() == 0){
+        /*if($('#g-recaptcha-response').val() == 0){
           $('#msg').html(msg);
           return false;
         }
         if($('#g-recaptcha-response').val() == ''){
           $('#msg').html(msg);
           return false;
-        }
+        }*/
         $('#msg').html('');
-           $('#resultado').html('');
+           $('#resultado2').html('');
            $.ajax({
                 type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=0&nombre=" + $('#establecimiento_nombre').val()+"&max="+$('#limite').val(),
+                url: "{{ url('ajax_localidad') }}?tipo=0&nombre=" + $('#establecimiento_nombre').val()+"&lugar="+$('#establecimiento_lugar').val()+"&max="+$('#limite').val(),
                 success: function(data) {
                     // Remove current options
-                    $('#resultado').html(data);
+                    $('#resultado2').html(data);
                 }
             });
             return false;
         });
         $('#establecimiento_type_save').click(function(){
-           $('#resultado').html('');
+           $('#resultado2').html('');
            var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
            $.ajax({
                 type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#establecimiento_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&max="+$('#limite').val(),
+                url: "{{ url('ajax_localidad') }}?tipo=1&nombre=" + $('#establecimiento_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&lugar="+$('#establecimiento_lugar').val()+"&max="+$('#limite').val(),
                 success: function(data) {
-                    $('#resultado').html(data);
+                    $('#resultado2').html(data);
                 }
             });
             return false;

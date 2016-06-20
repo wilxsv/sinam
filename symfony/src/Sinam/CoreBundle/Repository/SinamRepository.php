@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityRepository;
 use Sinam\CoreBundle\Entity\FarmCatalogoproductos;
 use Sinam\CoreBundle\Entity\CtlMunicipio;
 
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+
 /**
  * SinamRepository
  *
@@ -134,5 +137,39 @@ class SinamRepository extends EntityRepository
         $query = null;
        }             
   } 
+  public function findByLocalidad( $id, $depto, $munic, $estab, $max, $lat, $lng ){
+   $depto = ($depto > 0) ? " AND d.id = $depto " : '';
+   $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
+   $estab = ($estab > 0) ? " AND e.id = $estab " : '';
+   $max = ($max > 0) ? $max : 7;
+   $lat = ($lat > 0) ? " AND e.id = $estab " : '';
+   $lng = ($lng > 0) ? " AND e.id = $estab " : '';
+//m.formafarmaceutica AS , m.presentacion AS presentacion, ea.cantidaddisponible, ep.id AS id, e.nombre AS establecimiento, mu.nombre AS municipio, d.nombre AS depto, a.nombre AS almacen, u.descripcion AS unidad, ep.latitud AS latitud, ep.longitud AS longitud
+   $sql = "SELECT ms.nombre, m.formafarmaceutica AS observacion, m.presentacion AS presentacion, s2_.cantidaddisponible AS cantidaddisponible3, c3_.id AS id4, s4_.nombre AS nombre5, c5_.nombre AS nombre6, c6_.nombre AS nombre7, s7_.nombre AS nombre8, s8_.descripcion AS descripcion9, c3_.latitud AS latitud10, c3_.longitud AS longitud11, ms.idpro
+   FROM farm_catalogoproductos m, sab_cat_catalogoproductos ms, sab_alm_existenciasalmacenes s2_, sab_cat_almacenes s7_, sab_cat_almacenesestablecimientos s9_, sab_cat_establecimientos s4_, ctl_municipio c5_, ctl_departamento c6_, sab_cat_unidadmedidas s8_, ctl_establecimiento c3_ 
+   WHERE ms.nombre = '$id' AND m.codigo = ms.codigo AND ms.idpro = s2_.id_producto AND s2_.id_almacen = s7_.id AND s7_.id = s9_.id_almacen AND s9_.id_establecimiento = s4_.id AND s4_.idmaestro = c3_.id AND c3_.id_municipio = c5_.id AND c5_.id_departamento = c6_.id AND ms.id_unidadmedida = s8_.id AND s2_.cantidaddisponible > 0 ORDER BY m.nombre ASC LIMIT $max";
 
+   /*$sql = "SELECT sm.idpro , sm.nombre AS nombre 
+    FROM sab_cat_catalogoproductos AS sm 
+    WHERE sm.nombre = '$id' ";
+*/
+   $rsm = new ResultSetMapping;
+   $rsm->addEntityResult('SinamCoreBundle:SabCatCatalogoproductos', 'ms');
+   $rsm->addJoinedEntityResult('SinamCoreBundle:SabAlmExistenciasalmacenes' , 's2_', 'ms', 'idpro');
+   //$rsm->addFieldResult('m', 'descripcion', 'descripcion');
+   $rsm->addFieldResult('ms', 'idpro', 'idpro');
+   $rsm->addFieldResult('ms', 'nombre', 'nombre');
+   $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
+
+
+/*
+    $rsm = new ResultSetMapping();
+    
+    $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);*/
+   try {
+        return $query->getResult( );
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }             
+  }
 }
