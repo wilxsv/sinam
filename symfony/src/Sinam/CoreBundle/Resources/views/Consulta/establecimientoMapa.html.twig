@@ -12,67 +12,65 @@
     </div>
 </div>
 <div  id="Map" class="col-sm-8" style="height: 600px;overflow-y:scroll;"></div>
-
-<div id="Map" class="olMap" style="; height: 600px; margin: 0;"></div>
-<script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
 <script>
-    var lat            = 13.697911;
-    var lon            = -89.218846;
-    var zoom           = 8;
-    var icoPng       = 'http://190.86.209.141/wp-content/plugins/biblioteca/view/img/icoMap.png';
-    
-    map = new OpenLayers.Map("Map");
-    map.addLayer(new OpenLayers.Layer.OSM());
-    
-    epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
-    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
-   
-    var lonLat = new OpenLayers.LonLat( lon ,lat ).transform(epsg4326, projectTo);
-    map.setCenter (lonLat, zoom);
+function initMap() {
+        var map = new google.maps.Map(document.getElementById('Map'), {
+          zoom: 10,
+          center: {lat: 13.697911, lng: -89.218846}
+        });
 
-    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
-    
-    // Define markers as "features" of the vector layer:
-    {% for item in rest %}
-    var feature = new OpenLayers.Feature.Vector(
-            new OpenLayers.Geometry.Point( {{item.clasificacion}},{{item.idunidadmedida}} ).transform(epsg4326, projectTo),
-            {description:'{{ item.formafarmaceutica }}'} ,
-            {externalGraphic: icoPng, graphicHeight: 30, graphicWidth: 28, graphicXOffset:-12, graphicYOffset:-25  }
-        );    
-    vectorLayer.addFeatures(feature);
-    {% endfor %}
-   
-    map.addLayer(vectorLayer);
- 
-    
-    //Add a selector control to the vectorLayer with popup functions
-    var controls = {
-      selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
-    };
+        setMarkers(map);
+      }
 
-    function createPopup(feature) {
-      feature.popup = new OpenLayers.Popup.FramedCloud("pop",
-          feature.geometry.getBounds().getCenterLonLat(),
-          null,
-          '<b>'+feature.attributes.description+'</b>',
-          null,
-          true,
-          function() { controls['selector'].unselectAll(); }
-      );
-      //feature.popup.closeOnMove = true;
-      map.addPopup(feature.popup);
-    }
+      // Data for the markers consisting of a name, a LatLng and a zIndex for the
+      // order in which these markers should display on top of each other.
+      var beaches = [
+        {% set i = 1 %}
+        {% for item in rest %}
+          ['{{ item.formafarmaceutica }}', {{item.idunidadmedida}}, {{item.clasificacion}}, {{ i }}],
+          {% set i = i + 1 %}
+        {% endfor %}
+        ['last', -33.950198, 151.259302, 1]
+      ];
 
-    function destroyPopup(feature) {
-      feature.popup.destroy();
-      feature.popup = null;
-    }
-    
-    map.addControl(controls['selector']);
-    controls['selector'].activate();
-      
-  </script>
+      function setMarkers(map) {
+        // Adds markers to the map.
 
+        // Marker sizes are expressed as a Size of X,Y where the origin of the image
+        // (0,0) is located in the top left of the image.
+
+        // Origins, anchor positions and coordinates of the marker increase in the X
+        // direction to the right and in the Y direction down.
+        var image = {
+          url: '{{ asset('images/hospital_32_32.png') }}',
+          // This marker is 20 pixels wide by 32 pixels high.
+          size: new google.maps.Size(20, 32),
+          // The origin for this image is (0, 0).
+          origin: new google.maps.Point(0, 0),
+          // The anchor for this image is the base of the flagpole at (0, 32).
+          anchor: new google.maps.Point(0, 32)
+        };
+        // Shapes define the clickable region of the icon. The type defines an HTML
+        // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+        // The final coordinate closes the poly by connecting to the first coordinate.
+        var shape = {
+          coords: [1, 1, 1, 20, 18, 20, 18, 1],
+          type: 'poly'
+        };
+        for (var i = 0; i < beaches.length; i++) {
+          var beach = beaches[i];
+          var marker = new google.maps.Marker({
+            position: {lat: beach[1], lng: beach[2]},
+            map: map,
+            icon: image,
+            shape: shape,
+            title: beach[0],
+            zIndex: beach[3]
+          });
+        }
+      }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdO990oU4KORycVTDAMyeN3qkLNyWBjaQ&callback=initMap"></script>
 {% endif %}
 <!-- ------------------------------------------------------------------------------------------------------------------------------------------------ -->
 <div class="col-sm-12">
