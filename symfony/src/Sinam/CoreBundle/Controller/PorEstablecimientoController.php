@@ -51,12 +51,14 @@ class PorEstablecimientoController extends Controller
             $url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=" . $address ;
             $response = file_get_contents($url);
             $json = json_decode($response,true);
-            $lat = $json['results'][0]['geometry']['location']['lat'];
-            $lng = $json['results'][0]['geometry']['location']['lng'];
+            if ( isset($json['results'][0])){
+                $lat = $json['results'][0]['geometry']['location']['lat'];
+                $lng = $json['results'][0]['geometry']['location']['lng'];
+            }
         }
         if ( $lng == $lat && $lng == FALSE )
         {
-            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> FALSE ));
+            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> FALSE, 'alt'=> FALSE ));
         }
         elseif ( $request->query->get('tipo') == 0 )
         {
@@ -71,25 +73,8 @@ class PorEstablecimientoController extends Controller
             $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
             $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
             return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap, 'lat' => $lat, 'lng' => $lng ));
+        }else{
+            return $this->render('SinamCoreBundle:Consulta:establecimientoMapa.html.twig', array( 'rest'=> FALSE, 'alt'=> FALSE ));
         }
-
-        /*
-        
-        
-            
-            
-        
-        } elseif ($request->query->get('tipo') == 1 && $request->query->get('nombre') != NULL){
-        
-            $result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
-            $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
-            $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
-            return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => true ));
-        
-        } else {
-            $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;
-            return $this->render('SinamCoreBundle:Consulta:resultado.html.twig', array( 'rest'=> FALSE, 'alt'=> $alt ));
-        }*/
-
     }
 }

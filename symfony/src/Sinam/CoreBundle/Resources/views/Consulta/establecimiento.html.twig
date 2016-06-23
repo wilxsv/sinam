@@ -27,7 +27,7 @@
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
                         {{ form_label(form.departamento) }}<br />
-                        <select id="basica_departamento" onchange="cargarMun(this.value);" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                        <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;">
                               <option value="0">Todos</option>
                             {% for item in depto %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
@@ -35,13 +35,15 @@
                           </select>
                         <br />
                         {{ form_label(form.municipio) }}<br />
-                        <select id="basica_municipio" onchange="cargarEsta(this.value);" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                        <select id="basica_municipio" onchange="cargarEsta(this.value);" style="width: 90%;">
+                              <option value="0">Todos</option>
                             {% for item in muni %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
                           </select><br />
                         {{ form_label(form.establecimiento) }}<br />
-                        <select id="basica_establecimiento" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                        <select id="basica_establecimiento" style="width: 90%;">
+                              <option value="0">Todos</option>
                             {% for item in establecimiento %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
@@ -81,14 +83,14 @@
     $(document).ready(function ( $ ) {
         $('#establecimiento_save').click(function(){
         var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
-        /*if($('#g-recaptcha-response').val() == 0){
+        if($('#g-recaptcha-response').val() == 0){
           $('#msg').html(msg);
           return false;
         }
         if($('#g-recaptcha-response').val() == ''){
           $('#msg').html(msg);
           return false;
-        }*/
+        }
         $('#msg').html('');
            $('#resultado2').html('');
            $.ajax({
@@ -209,31 +211,6 @@ jQuery(document).ready(function( $ ) {
     }
   }
 </script>
-<style>
-  .custom-combobox {
-    position: relative;
-    display: inline-block;
-  }
-  .custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-  }
-  .custom-combobox-input {
-    margin: 0;
-    padding: 5px 10px;
-  }
-  .ui-autocomplete-input
-{ 
-    width: 700px;
-}
-.title .ui-autocomplete-input
-{ 
-    width: 700px
-}
-</style>
 <script> 
   $(function($) {
     $( "#slider-range-min" ).slider({
@@ -258,45 +235,17 @@ jQuery(document).ready(function( $ ) {
     function extractLast( term ) {
       return split( term ).pop();
     }
- 
-    $( "#establecimiento_nombre" )
-      // don't navigate away from the field on tab when selecting an item
-      .bind( "keydown", function( event ) {
-        if ( event.keyCode === $.ui.keyCode.TAB &&
-            $( this ).autocomplete( "instance" ).menu.active ) {
-          event.preventDefault();
-        }
-      })
-      .autocomplete({
-        source: function( request, response ) {
-          $.getJSON( "jsonmedicamentos", {
-            term: extractLast( request.term )
-          }, response );
-        },
-        search: function() {
-          // custom minLength
-          var term = extractLast( this.value );
-          if ( term.length < 4 ) {
-            return false;
-          }
-        },
-        focus: function() {
-          // prevent value inserted on focus
-          return false;
-        },
-        select: function( event, ui ) {
-          var terms = split( this.value );
-          // remove the current input
-          terms.pop();
-          // add the selected item
-          terms.push( ui.item.value );
-          // add placeholder to get the comma-and-space at the end
-          terms.push( "" );
-          this.value = terms.join( "" );
-          return false;
-        }
-      });
-  });
+
+
+    $( "#establecimiento_nombre" ).autocomplete({
+      source: 'jsonmedicamentos',
+      minLength: 4,
+      highlight: false,
+      width: 320,
+      scroll: true,
+      scrollHeight: 300
+    });
+    });
   </script>
 {% endblock %}
 {% block body_tag %}onload="init()"{% endblock %}

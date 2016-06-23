@@ -1,5 +1,5 @@
 {% if rest == true %}
-<div id="resMap" class="col-sm-4">
+<div id="resMap" class="col-sm-4" style="height: 600px;overflow-y:scroll;">
   <div class="panel panel-primary">
     <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
       <div class="panel-body">
@@ -11,10 +11,9 @@
       </div>
     </div>
 </div>
-<div  id="Map" class="col-sm-8" style="height: 500px;overflow-y:scroll;"></div>
-<div  id="resultado" class="col-sm-12"></div>
+<div  id="Map" class="col-sm-8" style="height: 600px;overflow-y:scroll;"></div>
 
-<div id="Map" class="olMap" style="; height: 500px; margin: 0;"></div>
+<div id="Map" class="olMap" style="; height: 600px; margin: 0;"></div>
 <script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
 <script>
     var lat            = 13.697911;
@@ -118,7 +117,28 @@
       </div>
     {% endif %}
     {% endfor %}
-   {% else %}<div class="item">
+   {% elseif alt == true %}<div class="item">
+      <div class="row">
+      <p align="center">
+        <div class="alert alert-danger" role="alert">
+          <p><strong>:: No se encontraron existencias ::</strong></p>
+          <p>No se pudo encontrar el medicamento búscado, Intente repetir la búsqueda utilizando los filtros o consulte los medicamentos de la tabla de medicamentos alternativos para hacer una nueva búsqueda.</p>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading"><h2 class="panel-title">Medicamentos alternativos</h2></div>
+          <div class="panel-body">
+            <table class="table table-condensed">
+             <thead><th><b>Medicamento</b></th><th><b>Medicamento Alternativo</b></th></thead>
+             {% for item in alt %}
+              <tr><td>{{ item.nombre }}</td><td>{{ item.alternativa }}</td></tr>
+             {% endfor %}
+            </table> 
+          </div>
+        </div>
+      </p>
+      </div>
+     </div>
+   {% else  %}<div class="item">
       <div class="row">
       <p align="center">
         <div class="alert alert-warning" role="alert"><strong>Aviso!</strong> No encontramos un lugar de referencia con ese nombre<br />

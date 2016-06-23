@@ -67,7 +67,7 @@
        <ul id="headernavigation" class="menu-list nav navbar-nav">
         <li><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
         <li><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
-        <li><a href="{{ path( 'alternativo' ) }}">Abastecimiento</a></li>
+        <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
         {% if app.request.attributes.get('_route') != 'sinam_core_homepage' and app.request.attributes.get('_route') != 'sinam_core_homepage' %}
           <li><a href="{{ path( 'sinam_core_homepage' ) }}">Ayuda</a></li>
         {% endif %}
@@ -95,12 +95,15 @@
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
   }
+  .ui-autocomplete-loading {
+    background: white url("{{asset('images/loader_64_64.gif')}}") right center no-repeat;
+  }
   /* IE 6 doesn't support max-height
    * we use height instead, but this forces the menu to always be this tall
    */
   * html .ui-autocomplete {
     height: 400px;
-    width: 500px;
+    width: 600px;
   }
   </style>
   <script>

@@ -25,7 +25,7 @@
                         <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
                         {{ form_label(form.departamento) }}<br />
-                        <select id="basica_departamento" onchange="cargarMun(this.value);" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                        <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;">
                               <option value="0">Todos</option>
                             {% for item in depto %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
@@ -33,13 +33,15 @@
                           </select>
                         <br />
                         {{ form_label(form.municipio) }}<br />
-                        <select id="basica_municipio" onchange="cargarEsta(this.value);" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                        <select id="basica_municipio" onchange="cargarEsta(this.value);" style="width: 90%;">
+                              <option value="0">Todos</option>
                             {% for item in muni %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
                           </select><br />
                         {{ form_label(form.establecimiento) }}<br />
-                        <select id="basica_establecimiento" class="custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left ui-autocomplete-input">
+                        <select id="basica_establecimiento" style="width: 90%;">
+                              <option value="0">Todos</option>
                             {% for item in establecimiento %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
@@ -209,7 +211,7 @@ jQuery(document).ready(function( $ ) {
       highlight: false,
       width: 320,
       scroll: true,
-      scrollHeight: 300,
+      scrollHeight: 300
     });
   });
   </script>
