@@ -6,36 +6,23 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SabCatZonas
- *
- * @ORM\Table(name="sab_cat_zonas")
- * @ORM\Entity
  */
 class SabCatZonas
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sab_cat_zonas_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="descripcion", type="string", length=15, nullable=false)
      */
     private $descripcion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="smallint", nullable=false)
      */
     private $estasincronizada;
-
 
 
     /**

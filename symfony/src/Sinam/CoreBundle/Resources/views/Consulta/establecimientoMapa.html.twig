@@ -1,3 +1,82 @@
+{% if rest == true %}
+<div id="resMap" class="col-sm-4">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
+      <div class="panel-body">
+        {% for item in rest %}
+          <p><b>{{ item.formafarmaceutica }}</b></p>
+          <p><a href="#{{item.estadoproducto}}"><span class="label label-success pull-left">Ver detalle</span></a> - <a target="_blank" href="http://maps.google.com/maps/?saddr={{lat}},{{lng}}&daddr={{item.idunidadmedida}},{{item.clasificacion}}"><span class="label label-info pull-right">¿como llegar?</span></a></p>
+          <hr/>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+<div  id="Map" class="col-sm-8" style="height: 500px;overflow-y:scroll;"></div>
+<div  id="resultado" class="col-sm-12"></div>
+
+<div id="Map" class="olMap" style="; height: 500px; margin: 0;"></div>
+<script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
+<script>
+    var lat            = 13.697911;
+    var lon            = -89.218846;
+    var zoom           = 8;
+    var icoPng       = 'http://190.86.209.141/wp-content/plugins/biblioteca/view/img/icoMap.png';
+    
+    map = new OpenLayers.Map("Map");
+    map.addLayer(new OpenLayers.Layer.OSM());
+    
+    epsg4326 =  new OpenLayers.Projection("EPSG:4326"); //WGS 1984 projection
+    projectTo = map.getProjectionObject(); //The map projection (Spherical Mercator)
+   
+    var lonLat = new OpenLayers.LonLat( lon ,lat ).transform(epsg4326, projectTo);
+    map.setCenter (lonLat, zoom);
+
+    var vectorLayer = new OpenLayers.Layer.Vector("Overlay");
+    
+    // Define markers as "features" of the vector layer:
+    {% for item in rest %}
+    var feature = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.Point( {{item.clasificacion}},{{item.idunidadmedida}} ).transform(epsg4326, projectTo),
+            {description:'{{ item.formafarmaceutica }}'} ,
+            {externalGraphic: icoPng, graphicHeight: 30, graphicWidth: 28, graphicXOffset:-12, graphicYOffset:-25  }
+        );    
+    vectorLayer.addFeatures(feature);
+    {% endfor %}
+   
+    map.addLayer(vectorLayer);
+ 
+    
+    //Add a selector control to the vectorLayer with popup functions
+    var controls = {
+      selector: new OpenLayers.Control.SelectFeature(vectorLayer, { onSelect: createPopup, onUnselect: destroyPopup })
+    };
+
+    function createPopup(feature) {
+      feature.popup = new OpenLayers.Popup.FramedCloud("pop",
+          feature.geometry.getBounds().getCenterLonLat(),
+          null,
+          '<b>'+feature.attributes.description+'</b>',
+          null,
+          true,
+          function() { controls['selector'].unselectAll(); }
+      );
+      //feature.popup.closeOnMove = true;
+      map.addPopup(feature.popup);
+    }
+
+    function destroyPopup(feature) {
+      feature.popup.destroy();
+      feature.popup = null;
+    }
+    
+    map.addControl(controls['selector']);
+    controls['selector'].activate();
+      
+  </script>
+
+{% endif %}
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<div class="col-sm-12">
  <section id="services" class="services">
  <div id="comments" class="comments">
   <div class="comments-area">
@@ -20,7 +99,7 @@
           <article class="comment">
            <div class="comment-author"></div>
             <div class="comment-content">
-            <h4 class="author-name pull-left">Establecimiento: {{ item.formafarmaceutica }} <br/>
+            <h4 id="{{item.estadoproducto}}" class="author-name pull-left">Establecimiento: {{ item.formafarmaceutica }} <br/>
             {% if item.idunidadmedida != 0 %}
               <a target="_blank" href="whatsapp://send?data-text=Instrucciones para llegar a : <a></a>" data-href"minsal"><span class="label label-success pull-right">Enviar por whatsapp</span></a> <a target="_blank" href="http://maps.google.com/maps/?saddr={{lat}},{{lng}}&daddr={{item.idunidadmedida}},{{item.clasificacion}}"><span class="label label-info pull-right">¿como llegar?</span></a> <a target="_blank" href="//waze.to/?q={{item.idunidadmedida}},{{item.clasificacion}}"><span class="label label-warning pull-right">ver en waze</span></a>
             {% endif %}</h4>
@@ -44,23 +123,6 @@
       <p align="center">
         <div class="alert alert-warning" role="alert"><strong>Aviso!</strong> No encontramos un lugar de referencia con ese nombre<br />
        Se recomienda hacer nombrar el lugar como:  "lugar, departamento"</div>
-
-        <div class="alert alert-danger" role="alert">
-          <p><strong>:: No se encontraron existencias ::</strong></p>
-          <p>No se pudo encontrar el medicamento búscado, Intente repetir la búsqueda utilizando los filtros o consulte los medicamentos de la tabla de medicamentos alternativos para hacer una nueva búsqueda.</p>
-        </div>
-        <div class="panel panel-primary">
-          <div class="panel-heading"><h2 class="panel-title">Medicamentos alternativos</h2></div>
-          <div class="panel-body">
-            <table class="table table-condensed">
-             <thead><th><b>Medicamento</b></th><th><b>Medicamento Alternativo</b></th></thead>
-             {% for item in alt %}
-              <tr><td>{{ item.nombre }}</td><td>{{ item.alternativa }}</td></tr>
-             {% endfor %}
-            </table> 
-          </div>
-        </div>
-      </p>
       </div>
      </div>
    {% endif %}
@@ -68,3 +130,4 @@
   </div>
  </section>
  <div  id="Mapa" class="col-sm-12"></div>
+</div>

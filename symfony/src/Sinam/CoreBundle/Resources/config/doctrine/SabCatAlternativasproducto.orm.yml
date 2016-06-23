@@ -5,14 +5,7 @@ Sinam\CoreBundle\Entity\SabCatAlternativasproducto:
         IDX_3B4B8BFEF760EA80:
             columns:
                 - id_producto
-    id:
-        id:
-            type: integer
-            nullable: false
-            unsigned: false
-            id: true
-            generator:
-                strategy: SEQUENCE
+    id: {  }
     fields:
         multiplicador:
             type: decimal
@@ -42,4 +35,13 @@ Sinam\CoreBundle\Entity\SabCatAlternativasproducto:
                     referencedColumnName: idpro
             orphanRemoval: false
     oneToOne:
+        id:
+            targetEntity: SabCatCatalogoproductos
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id:
+                    referencedColumnName: idpro
+            orphanRemoval: false
     lifecycleCallbacks: {  }

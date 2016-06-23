@@ -6,135 +6,83 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SabCatCatalogoproductos
- *
- * @ORM\Table(name="sab_cat_catalogoproductos")
- * @ORM\Entity
  */
 class SabCatCatalogoproductos
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idpro", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sab_cat_catalogoproductos_idpro_seq", allocationSize=1, initialValue=1)
      */
     private $idpro;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="codigo", type="string", length=8, nullable=false)
      */
     private $codigo;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id_tipoproducto", type="bigint", nullable=false)
      */
     private $idTipoproducto;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id_unidadmedida", type="bigint", nullable=false)
      */
     private $idUnidadmedida;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nombre", type="text", nullable=false)
      */
     private $nombre;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="niveluso", type="smallint", nullable=false)
      */
     private $niveluso;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="concentracion", type="text", nullable=true)
      */
     private $concentracion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="formafarmaceutica", type="string", length=100, nullable=true)
      */
     private $formafarmaceutica;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="presentacion", type="text", nullable=true)
      */
     private $presentacion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="pertenecelistadooficial", type="smallint", nullable=false)
      */
     private $pertenecelistadooficial;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estadoproducto", type="smallint", nullable=false)
      */
     private $estadoproducto;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="observacion", type="text", nullable=true)
      */
     private $observacion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="smallint", nullable=false)
      */
     private $estasincronizada;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="clasificacion", type="string", length=1, nullable=true)
      */
     private $clasificacion;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="SabCatCatalogoproductos", mappedBy="idProducto")
+     * @var integer
      */
-    private $id;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="SabCatAlmacenes", mappedBy="idProducto")
-     */
-    private $idAlmacen;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->id = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idAlmacen = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    private $visto;
 
 
     /**
@@ -447,68 +395,25 @@ class SabCatCatalogoproductos
     }
 
     /**
-     * Add id
+     * Set visto
      *
-     * @param \Sinam\CoreBundle\Entity\SabCatCatalogoproductos $id
+     * @param integer $visto
      * @return SabCatCatalogoproductos
      */
-    public function addId(\Sinam\CoreBundle\Entity\SabCatCatalogoproductos $id)
+    public function setVisto($visto)
     {
-        $this->id[] = $id;
+        $this->visto = $visto;
 
         return $this;
     }
 
     /**
-     * Remove id
+     * Get visto
      *
-     * @param \Sinam\CoreBundle\Entity\SabCatCatalogoproductos $id
+     * @return integer 
      */
-    public function removeId(\Sinam\CoreBundle\Entity\SabCatCatalogoproductos $id)
+    public function getVisto()
     {
-        $this->id->removeElement($id);
-    }
-
-    /**
-     * Get id
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * Add idAlmacen
-     *
-     * @param \Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen
-     * @return SabCatCatalogoproductos
-     */
-    public function addIdAlmacen(\Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen)
-    {
-        $this->idAlmacen[] = $idAlmacen;
-
-        return $this;
-    }
-
-    /**
-     * Remove idAlmacen
-     *
-     * @param \Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen
-     */
-    public function removeIdAlmacen(\Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen)
-    {
-        $this->idAlmacen->removeElement($idAlmacen);
-    }
-
-    /**
-     * Get idAlmacen
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdAlmacen()
-    {
-        return $this->idAlmacen;
+        return $this->visto;
     }
 }

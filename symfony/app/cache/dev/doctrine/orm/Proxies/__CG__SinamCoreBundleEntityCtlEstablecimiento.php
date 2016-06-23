@@ -64,10 +64,10 @@ class CtlEstablecimiento extends \Sinam\CoreBundle\Entity\CtlEstablecimiento imp
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idTipoEstablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'direccion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'telefono', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'fax', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'latitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'longitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idNivelMinsal', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'codUcsf', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'activo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'configurado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoFarmacia', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'diasIntermediosCitas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'citasSinExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoImpresion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'minutoshora', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tiempoprevioalacita', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idInstitucion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idEstablecimientoPadre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idMunicipio', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idProducto');
+            return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idTipoEstablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'direccion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'telefono', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'fax', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'latitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'longitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idNivelMinsal', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'codUcsf', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'activo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'configurado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoFarmacia', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'diasIntermediosCitas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'citasSinExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoImpresion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'minutoshora', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tiempoprevioalacita', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'actualizado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idInstitucion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idEstablecimientoPadre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idMunicipio');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idTipoEstablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'direccion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'telefono', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'fax', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'latitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'longitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idNivelMinsal', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'codUcsf', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'activo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'configurado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoFarmacia', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'diasIntermediosCitas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'citasSinExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoImpresion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'minutoshora', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tiempoprevioalacita', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idInstitucion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idEstablecimientoPadre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idMunicipio', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idProducto');
+        return array('__isInitialized__', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'id', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idTipoEstablecimiento', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'nombre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'direccion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'telefono', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'fax', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'latitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'longitud', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idNivelMinsal', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'codUcsf', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'activo', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'configurado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoFarmacia', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'diasIntermediosCitas', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'citasSinExpediente', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tipoImpresion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'minutoshora', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'tiempoprevioalacita', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'actualizado', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idInstitucion', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idEstablecimientoPadre', '' . "\0" . 'Sinam\\CoreBundle\\Entity\\CtlEstablecimiento' . "\0" . 'idMunicipio');
     }
 
     /**
@@ -587,6 +587,28 @@ class CtlEstablecimiento extends \Sinam\CoreBundle\Entity\CtlEstablecimiento imp
     /**
      * {@inheritDoc}
      */
+    public function setActualizado($actualizado)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setActualizado', array($actualizado));
+
+        return parent::setActualizado($actualizado);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getActualizado()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getActualizado', array());
+
+        return parent::getActualizado();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setIdInstitucion(\Sinam\CoreBundle\Entity\CtlInstitucion $idInstitucion = NULL)
     {
 
@@ -648,39 +670,6 @@ class CtlEstablecimiento extends \Sinam\CoreBundle\Entity\CtlEstablecimiento imp
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdMunicipio', array());
 
         return parent::getIdMunicipio();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addIdProducto(\Sinam\CoreBundle\Entity\FarmCatalogoproductos $idProducto)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addIdProducto', array($idProducto));
-
-        return parent::addIdProducto($idProducto);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function removeIdProducto(\Sinam\CoreBundle\Entity\FarmCatalogoproductos $idProducto)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeIdProducto', array($idProducto));
-
-        return parent::removeIdProducto($idProducto);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getIdProducto()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIdProducto', array());
-
-        return parent::getIdProducto();
     }
 
 }

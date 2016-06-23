@@ -86,3 +86,29 @@
     </div><!-- /.row -->
    </div><!-- /.container -->
   </header><!-- /#main-menu -->
+{% block js_head %}
+  <style>
+  .ui-autocomplete {
+    max-height: 400px;
+    max-width: 500px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 400px;
+    width: 500px;
+  }
+  </style>
+  <script>
+  $(function($) {
+    $( "#s" ).autocomplete({
+      source: 'jsonmedicamentos',
+      minLength: 4
+    });
+  });
+  </script>
+{% endblock %}

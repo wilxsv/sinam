@@ -6,85 +6,58 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * FarmUnidadmedidas
- *
- * @ORM\Table(name="farm_unidadmedidas")
- * @ORM\Entity
  */
 class FarmUnidadmedidas
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="farm_unidadmedidas_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="descripcion", type="string", length=6, nullable=false)
      */
     private $descripcion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="descripcionlarga", type="string", length=30, nullable=true)
      */
     private $descripcionlarga;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="unidadescontenidas", type="integer", nullable=false)
      */
     private $unidadescontenidas;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="cantidaddecimal", type="integer", nullable=true)
      */
     private $cantidaddecimal;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="auusuariocreacion", type="string", length=15, nullable=true)
      */
     private $auusuariocreacion;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="aufechacreacion", type="datetime", nullable=true)
      */
     private $aufechacreacion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="auusuariomodificacion", type="string", length=15, nullable=true)
      */
     private $auusuariomodificacion;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="aufechamodificacion", type="datetime", nullable=true)
      */
     private $aufechamodificacion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="integer", nullable=true)
      */
     private $estasincronizada;
-
 
 
     /**

@@ -6,6 +6,9 @@ Sinam\CoreBundle\Entity\SabCatEstablecimientos:
             columns:
                 - idpadre
                 - nivel
+        IDX_6D7918247EAD49C7:
+            columns:
+                - id_municipio
         IDX_6D791824EF433A34:
             columns:
                 - id_institucion
@@ -18,9 +21,6 @@ Sinam\CoreBundle\Entity\SabCatEstablecimientos:
         IDX_6D7918242CA6181C:
             columns:
                 - id_zona
-        IDX_6D7918247EAD49C7:
-            columns:
-                - id_municipio
     uniqueConstraints:
         sab_cat_establecimientos_codigoestablecimiento_key:
             columns:
@@ -68,6 +68,15 @@ Sinam\CoreBundle\Entity\SabCatEstablecimientos:
             nullable: true
             unsigned: false
     manyToOne:
+        idMunicipio:
+            targetEntity: CtlMunicipio
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_municipio:
+                    referencedColumnName: id
+            orphanRemoval: false
         idInstitucion:
             targetEntity: SabCatInstituciones
             cascade: {  }
@@ -102,15 +111,6 @@ Sinam\CoreBundle\Entity\SabCatEstablecimientos:
             inversedBy: null
             joinColumns:
                 id_zona:
-                    referencedColumnName: id
-            orphanRemoval: false
-        idMunicipio:
-            targetEntity: CtlMunicipio
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_municipio:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }
