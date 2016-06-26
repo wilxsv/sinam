@@ -324,6 +324,42 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
         not_consulta_abastecimiento:
 
+        if (0 === strpos($pathinfo, '/info_')) {
+            // info_establecimiento
+            if ($pathinfo === '/info_establecimiento') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_info_establecimiento;
+                }
+
+                return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\InfoController::establecimientoAction',  '_route' => 'info_establecimiento',);
+            }
+            not_info_establecimiento:
+
+            // info_contacto
+            if ($pathinfo === '/info_contacto') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_info_contacto;
+                }
+
+                return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\InfoController::contactoAction',  '_route' => 'info_contacto',);
+            }
+            not_info_contacto:
+
+            // info_ayuda
+            if ($pathinfo === '/info_ayuda') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_info_ayuda;
+                }
+
+                return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\InfoController::ayudaAction',  '_route' => 'info_ayuda',);
+            }
+            not_info_ayuda:
+
+        }
+
         // homepage
         if (rtrim($pathinfo, '/') === '') {
             if (substr($pathinfo, -1) !== '/') {

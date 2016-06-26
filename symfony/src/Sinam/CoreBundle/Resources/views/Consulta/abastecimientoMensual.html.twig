@@ -1,0 +1,39 @@
+ <section id="services" class="services">
+ <div id="comments" class="comments">
+  <div class="comments-area">
+   {% if rest == true %}
+    {% for item in rest %}
+    <div class="comments-details">
+      <ul class="comment-list">
+       <li class="parent">
+        <article class="comment">
+         <div class="comment-author"></div>
+          <div class="comment-content">
+          <p>Municipio: {{ item.municipio }}, Departamento: {{ item.depto }}<br/>
+          <b>Existencias: {{ item.cantidaddisponible|number_format(0, '.', ',') }} {{ item.unidad }} [Almacén: {{ item.almacen }}]</b>
+          </p>
+          {% for s in siap %}
+            {% if s.id == item.id %}
+              <p><b>Farmacia: {{ s.farmacia }}</b><br/>Existencias: {{ s.existencia|number_format(0, '.', ',') }} {{ s.unidad }}</p>
+            {% endif %}
+          {% endfor %}
+        </div>
+        </article>
+       </li>
+      </ul>
+    </div>
+    {% endfor %}
+   {% else %}<div class="item">
+      <div class="row">
+      <p align="center">
+        <div class="alert alert-danger" role="alert">
+          <p><strong>:: Establecimiento si registros ::</strong></p>
+          <p>No se pudo encontrar datos historicos de consumo de ese medicamento en la busqueda realizada, Intente repetir la búsqueda utilizando los filtros, verifique que el establecimiento este en el listado de establecimientos conectados al sistema y consulte los medicamentos de la tabla de medicamentos.</p>
+        </div>
+      </p>
+      </div>
+     </div>
+   {% endif %}
+   </div>
+  </div>
+ </section>

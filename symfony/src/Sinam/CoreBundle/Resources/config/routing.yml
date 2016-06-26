@@ -47,3 +47,15 @@ alternativo:
 consulta_abastecimiento:
     path:     /consulta_abastecimiento
     defaults: { _controller: SinamCoreBundle:PorAbastecimiento:index }
+
+info_establecimiento:
+    path:     /info_establecimiento
+    defaults: { _controller: SinamCoreBundle:Info:establecimiento }
+
+info_contacto:
+    path:     /info_contacto
+    defaults: { _controller: SinamCoreBundle:Info:contacto }
+
+info_ayuda:
+    path:     /info_ayuda
+    defaults: { _controller: SinamCoreBundle:Info:ayuda }

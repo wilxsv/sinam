@@ -22,8 +22,6 @@
                           {{ form_widget(form.nombre) }}
                           <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
                         <br/>
-                        <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
-                        <div class="filtro box">
                         {{ form_label(form.departamento) }}<br />
                         <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;">
                               <option value="0">Todos</option>
@@ -44,15 +42,11 @@
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
                           </select><br />
-                        Numero de establecimientos: 
+                        Numero de establecimientos (Aplica solo a consultas de abastecimiento por departamento o municipio): 
                           <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
                           <div id="slider-range-min"></div><br />
-                         <p align="right">
-                          <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
-                         </p> 
-                        </div>
+                         <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
                      </div>
-                     <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
                     </p>
                   </div>
                 </div>
@@ -78,7 +72,7 @@
            $('#resultado').html('');
            $.ajax({
                 type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=0&nombre=" + $('#basica_nombre').val()+"&max="+$('#limite').val(),
+                url: "{{ url('consulta_abastecimiento') }}?tipo=0&nombre=" + $('#basica_nombre').val()+"&max="+$('#limite').val(),
                 success: function(data) {
                     // Remove current options
                     $('#resultado').html(data);

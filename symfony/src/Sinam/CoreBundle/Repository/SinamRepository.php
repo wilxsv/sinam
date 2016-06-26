@@ -136,13 +136,27 @@ class SinamRepository extends EntityRepository
        } catch (\Doctrine\Orm\NoResultException $e) {
         $query = null;
        }             
-  } 
+  }
+
+  public function findByEstablecimientos( $order, $actualizado ){
+   $actualizado = ($actualizado) ? "e.actualizado IS NOT NULL" : "e.actualizado IS NULL";
+   $query = $this->getEntityManager()
+           ->createQuery("SELECT d.nombre AS depto, m.nombre AS municipio, e.nombre AS establecimiento, e.actualizado
+             FROM SinamCoreBundle:CtlEstablecimiento e, SinamCoreBundle:CtlMunicipio AS m, SinamCoreBundle:CtlDepartamento AS d
+             WHERE $actualizado AND e.idMunicipio = m.id AND m.idDepartamento = d.id
+             ORDER BY m.nombre $order");
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }             
+  }
+
   public function findByLocalidad( $id, $depto, $munic, $estab, $max, $lat, $lng ){
    $depto = ($depto > 0) ? " AND d.id = $depto " : '';
    $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
    $estab = ($estab > 0) ? " AND e.id = $estab " : '';
    $max = ($max > 0) ? $max : 7;
-//m.formafarmaceutica AS , m.presentacion AS presentacion, ea.cantidaddisponible, ep.id AS id, e.nombre AS establecimiento, mu.nombre AS municipio, d.nombre AS depto, a.nombre AS almacen, u.descripcion AS unidad, ep.latitud AS latitud, ep.longitud AS longitud
    $sql = "SELECT ms.nombre, m.formafarmaceutica AS observacion, m.presentacion AS presentacion, mu.nombre AS codigo,
    (round( CAST(s2_.cantidaddisponible as numeric), 0)::TEXT ||' '|| s8_.descripcion ) AS idTipoproducto, c3_.id AS estadoproducto, c3_.nombre AS formafarmaceutica, d.nombre AS idPro, s7_.nombre AS concentracion, c3_.latitud AS idunidadmedida, c3_.longitud AS clasificacion,
      get_distancia( $lat, $lng, c3_.latitud, c3_.longitud ) AS distancia
@@ -165,11 +179,6 @@ class SinamRepository extends EntityRepository
    $rsm->addFieldResult('m', 'formafarmaceutica', 'formafarmaceutica');
    $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);
 
-
-/*
-    $rsm = new ResultSetMapping();
-    
-    $query = $this->getEntityManager()->createNativeQuery($sql, $rsm);*/
    try {
         return $query->getResult( );
        } catch (\Doctrine\Orm\NoResultException $e) {

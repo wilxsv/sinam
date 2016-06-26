@@ -23,29 +23,29 @@ class BusquedaAbastecimientoType extends AbstractType
     {
         $builder
             ->add('nombre',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '100%')))
-            ->add('mes',  ChoiceType::class, [
+            ->add('mes',  ChoiceType::class, array( 'label' => 'Seleccione el mes a consultar',
                 'choices' => [
                     'Meses' => [
-                        '1' => 'Enero',
-                        '2' => 'Febrero',
-                        '3' => 'Marzo',
-                        '4' => 'Abril',
-                        '5' => 'Mayo',
-                        '6' => 'Junio',
-                        '7' => 'Julio',
-                        '8' => 'Agosto',
-                        '9' => 'Septiembre',
-                        '10' => 'Octubre',
-                        '11' => 'Noviembre',
-                        '12' => 'Diciembre'
+                        'Enero' => '1',
+                        'Febrero' => '2',
+                        'Marzo' => '3',
+                        'Abril' => '4',
+                        'Mayo' => '5',
+                        'Junio' => '6',
+                        'Julio' => '7',
+                        'Agosto' => '8',
+                        'Septiembre' => '9',
+                        'Octubre' => '10',
+                        'Noviembre' => '11',
+                        'Diciembre' => '12'
                         ],
                     'Periodo' => [
-                        '13' => 'Ene - Mar',
-                        '14' => 'Abr - Jun',
-                        '15' => 'Jul - Sep',
-                        '16' => 'Oct - Dic'
+                        'Ene - Mar' => '13',
+                        'Abr - Jun' => '14',
+                        'Jul - Sep' => '15',
+                        'Oct - Dic' => '16'
                         ]
-                ], 'choices_as_values' => true, array('label' => 'Seleccione el mes a consultar','attr'=>  array('size' => '100%')))
+                ], 'choices_as_values' => true ))
             ->add('departamento',  EntityType::class, array('label' => 'Seleccione el departamento','attr'=>  array('onchange' => 'cargarMun(this.value);', 'style' => 'width: 90%'), 'class' => 'SinamCoreBundle:CtlDepartamento','choice_label'=>'nombre'))
             ->add('municipio',  EntityType::class, array('label' => 'Seleccione el municipio', 'class' => 'SinamCoreBundle:CtlMunicipio','choice_label'=>'nombre', 'attr'=>  array('onchange' => 'cargarEsta(this.value);', 'style' => 'width: 90%')))
             ->add('establecimiento', EntityType::class, array('label' => 'Seleccione el establecimiento','class' => 'SinamCoreBundle:CtlEstablecimiento', 'choice_label' => 'nombre'))

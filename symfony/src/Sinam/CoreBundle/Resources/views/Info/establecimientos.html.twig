@@ -1,0 +1,19 @@
+{% extends 'SinamCoreBundle::default.html.twig' %}
+{% block body %}
+<div class="col-sm-12">
+  <h3 class="comment-title">Establecimientos conectados al sistema</h3>
+  <div class="item">
+    <div class="row">
+      <table class="table table-condensed">
+        <thead><th><b>Departamento</b></th><th><b>Municipio</b></th><th><b>Establecimiento</b></th><th><b>Actualizado</b></th></thead>
+        {% for item in active %}
+          <tr><td>{{ item.depto }}</td><td>{{ item.municipio }}</td><td>{{ item.establecimiento }}</td><td>{{ item.actualizado | date('Y-m-d') }}</td></tr>
+        {% endfor %}
+      </table> 
+    </div>
+  </div>
+</div>
+<div class="col-sm-12" style="height: 600px;overflow-y:scroll;">
+   <iframe src="https://geo.salud.gob.sv/" height="600px" width="100%"></iframe> 
+</div>
+{% endblock %}
