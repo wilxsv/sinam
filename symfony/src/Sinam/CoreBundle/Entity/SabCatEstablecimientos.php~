@@ -50,6 +50,11 @@ class SabCatEstablecimientos
     private $idmaestro;
 
     /**
+     * @var \Sinam\CoreBundle\Entity\CtlMunicipio
+     */
+    private $idMunicipio;
+
+    /**
      * @var \Sinam\CoreBundle\Entity\SabCatInstituciones
      */
     private $idInstitucion;
@@ -69,23 +74,6 @@ class SabCatEstablecimientos
      */
     private $idZona;
 
-    /**
-     * @var \Sinam\CoreBundle\Entity\CtlMunicipio
-     */
-    private $idMunicipio;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $idAlmacen;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idAlmacen = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id
@@ -259,6 +247,29 @@ class SabCatEstablecimientos
     }
 
     /**
+     * Set idMunicipio
+     *
+     * @param \Sinam\CoreBundle\Entity\CtlMunicipio $idMunicipio
+     * @return SabCatEstablecimientos
+     */
+    public function setIdMunicipio(\Sinam\CoreBundle\Entity\CtlMunicipio $idMunicipio = null)
+    {
+        $this->idMunicipio = $idMunicipio;
+
+        return $this;
+    }
+
+    /**
+     * Get idMunicipio
+     *
+     * @return \Sinam\CoreBundle\Entity\CtlMunicipio 
+     */
+    public function getIdMunicipio()
+    {
+        return $this->idMunicipio;
+    }
+
+    /**
      * Set idInstitucion
      *
      * @param \Sinam\CoreBundle\Entity\SabCatInstituciones $idInstitucion
@@ -348,61 +359,5 @@ class SabCatEstablecimientos
     public function getIdZona()
     {
         return $this->idZona;
-    }
-
-    /**
-     * Set idMunicipio
-     *
-     * @param \Sinam\CoreBundle\Entity\CtlMunicipio $idMunicipio
-     * @return SabCatEstablecimientos
-     */
-    public function setIdMunicipio(\Sinam\CoreBundle\Entity\CtlMunicipio $idMunicipio = null)
-    {
-        $this->idMunicipio = $idMunicipio;
-
-        return $this;
-    }
-
-    /**
-     * Get idMunicipio
-     *
-     * @return \Sinam\CoreBundle\Entity\CtlMunicipio 
-     */
-    public function getIdMunicipio()
-    {
-        return $this->idMunicipio;
-    }
-
-    /**
-     * Add idAlmacen
-     *
-     * @param \Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen
-     * @return SabCatEstablecimientos
-     */
-    public function addIdAlmacen(\Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen)
-    {
-        $this->idAlmacen[] = $idAlmacen;
-
-        return $this;
-    }
-
-    /**
-     * Remove idAlmacen
-     *
-     * @param \Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen
-     */
-    public function removeIdAlmacen(\Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen)
-    {
-        $this->idAlmacen->removeElement($idAlmacen);
-    }
-
-    /**
-     * Get idAlmacen
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdAlmacen()
-    {
-        return $this->idAlmacen;
     }
 }

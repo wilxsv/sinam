@@ -7,7 +7,7 @@ Sinam\CoreBundle\Entity\SabCatAlternativasproducto:
                 - id_producto
     id:
         id:
-            type: integer
+            type: bigint
             nullable: false
             unsigned: false
             id: true
@@ -41,5 +41,4 @@ Sinam\CoreBundle\Entity\SabCatAlternativasproducto:
                 id_producto:
                     referencedColumnName: idpro
             orphanRemoval: false
-    oneToOne:
     lifecycleCallbacks: {  }

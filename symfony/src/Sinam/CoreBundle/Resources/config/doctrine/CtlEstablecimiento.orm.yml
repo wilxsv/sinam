@@ -124,6 +124,9 @@ Sinam\CoreBundle\Entity\CtlEstablecimiento:
             nullable: true
             unsigned: false
             comment: 'Tiempo previo que el paciente debe presentarse a su cita'
+        actualizado:
+            type: datetime
+            nullable: true
     manyToOne:
         idInstitucion:
             targetEntity: CtlInstitucion

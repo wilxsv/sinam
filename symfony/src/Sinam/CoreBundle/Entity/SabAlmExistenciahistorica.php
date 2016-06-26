@@ -6,84 +6,53 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SabAlmExistenciahistorica
- *
- * @ORM\Table(name="sab_alm_existenciahistorica", indexes={@ORM\Index(name="IDX_E4D147E1B2F7B20", columns={"id_almacen"}), @ORM\Index(name="IDX_E4D147E1F760EA80", columns={"id_producto"})})
- * @ORM\Entity
  */
 class SabAlmExistenciahistorica
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sab_alm_existenciahistorica_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="fecha", type="datetime", nullable=false)
      */
     private $fecha;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="cantidaddisponible", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $cantidaddisponible;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="cantidadnodisponible", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $cantidadnodisponible;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="cantidadreservada", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $cantidadreservada;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="cantidadtemporal", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $cantidadtemporal;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="cantidadvencida", type="decimal", precision=10, scale=0, nullable=false)
      */
     private $cantidadvencida;
 
     /**
-     * @var \SabCatAlmacenes
-     *
-     * @ORM\ManyToOne(targetEntity="SabCatAlmacenes")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_almacen", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\SabCatAlmacenes
      */
     private $idAlmacen;
 
     /**
-     * @var \SabCatCatalogoproductos
-     *
-     * @ORM\ManyToOne(targetEntity="SabCatCatalogoproductos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_producto", referencedColumnName="idpro")
-     * })
+     * @var \Sinam\CoreBundle\Entity\SabCatCatalogoproductos
      */
     private $idProducto;
-
 
 
     /**

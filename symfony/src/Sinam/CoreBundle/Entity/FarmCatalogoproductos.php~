@@ -6,274 +6,173 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * FarmCatalogoproductos
- *
- * @ORM\Table(name="farm_catalogoproductos", indexes={@ORM\Index(name="IDX_725517AAE12A4E52", columns={"idunidadmedida"}), @ORM\Index(name="IDX_725517AAA382C6C4", columns={"idterapeutico"})})
- * @ORM\Entity(repositoryClass="Sinam\CoreBundle\Repository\SinamRepository")
  */
 class FarmCatalogoproductos
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="farm_catalogoproductos_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="codigo", type="string", length=8, nullable=false)
      */
     private $codigo;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idtipoproducto", type="integer", nullable=true)
      */
     private $idtipoproducto;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nombre", type="text", nullable=false)
      */
     private $nombre;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="niveluso", type="integer", nullable=true)
      */
     private $niveluso;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="concentracion", type="string", length=382, nullable=true)
      */
     private $concentracion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="formafarmaceutica", type="string", length=91, nullable=true)
      */
     private $formafarmaceutica;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="presentacion", type="string", length=150, nullable=true)
      */
     private $presentacion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="prioridad", type="integer", nullable=true)
      */
     private $prioridad;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="precioactual", type="decimal", precision=20, scale=3, nullable=true)
      */
     private $precioactual;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="aplicalote", type="integer", nullable=true)
      */
     private $aplicalote;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="existenciaactual", type="decimal", precision=15, scale=3, nullable=true)
      */
     private $existenciaactual;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="especificacionestecnicas", type="text", nullable=true)
      */
     private $especificacionestecnicas;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="codigonacionesunidas", type="string", length=20, nullable=true)
      */
     private $codigonacionesunidas;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="pertenecelistadooficial", type="integer", nullable=true)
      */
     private $pertenecelistadooficial;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estadoproducto", type="integer", nullable=true)
      */
     private $estadoproducto;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="observacion", type="text", nullable=true)
      */
     private $observacion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="auusuariocreacion", type="string", length=15, nullable=true)
      */
     private $auusuariocreacion;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="aufechacreacion", type="datetime", nullable=true)
      */
     private $aufechacreacion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="auusuariomodificacion", type="string", length=15, nullable=true)
      */
     private $auusuariomodificacion;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="aufechamodificacion", type="datetime", nullable=true)
      */
     private $aufechamodificacion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="integer", nullable=true)
      */
     private $estasincronizada;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idestablecimiento", type="integer", nullable=true)
      */
     private $idestablecimiento;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="clasificacion", type="string", length=1, nullable=true)
      */
     private $clasificacion;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="areatecnica", type="integer", nullable=true)
      */
     private $areatecnica;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="tipouaci", type="integer", nullable=true)
      */
     private $tipouaci;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idespecificogasto", type="integer", nullable=true)
      */
     private $idespecificogasto;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="ultimoprecio", type="decimal", precision=20, scale=3, nullable=true)
      */
     private $ultimoprecio;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="idestado", type="string", length=1, nullable=true)
      */
     private $idestado;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="divisormedicina", type="integer", nullable=true)
      */
     private $divisormedicina;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="cuantificable", type="integer", nullable=true)
      */
     private $cuantificable;
 
     /**
-     * @var \FarmUnidadmedidas
-     *
-     * @ORM\ManyToOne(targetEntity="FarmUnidadmedidas")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idunidadmedida", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\FarmUnidadmedidas
      */
     private $idunidadmedida;
 
     /**
-     * @var \MntGrupoterapeutico
-     *
-     * @ORM\ManyToOne(targetEntity="MntGrupoterapeutico")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idterapeutico", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\MntGrupoterapeutico
      */
     private $idterapeutico;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="CtlEstablecimiento", inversedBy="idProducto")
-     * @ORM\JoinTable(name="ctl_abastecimiento",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_producto", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_establecimiento", referencedColumnName="id")
-     *   }
-     * )
-     */
-    private $idEstablecimiento;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idEstablecimiento = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 
     /**
@@ -786,24 +685,24 @@ class FarmCatalogoproductos
      * Get idestablecimiento
      *
      * @return integer 
-    
+     */
     public function getIdestablecimiento()
     {
         return $this->idestablecimiento;
-    } */
+    }
 
     /**
      * Set clasificacion
      *
-     * @param string $clasificacio
+     * @param string $clasificacion
      * @return FarmCatalogoproductos
-  
+     */
     public function setClasificacion($clasificacion)
     {
         $this->clasificacion = $clasificacion;
 
         return $this;
-    }   */
+    }
 
     /**
      * Get clasificacion
@@ -1020,51 +919,5 @@ class FarmCatalogoproductos
     public function getIdterapeutico()
     {
         return $this->idterapeutico;
-    }
-
-    /**
-     * Add idEstablecimiento
-     *
-     * @param \Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento
-     * @return FarmCatalogoproductos
-     */
-    public function addIdEstablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento)
-    {
-        $this->idEstablecimiento[] = $idEstablecimiento;
-
-        return $this;
-    }
-
-    /**
-     * Remove idEstablecimiento
-     *
-     * @param \Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento
-     */
-    public function removeIdEstablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idEstablecimiento)
-    {
-        $this->idEstablecimiento->removeElement($idEstablecimiento);
-    }
-
-    /**
-     * Get idEstablecimiento
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdEstablecimiento()
-    {
-        return $this->idEstablecimiento;
-    }
-
-    /**
-     * Set clasificacion
-     *
-     * @param string $clasificacion
-     * @return FarmCatalogoproductos
-     */
-    public function setClasificacion($clasificacion)
-    {
-        $this->clasificacion = $clasificacion;
-
-        return $this;
     }
 }

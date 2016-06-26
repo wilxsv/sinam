@@ -6,57 +6,38 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SabCatUnidadmedidas
- *
- * @ORM\Table(name="sab_cat_unidadmedidas")
- * @ORM\Entity
  */
 class SabCatUnidadmedidas
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sab_cat_unidadmedidas_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="descripcion", type="string", length=6, nullable=false)
      */
     private $descripcion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="descripcionlarga", type="string", length=30, nullable=true)
      */
     private $descripcionlarga;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="unidadescontenidas", type="integer", nullable=false)
      */
     private $unidadescontenidas;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="cantidaddecimal", type="smallint", nullable=true)
      */
     private $cantidaddecimal;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="smallint", nullable=false)
      */
     private $estasincronizada;
-
 
 
     /**

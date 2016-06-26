@@ -6,57 +6,36 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SabCatMunicipios
- *
- * @ORM\Table(name="sab_cat_municipios", indexes={@ORM\Index(name="sab_cat_municipios_ix_municipios", columns={"id_departamento", "codigomunicipio"}), @ORM\Index(name="IDX_63E572D16325E299", columns={"id_departamento"})})
- * @ORM\Entity
  */
 class SabCatMunicipios
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sab_cat_municipios_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="codigomunicipio", type="string", length=2, nullable=false)
      */
     private $codigomunicipio;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=25, nullable=true)
      */
     private $nombre;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="smallint", nullable=false)
      */
     private $estasincronizada;
 
     /**
-     * @var \SabCatDepartamentos
-     *
-     * @ORM\ManyToOne(targetEntity="SabCatDepartamentos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_departamento", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\SabCatDepartamentos
      */
     private $idDepartamento;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="CtlMunicipio", mappedBy="idSinab")
      */
     private $idSiap;
 
@@ -67,7 +46,6 @@ class SabCatMunicipios
     {
         $this->idSiap = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id

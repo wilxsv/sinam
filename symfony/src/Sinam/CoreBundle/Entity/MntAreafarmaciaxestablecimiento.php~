@@ -6,67 +6,43 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * MntAreafarmaciaxestablecimiento
- *
- * @ORM\Table(name="mnt_areafarmaciaxestablecimiento", indexes={@ORM\Index(name="IDX_2B5F8AA845BCCC8", columns={"idarea"})})
- * @ORM\Entity
  */
 class MntAreafarmaciaxestablecimiento
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idrelacion", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="mnt_areafarmaciaxestablecimiento_idrelacion_seq", allocationSize=1, initialValue=1)
      */
     private $idrelacion;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="habilitado", type="string", length=1, nullable=false)
      */
     private $habilitado;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idestablecimiento", type="integer", nullable=false)
-     */
-    private $idestablecimiento;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idmodalidad", type="integer", nullable=false)
      */
     private $idmodalidad;
 
     /**
      * @var boolean
-     *
-     * @ORM\Column(name="carga_sinab", type="boolean", nullable=false)
      */
     private $cargaSinab;
 
     /**
      * @var boolean
-     *
-     * @ORM\Column(name="dispensar_seguimiento", type="boolean", nullable=true)
      */
     private $dispensarSeguimiento;
 
     /**
-     * @var \MntAreafarmacia
-     *
-     * @ORM\ManyToOne(targetEntity="MntAreafarmacia")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idarea", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\MntAreafarmacia
      */
     private $idarea;
 
+    /**
+     * @var \Sinam\CoreBundle\Entity\CtlEstablecimiento
+     */
+    private $idestablecimiento;
 
 
     /**
@@ -100,29 +76,6 @@ class MntAreafarmaciaxestablecimiento
     public function getHabilitado()
     {
         return $this->habilitado;
-    }
-
-    /**
-     * Set idestablecimiento
-     *
-     * @param integer $idestablecimiento
-     * @return MntAreafarmaciaxestablecimiento
-     */
-    public function setIdestablecimiento($idestablecimiento)
-    {
-        $this->idestablecimiento = $idestablecimiento;
-
-        return $this;
-    }
-
-    /**
-     * Get idestablecimiento
-     *
-     * @return integer 
-     */
-    public function getIdestablecimiento()
-    {
-        return $this->idestablecimiento;
     }
 
     /**
@@ -215,5 +168,28 @@ class MntAreafarmaciaxestablecimiento
     public function getIdarea()
     {
         return $this->idarea;
+    }
+
+    /**
+     * Set idestablecimiento
+     *
+     * @param \Sinam\CoreBundle\Entity\CtlEstablecimiento $idestablecimiento
+     * @return MntAreafarmaciaxestablecimiento
+     */
+    public function setIdestablecimiento(\Sinam\CoreBundle\Entity\CtlEstablecimiento $idestablecimiento = null)
+    {
+        $this->idestablecimiento = $idestablecimiento;
+
+        return $this;
+    }
+
+    /**
+     * Get idestablecimiento
+     *
+     * @return \Sinam\CoreBundle\Entity\CtlEstablecimiento 
+     */
+    public function getIdestablecimiento()
+    {
+        return $this->idestablecimiento;
     }
 }

@@ -74,4 +74,9 @@ Sinam\CoreBundle\Entity\SabCatCatalogoproductos:
             nullable: true
             length: 1
             fixed: true
+        visto:
+            type: bigint
+            nullable: false
+            unsigned: false
+            default: '0'
     lifecycleCallbacks: {  }

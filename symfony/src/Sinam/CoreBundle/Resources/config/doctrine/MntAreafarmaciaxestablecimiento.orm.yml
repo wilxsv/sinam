@@ -2,12 +2,12 @@ Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
     type: entity
     table: mnt_areafarmaciaxestablecimiento
     indexes:
+        fki_establecimiento:
+            columns:
+                - idestablecimiento
         IDX_2B5F8AA845BCCC8:
             columns:
                 - idarea
-        IDX_2B5F8AA875BB31F7:
-            columns:
-                - idestablecimiento
     id:
         idrelacion:
             type: integer
@@ -52,7 +52,7 @@ Sinam\CoreBundle\Entity\MntAreafarmaciaxestablecimiento:
                     referencedColumnName: id
             orphanRemoval: false
         idestablecimiento:
-            targetEntity: SabCatEstablecimientos
+            targetEntity: CtlEstablecimiento
             cascade: {  }
             mappedBy: null
             inversedBy: null

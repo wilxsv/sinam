@@ -2,12 +2,12 @@ Sinam\CoreBundle\Entity\SabCatAlmacenesestablecimientos:
     type: entity
     table: sab_cat_almacenesestablecimientos
     indexes:
-        IDX_1954A17B2F7B20:
-            columns:
-                - id_almacen
         IDX_1954A177DFA12F6:
             columns:
                 - id_establecimiento
+        IDX_1954A17B2F7B20:
+            columns:
+                - id_almacen
     id:
         id:
             type: bigint
@@ -28,15 +28,6 @@ Sinam\CoreBundle\Entity\SabCatAlmacenesestablecimientos:
             unsigned: false
             default: '0'
     manyToOne:
-        idAlmacen:
-            targetEntity: SabCatAlmacenes
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                id_almacen:
-                    referencedColumnName: id
-            orphanRemoval: false
         idEstablecimiento:
             targetEntity: SabCatEstablecimientos
             cascade: {  }
@@ -44,6 +35,15 @@ Sinam\CoreBundle\Entity\SabCatAlmacenesestablecimientos:
             inversedBy: null
             joinColumns:
                 id_establecimiento:
+                    referencedColumnName: id
+            orphanRemoval: false
+        idAlmacen:
+            targetEntity: SabCatAlmacenes
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_almacen:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

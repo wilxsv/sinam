@@ -6,43 +6,28 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * SabCatDepartamentos
- *
- * @ORM\Table(name="sab_cat_departamentos", uniqueConstraints={@ORM\UniqueConstraint(name="sab_cat_departamentos_codigodepartamento_key", columns={"codigodepartamento"})})
- * @ORM\Entity
  */
 class SabCatDepartamentos
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="bigint", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="sab_cat_departamentos_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="codigodepartamento", type="string", length=2, nullable=false)
      */
     private $codigodepartamento;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=20, nullable=false)
      */
     private $nombre;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estasincronizada", type="smallint", nullable=false)
      */
     private $estasincronizada;
-
 
 
     /**

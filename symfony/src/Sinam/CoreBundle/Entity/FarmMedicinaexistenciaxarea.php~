@@ -6,70 +6,43 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * FarmMedicinaexistenciaxarea
- *
- * @ORM\Table(name="farm_medicinaexistenciaxarea", indexes={@ORM\Index(name="IDX_FB0BA1FB45BCCC8", columns={"idarea"}), @ORM\Index(name="IDX_FB0BA1FBF58EA699", columns={"idmedicina"})})
- * @ORM\Entity
  */
 class FarmMedicinaexistenciaxarea
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="farm_medicinaexistenciaxarea_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="existencia", type="decimal", precision=11, scale=3, nullable=false)
      */
     private $existencia;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idlote", type="integer", nullable=false)
      */
     private $idlote;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idestablecimiento", type="integer", nullable=false)
      */
     private $idestablecimiento;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="idmodalidad", type="integer", nullable=false)
      */
     private $idmodalidad;
 
     /**
-     * @var \MntAreafarmacia
-     *
-     * @ORM\ManyToOne(targetEntity="MntAreafarmacia")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idarea", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\MntAreafarmacia
      */
     private $idarea;
 
     /**
-     * @var \FarmCatalogoproductos
-     *
-     * @ORM\ManyToOne(targetEntity="FarmCatalogoproductos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idmedicina", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\FarmCatalogoproductos
      */
     private $idmedicina;
-
 
 
     /**

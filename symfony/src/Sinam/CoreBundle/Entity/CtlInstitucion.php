@@ -6,74 +6,48 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * CtlInstitucion
- *
- * @ORM\Table(name="ctl_institucion", indexes={@ORM\Index(name="IDX_3123F0D4F57D32FD", columns={"id_pais"})})
- * @ORM\Entity
  */
 class CtlInstitucion
 {
     /**
      * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="ctl_institucion_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=150, nullable=false)
      */
     private $nombre;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="logo", type="string", length=35, nullable=true)
      */
     private $logo;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="rectora", type="string", length=10, nullable=true)
      */
     private $rectora;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="categoria", type="integer", nullable=true)
      */
     private $categoria;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="sigla", type="string", length=14, nullable=true)
      */
     private $sigla;
 
     /**
      * @var integer
-     *
-     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
 
     /**
-     * @var \CtlPais
-     *
-     * @ORM\ManyToOne(targetEntity="CtlPais")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_pais", referencedColumnName="id")
-     * })
+     * @var \Sinam\CoreBundle\Entity\CtlPais
      */
     private $idPais;
-
 
 
     /**

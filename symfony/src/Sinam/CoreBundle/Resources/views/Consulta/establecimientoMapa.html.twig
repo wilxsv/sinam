@@ -1,3 +1,79 @@
+{% if rest == true %}
+<div id="resMap" class="col-sm-4" style="height: 600px;overflow-y:scroll;">
+  <div class="panel panel-primary">
+    <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
+      <div class="panel-body">
+        {% for item in rest %}
+          <p><b>{{ item.formafarmaceutica }}</b></p>
+          <p><a href="#{{item.estadoproducto}}"><span class="label label-success pull-left">Ver detalle</span></a> - <a target="_blank" href="http://maps.google.com/maps/?saddr={{lat}},{{lng}}&daddr={{item.idunidadmedida}},{{item.clasificacion}}"><span class="label label-info pull-right">¿como llegar?</span></a></p>
+          <hr/>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+<div  id="Map" class="col-sm-8" style="height: 600px;overflow-y:scroll;"></div>
+<script>
+function initMap() {
+        var map = new google.maps.Map(document.getElementById('Map'), {
+          zoom: 10,
+          center: {lat: 13.697911, lng: -89.218846}
+        });
+
+        setMarkers(map);
+      }
+
+      // Data for the markers consisting of a name, a LatLng and a zIndex for the
+      // order in which these markers should display on top of each other.
+      var beaches = [
+        {% set i = 1 %}
+        {% for item in rest %}
+          ['{{ item.formafarmaceutica }}', {{item.idunidadmedida}}, {{item.clasificacion}}, {{ i }}],
+          {% set i = i + 1 %}
+        {% endfor %}
+        ['last', -33.950198, 151.259302, 1]
+      ];
+
+      function setMarkers(map) {
+        // Adds markers to the map.
+
+        // Marker sizes are expressed as a Size of X,Y where the origin of the image
+        // (0,0) is located in the top left of the image.
+
+        // Origins, anchor positions and coordinates of the marker increase in the X
+        // direction to the right and in the Y direction down.
+        var image = {
+          url: '{{ asset('images/hospital_32_32.png') }}',
+          // This marker is 20 pixels wide by 32 pixels high.
+          size: new google.maps.Size(32, 32),
+          // The origin for this image is (0, 0).
+          origin: new google.maps.Point(0, 0),
+          // The anchor for this image is the base of the flagpole at (0, 32).
+          anchor: new google.maps.Point(0, 32)
+        };
+        // Shapes define the clickable region of the icon. The type defines an HTML
+        // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+        // The final coordinate closes the poly by connecting to the first coordinate.
+        var shape = {
+          coords: [1, 1, 1, 32, 32, 32, 32, 1],
+          type: 'poly'
+        };
+        for (var i = 0; i < beaches.length; i++) {
+          var beach = beaches[i];
+          var marker = new google.maps.Marker({
+            position: {lat: beach[1], lng: beach[2]},
+            map: map,
+            icon: image,
+            shape: shape,
+            title: beach[0],
+            zIndex: beach[3]
+          });
+        }
+      }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDdO990oU4KORycVTDAMyeN3qkLNyWBjaQ&callback=initMap"></script>
+{% endif %}
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<div class="col-sm-12">
  <section id="services" class="services">
  <div id="comments" class="comments">
   <div class="comments-area">
@@ -20,15 +96,15 @@
           <article class="comment">
            <div class="comment-author"></div>
             <div class="comment-content">
-            <h4 class="author-name pull-left">Establecimiento: {{ item.establecimiento }} 
-            {% if item.latitud != 0 %}
-              <a target="_blank" href="whatsapp://send?data-text=Instrucciones para llegar a : <a></a>" data-href"minsal"><span class="label label-success pull-right">Enviar por whatsapp</span></a> <a target="_blank" href="http://maps.google.com/maps/?saddr=san salvador&daddr={{item.latitud}},{{item.longitud}}"><span class="label label-info pull-right">¿como llegar?</span></a> <a target="_blank" href="//waze.to/?q={{item.latitud}},{{item.longitud}}"><span class="label label-warning pull-right">ver en waze</span></a>
+            <h4 id="{{item.estadoproducto}}" class="author-name pull-left">Establecimiento: {{ item.formafarmaceutica }} <br/>
+            {% if item.idunidadmedida != 0 %}
+              <a target="_blank" href="whatsapp://send?data-text=Instrucciones para llegar a : <a></a>" data-href"minsal"><span class="label label-success pull-right">Enviar por whatsapp</span></a> <a target="_blank" href="http://maps.google.com/maps/?saddr={{lat}},{{lng}}&daddr={{item.idunidadmedida}},{{item.clasificacion}}"><span class="label label-info pull-right">¿como llegar?</span></a> <a target="_blank" href="//waze.to/?q={{item.idunidadmedida}},{{item.clasificacion}}"><span class="label label-warning pull-right">ver en waze</span></a>
             {% endif %}</h4>
-            <p>Municipio: {{ item.municipio }}, Departamento: {{ item.depto }}<br/>
-            <b>Existencias: {{ item.cantidaddisponible|number_format(0, '.', ',') }} {{ item.unidad }} [Almacén: {{ item.almacen }}]</b>
+            <p>Municipio: {{ item.codigo }}, Departamento: {{ item.idpro }}<br/>
+            <b>Existencias: {{ item.idtipoproducto }} [Almacén: {{ item.concentracion }}]</b>
             </p>
             {% for s in siap %}
-              {% if s.id == item.id %}
+              {% if s.id == item.estadoproducto %}
                 <p><b>Farmacia: {{ s.farmacia }}</b><br/>Existencias: {{ s.existencia|number_format(0, '.', ',') }} {{ s.unidad }}</p>
               {% endif %}
             {% endfor %}
@@ -39,12 +115,9 @@
       </div>
     {% endif %}
     {% endfor %}
-   {% else %}<div class="item">
+   {% elseif alt == true %}<div class="item">
       <div class="row">
       <p align="center">
-        <div class="alert alert-warning" role="alert"><strong>Aviso!</strong> No encontramos un lugar de referencia con ese nombre<br />
-       Se recomienda hacer nombrar el lugar como:  "lugar, departamento"</div>
-
         <div class="alert alert-danger" role="alert">
           <p><strong>:: No se encontraron existencias ::</strong></p>
           <p>No se pudo encontrar el medicamento búscado, Intente repetir la búsqueda utilizando los filtros o consulte los medicamentos de la tabla de medicamentos alternativos para hacer una nueva búsqueda.</p>
@@ -63,8 +136,16 @@
       </p>
       </div>
      </div>
+   {% else  %}<div class="item">
+      <div class="row">
+      <p align="center">
+        <div class="alert alert-warning" role="alert"><strong>Aviso!</strong> No encontramos un lugar de referencia con ese nombre<br />
+       Se recomienda hacer nombrar el lugar como:  "lugar, departamento"</div>
+      </div>
+     </div>
    {% endif %}
    </div>
   </div>
  </section>
  <div  id="Mapa" class="col-sm-12"></div>
+</div>

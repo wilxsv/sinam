@@ -67,16 +67,16 @@
        <ul id="headernavigation" class="menu-list nav navbar-nav">
         <li><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
         <li><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
-        <li><a href="{{ path( 'alternativo' ) }}">Abastecimiento</a></li>
+        <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
         {% if app.request.attributes.get('_route') != 'sinam_core_homepage' and app.request.attributes.get('_route') != 'sinam_core_homepage' %}
-          <li><a href="{{ path( 'sinam_core_homepage' ) }}">Ayuda</a></li>
+          <li><a onclick="javascript:introJs().setOptions({ 'skipLabel': 'Saltar', 'nextLabel': 'Siguiente', 'prevLabel': 'Anterior', 'doneLabel': 'Finalizar'}).start();" href='javascript:void(0);'>Ayuda</a></li>
         {% endif %}
-        <li><a href="{{ path( 'sinam_core_homepage' ) }}">Contáctenos</a></li>        
+        <li><a href="{{ path( 'info_contacto' ) }}">Contáctenos</a></li>        
        </ul><!-- /.menu-list -->
       </nav><!-- /.menu-list -->
      </div>
      <div class="col-sm-4">
-      <div class="menu-search pull-right">
+      <div class="menu-search pull-right" data-step="1" data-intro="En este cuadro se puede buscar el medicamento a consultar.<br/>El medicamento se busca a nivel nacional">
        <form role="search" class="search-form" action="#" method="get">
         <input class="search-field" type="text" name="s" id="s" placeholder="Buscar Medicamento" required>
         <button class="btn search-btn" type="submit"><i class="fa fa-search"></i></button>
@@ -86,3 +86,32 @@
     </div><!-- /.row -->
    </div><!-- /.container -->
   </header><!-- /#main-menu -->
+{% block js_head %}
+  <style>
+  .ui-autocomplete {
+    max-height: 400px;
+    max-width: 500px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  .ui-autocomplete-loading {
+    background: white url("{{asset('images/loader_64_64.gif')}}") right center no-repeat;
+  }
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+    height: 400px;
+    width: 600px;
+  }
+  </style>
+  <script>
+  $(function($) {
+    $( "#s" ).autocomplete({
+      source: 'jsonmedicamentos',
+      minLength: 4
+    });
+  });
+  </script>
+{% endblock %}

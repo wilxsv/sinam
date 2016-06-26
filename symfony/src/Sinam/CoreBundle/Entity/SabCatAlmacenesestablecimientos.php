@@ -25,14 +25,14 @@ class SabCatAlmacenesestablecimientos
     private $estasincronizada;
 
     /**
-     * @var \Sinam\CoreBundle\Entity\SabCatAlmacenes
-     */
-    private $idAlmacen;
-
-    /**
      * @var \Sinam\CoreBundle\Entity\SabCatEstablecimientos
      */
     private $idEstablecimiento;
+
+    /**
+     * @var \Sinam\CoreBundle\Entity\SabCatAlmacenes
+     */
+    private $idAlmacen;
 
 
     /**
@@ -92,29 +92,6 @@ class SabCatAlmacenesestablecimientos
     }
 
     /**
-     * Set idAlmacen
-     *
-     * @param \Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen
-     * @return SabCatAlmacenesestablecimientos
-     */
-    public function setIdAlmacen(\Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen = null)
-    {
-        $this->idAlmacen = $idAlmacen;
-
-        return $this;
-    }
-
-    /**
-     * Get idAlmacen
-     *
-     * @return \Sinam\CoreBundle\Entity\SabCatAlmacenes 
-     */
-    public function getIdAlmacen()
-    {
-        return $this->idAlmacen;
-    }
-
-    /**
      * Set idEstablecimiento
      *
      * @param \Sinam\CoreBundle\Entity\SabCatEstablecimientos $idEstablecimiento
@@ -135,5 +112,28 @@ class SabCatAlmacenesestablecimientos
     public function getIdEstablecimiento()
     {
         return $this->idEstablecimiento;
+    }
+
+    /**
+     * Set idAlmacen
+     *
+     * @param \Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen
+     * @return SabCatAlmacenesestablecimientos
+     */
+    public function setIdAlmacen(\Sinam\CoreBundle\Entity\SabCatAlmacenes $idAlmacen = null)
+    {
+        $this->idAlmacen = $idAlmacen;
+
+        return $this;
+    }
+
+    /**
+     * Get idAlmacen
+     *
+     * @return \Sinam\CoreBundle\Entity\SabCatAlmacenes 
+     */
+    public function getIdAlmacen()
+    {
+        return $this->idAlmacen;
     }
 }
