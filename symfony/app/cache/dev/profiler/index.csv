@@ -1276,3 +1276,15 @@ d904b8,127.0.0.1,POST,http://localhost:8000/buscarajax?max=7&nombre=undefined&ti
 fadba8,127.0.0.1,POST,http://localhost:8000/app_dev.php/consulta_abastecimiento?max=7&nombre=undefined&tipo=0,1466904220,,200
 4f3370,127.0.0.1,POST,http://localhost:8000/app_dev.php/consulta_abastecimiento?max=7&nombre=undefined&tipo=0,1466904228,,200
 32c85a,127.0.0.1,POST,http://localhost:8000/app_dev.php/consulta_abastecimiento?max=7&nombre=undefined&tipo=0,1466904228,,200
+846f50,127.0.0.1,GET,http://localhost:8000/app_dev.php/,1466907058,,200
+db9cca,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466907069,,200
+341996,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466907139,,200
+96aad9,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466907183,,200
+                                                                              ae25c5,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466907802,,200
+ee3492,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466907998,,200
+398e4e,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466908129,,200
+d6c5f4,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466908152,,200
+7066fe,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466908226,,200
+48ac5d,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466908493,,200
+2d5e69,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466908800,,200
+53d953,127.0.0.1,GET,http://localhost:8000/app_dev.php/buscar,1466908867,,200

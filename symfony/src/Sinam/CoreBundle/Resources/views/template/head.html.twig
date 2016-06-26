@@ -69,14 +69,14 @@
         <li><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
         <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
         {% if app.request.attributes.get('_route') != 'sinam_core_homepage' and app.request.attributes.get('_route') != 'sinam_core_homepage' %}
-          <li><a href="{{ path( 'info_ayuda' ) }}">Ayuda</a></li>
+          <li><a onclick="javascript:introJs().setOptions({ 'skipLabel': 'Saltar', 'nextLabel': 'Siguiente', 'prevLabel': 'Anterior', 'doneLabel': 'Finalizar'}).start();" href='javascript:void(0);'>Ayuda</a></li>
         {% endif %}
         <li><a href="{{ path( 'info_contacto' ) }}">Contáctenos</a></li>        
        </ul><!-- /.menu-list -->
       </nav><!-- /.menu-list -->
      </div>
      <div class="col-sm-4">
-      <div class="menu-search pull-right">
+      <div class="menu-search pull-right" data-step="1" data-intro="En este cuadro se puede buscar el medicamento a consultar.<br/>El medicamento se busca a nivel nacional">
        <form role="search" class="search-form" action="#" method="get">
         <input class="search-field" type="text" name="s" id="s" placeholder="Buscar Medicamento" required>
         <button class="btn search-btn" type="submit"><i class="fa fa-search"></i></button>
