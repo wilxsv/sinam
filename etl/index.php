@@ -30,6 +30,8 @@ require 'php/load_sinab.php';
 
 //decriptar_variables();
 if ( date('N') >= 10 && date('N') <= 5 ){
+	carga_establecimientos_sinab( $path_maestros );
+	carga_medicaentos_sinab( $path_maestros );
 	iterar_siaps($path_maestros, $path_nodos);
 }	elseif ( date('N') >= 5 && date('N') <= 6 ) {
 	iterar_sinab($path_maestros);
@@ -62,6 +64,36 @@ function iterar_siaps($maestro, $cliente) {
 			$output = shell_exec("rm $DUMP_FILE");
 		} elseif ($nodo->system == 'SINAB' && $nodo->driver == 'PDO_SQLSRV' ){
 		} elseif ($nodo->driver == 'PDO_MYSQL'){
+		}
+	}
+}
+
+function carga_establecimientos_sinab($maestro) {
+    $xml = simplexml_load_file($maestro);
+ foreach ($xml->maestro as $l) {
+	if ($l->system == 'SINAM'){
+		$xmlm = simplexml_load_file($maestro);
+		foreach ($xmlm->maestro as $e) {
+			if ($e->system == 'ESTABLECIMIENTO'){
+					$obj = new LoadEstablecimiento( $l->host, $l->name, $l->user, $l->passwd, $e->host, $e->name, $e->user, $e->passwd );
+					$obj->carga_establecimiento();
+				}
+			}
+		}
+	}
+}
+
+function carga_medicaentos_sinab($maestro) {
+    $xml = simplexml_load_file($maestro);
+ foreach ($xml->maestro as $l) {
+	if ($l->system == 'SINAM'){
+		$xmlm = simplexml_load_file($maestro);
+		foreach ($xmlm->maestro as $e) {
+			if ($e->system == 'MEDICAMENTO'){
+					$obj = new LoadMedicamento( $l->host, $l->name, $l->user, $l->passwd, $e->host, $e->name, $e->user, $e->passwd );
+					$obj->carga_medicamento();
+				}
+			}
 		}
 	}
 }
