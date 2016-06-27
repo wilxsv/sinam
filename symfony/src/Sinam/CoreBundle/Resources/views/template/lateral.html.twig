@@ -16,16 +16,11 @@
         <aside class="widget widget wp_widget_tag_cloud clearfix">
          <h3 class="widget-title">Medicamentos más consultados</h3>
           <div class="tag-cloud-wrapper">
-           <a href="#">Diloxanida</a>
-           <a href="#">Candesartán Cilexetilo</a>
-           <a href="#">Oxacilina</a>
-           <a href="#">Eritromicina</a>
-           <a href="#">Amfotericina B</a>
-           <a href="#">Moxifloxacino</a>
-           <a href="#">Aciclovir</a>
-           <a href="#">Estreptomicina</a>
-           <a href="#">Ritonavir</a>
-           <a href="#">Fenazopiridina Clorhidrato</a>
+          {% if productos == true %}
+            {% for item in productos %}
+              <a href="{{ path( 'info_ayuda' ) }}?q={{item.nombre|url_encode}}">{{ item.nombre }}</a>
+            {% endfor %}
+          {% endif %}
          </div><!-- /.tag-cloud-wrapper -->
         </aside><!-- /.widget -->
 
