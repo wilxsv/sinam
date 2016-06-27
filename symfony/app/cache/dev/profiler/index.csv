@@ -1349,3 +1349,4 @@ efb710,127.0.0.1,GET,http://localhost:8000/jsonmedicamentos?term=fswfwe,14670040
 f1ca36,127.0.0.1,GET,http://localhost:8000/jsonmedicamentos?term=fswfwew,1467004053,,200
 1cf9b6,127.0.0.1,GET,http://localhost:8000/mostrar?q=fswfwew,1467004055,,200
 1135df,127.0.0.1,GET,http://localhost:8000/mostrar?q=Albendazol%20400mg.%20tabletas%20fco.%20x%201000.,1467004091,,200
+ce5fe5,127.0.0.1,GET,http://localhost:8000/,1467053185,,200
