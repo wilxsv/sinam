@@ -347,18 +347,18 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             }
             not_info_contacto:
 
-            // info_ayuda
-            if ($pathinfo === '/info_ayuda') {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_info_ayuda;
-                }
-
-                return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\InfoController::ayudaAction',  '_route' => 'info_ayuda',);
-            }
-            not_info_ayuda:
-
         }
+
+        // info_ayuda
+        if ($pathinfo === '/mostrar') {
+            if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                goto not_info_ayuda;
+            }
+
+            return array (  '_controller' => 'Sinam\\CoreBundle\\Controller\\InfoController::mostrarAction',  '_route' => 'info_ayuda',);
+        }
+        not_info_ayuda:
 
         // homepage
         if (rtrim($pathinfo, '/') === '') {

@@ -77,8 +77,8 @@
      </div>
      <div class="col-sm-4">
       <div class="menu-search pull-right" data-step="1" data-intro="En este cuadro se puede buscar el medicamento a consultar.<br/>El medicamento se busca a nivel nacional">
-       <form role="search" class="search-form" action="#" method="get">
-        <input class="search-field" type="text" name="s" id="s" placeholder="Buscar Medicamento" required>
+       <form role="search" class="search-form" action="{{ path( 'info_ayuda' ) }}" method="get">
+        <input class="search-field" type="text" name="q" id="s" placeholder="Buscar Medicamento" required>
         <button class="btn search-btn" type="submit"><i class="fa fa-search"></i></button>
        </form><!-- /.search-form -->
       </div><!-- /.menu-search -->

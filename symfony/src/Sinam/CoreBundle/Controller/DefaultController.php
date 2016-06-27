@@ -19,7 +19,11 @@ class DefaultController extends Controller
 {
     public function indexAction(Request $request)
     {	
-        return $this->render('SinamCoreBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:SabCatCatalogoproductos');
+        $productos = $repository->createQueryBuilder('p')->select('p.idpro, p.nombre')->orderBy('p.visto', 'DESC')->setMaxResults(7)->getQuery()->getResult();
+
+        return $this->render('SinamCoreBundle:Default:index.html.twig', array( 'productos' => $productos) );
     }
     
     public function searchAction(Request $request)

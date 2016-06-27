@@ -41,12 +41,18 @@ class InfoController extends Controller
         return $this->render('SinamCoreBundle:Info:establecimientos.html.twig', array( 'actualizado' => $actualizado, 'registrado' => $registrado ));
     }
 
-    public function ayudaAction(Request $request)
+    public function mostrarAction(Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$actualizado = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByEstablecimientos( 'ASC', TRUE );
-    	$registrado = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByEstablecimientos( 'ASC', FALSE);
-            
-        return $this->render('SinamCoreBundle:Info:establecimientos.html.twig', array( 'actualizado' => $actualizado, 'registrado' => $registrado ));
+        $item = $request->query->get('q');
+        $em = $this->getDoctrine()->getEntityManager();
+
+        $result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $item, 0, 0, 0, 7 );
+        $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $item, 0, 0, 0 );
+        $alt = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoAlternativo( ) ;        
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:SabCatCatalogoproductos');
+        $productos = $repository->createQueryBuilder('p')->select('p.idpro, p.nombre')->orderBy('p.visto', 'DESC')->setMaxResults(7)->getQuery()->getResult();
+
+
+        return $this->render('SinamCoreBundle:Info:mostrar.html.twig', array( 'rest'=> $result, 'alt'=> $alt, 'siap' => $siap, 'productos' => $productos ));
     }
 }

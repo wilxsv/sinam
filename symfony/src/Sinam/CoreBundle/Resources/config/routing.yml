@@ -57,5 +57,5 @@ info_contacto:
     defaults: { _controller: SinamCoreBundle:Info:contacto }
 
 info_ayuda:
-    path:     /info_ayuda
-    defaults: { _controller: SinamCoreBundle:Info:ayuda }
+    path:     /mostrar
+    defaults: { _controller: SinamCoreBundle:Info:mostrar }
