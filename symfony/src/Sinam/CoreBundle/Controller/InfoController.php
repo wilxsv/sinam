@@ -34,11 +34,11 @@ class InfoController extends Controller
 
     public function contactoAction(Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-    	$actualizado = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByEstablecimientos( 'ASC', TRUE );
-    	$registrado = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByEstablecimientos( 'ASC', FALSE);
-            
-        return $this->render('SinamCoreBundle:Info:establecimientos.html.twig', array( 'actualizado' => $actualizado, 'registrado' => $registrado ));
+        $em = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:SabCatCatalogoproductos');
+        $productos = $repository->createQueryBuilder('p')->select('p.idpro, p.nombre')->orderBy('p.visto', 'DESC')->setMaxResults(7)->getQuery()->getResult();
+
+        return $this->render('SinamCoreBundle:Default:index.html.twig', array( 'productos' => $productos) );
     }
 
     public function mostrarAction(Request $request)

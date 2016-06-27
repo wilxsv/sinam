@@ -72,10 +72,3 @@ genemu_form:
             width: off
             allowClear: false
             minimumInputLength: 0
-#ewz_recaptcha
-ewz_recaptcha:
-    public_key: 6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA
-    private_key: 6LccTyITAAAAAAHtj4L1niTWHJwc_n8jg_Ne2NS0
-    locale_key: %kernel.default_locale%
-    ajax: true
-    enabled: true

@@ -18,7 +18,6 @@
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
       <parameter key="SinamCoreBundle">Sinam\CoreBundle\SinamCoreBundle</parameter>
       <parameter key="GenemuFormBundle">Genemu\Bundle\FormBundle\GenemuFormBundle</parameter>
-      <parameter key="EWZRecaptchaBundle">EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -297,7 +296,6 @@
     <parameter key="twig.exception_listener.controller">twig.controller.exception:showAction</parameter>
     <parameter key="twig.form.resources" type="collection">
       <parameter>form_div_layout.html.twig</parameter>
-      <parameter>EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig</parameter>
       <parameter>GenemuFormBundle:Form:div_layout.html.twig</parameter>
       <parameter>GenemuFormBundle:Form:jquery_layout.html.twig</parameter>
       <parameter>GenemuFormBundle:Form:stylesheet_layout.html.twig</parameter>
@@ -566,16 +564,6 @@
     <parameter key="genemu.form.image.selected"></parameter>
     <parameter key="genemu.form.image.thumbnails" type="collection"/>
     <parameter key="genemu.form.image.filters" type="collection"/>
-    <parameter key="ewz_recaptcha.public_key">6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA</parameter>
-    <parameter key="ewz_recaptcha.private_key">6LccTyITAAAAAAHtj4L1niTWHJwc_n8jg_Ne2NS0</parameter>
-    <parameter key="ewz_recaptcha.locale_key">es</parameter>
-    <parameter key="ewz_recaptcha.ajax">true</parameter>
-    <parameter key="ewz_recaptcha.enabled">true</parameter>
-    <parameter key="ewz_recaptcha.http_proxy" type="collection">
-      <parameter key="host">null</parameter>
-      <parameter key="port">null</parameter>
-      <parameter key="auth">null</parameter>
-    </parameter>
     <parameter key="web_profiler.controller.profiler.class">Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController</parameter>
     <parameter key="web_profiler.controller.router.class">Symfony\Bundle\WebProfilerBundle\Controller\RouterController</parameter>
     <parameter key="web_profiler.controller.exception.class">Symfony\Bundle\WebProfilerBundle\Controller\ExceptionController</parameter>
@@ -1241,8 +1229,6 @@
               <argument key="genemu_jquerytokeninput_document">genemu.form.jquery.type.tokeninput.document</argument>
               <argument key="genemu_jquerytokeninput_model">genemu.form.jquery.type.tokeninput.model</argument>
               <argument key="genemu_jquerytokeninput_currency">genemu.form.jquery.type.tokeninput.currency</argument>
-              <argument key="ewz_recaptcha.form.type">ewz_recaptcha.form.type</argument>
-              <argument key="EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType">ewz_recaptcha.form.type</argument>
             </argument>
             <argument type="collection">
               <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="collection">
@@ -1473,8 +1459,6 @@
               <argument key="Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator">security.validator.user_password</argument>
               <argument key="doctrine.orm.validator.unique">doctrine.orm.validator.unique</argument>
               <argument key="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator">doctrine.orm.validator.unique</argument>
-              <argument key="ewz_recaptcha.true">ewz_recaptcha.validator.true</argument>
-              <argument key="EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueValidator">ewz_recaptcha.validator.true</argument>
             </argument>
           </service>
         </argument>
@@ -1907,7 +1891,7 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>575db4b8ef2915.13872991</argument>
+            <argument>5771761c2c3262.73058835</argument>
           </service>
         </argument>
       </argument>
@@ -2036,7 +2020,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>575db4b8ef2915.13872991</argument>
+            <argument>5771761c2c3262.73058835</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -2289,7 +2273,6 @@
         <service class="Symfony\Bridge\Twig\Form\TwigRendererEngine" public="false">
           <argument type="collection">
             <argument>form_div_layout.html.twig</argument>
-            <argument>EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig</argument>
             <argument>GenemuFormBundle:Form:div_layout.html.twig</argument>
             <argument>GenemuFormBundle:Form:jquery_layout.html.twig</argument>
             <argument>GenemuFormBundle:Form:stylesheet_layout.html.twig</argument>
@@ -2861,24 +2844,6 @@
       <tag name="form.type" alias="genemu_jquerytokeninput_currency"/>
       <argument>currency</argument>
     </service>
-    <service id="ewz_recaptcha.form.type" class="EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType">
-      <tag name="form.type"/>
-      <argument>6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA</argument>
-      <argument>true</argument>
-      <argument>true</argument>
-      <argument>es</argument>
-    </service>
-    <service id="ewz_recaptcha.validator.true" class="EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrueValidator">
-      <tag name="validator.constraint_validator" alias="ewz_recaptcha.true"/>
-      <argument>true</argument>
-      <argument>6LccTyITAAAAAAHtj4L1niTWHJwc_n8jg_Ne2NS0</argument>
-      <argument type="service" id="request_stack"/>
-      <argument type="collection">
-        <argument key="host">null</argument>
-        <argument key="port">null</argument>
-        <argument key="auth">null</argument>
-      </argument>
-    </service>
     <service id="data_collector.dump" class="Symfony\Component\HttpKernel\DataCollector\DumpDataCollector">
       <tag name="data_collector" id="dump" template="@Debug/Profiler/dump.html.twig" priority="240"/>
       <argument type="service" id="debug.stopwatch" on-invalid="ignore"/>
@@ -3184,10 +3149,6 @@
       <call method="addPath">
         <argument>/home/wilx/Documentos/minsal/git/nightly/symfony/vendor/genemu/form-bundle/Genemu/Bundle/FormBundle/Resources/views</argument>
         <argument>GenemuForm</argument>
-      </call>
-      <call method="addPath">
-        <argument>/home/wilx/Documentos/minsal/git/nightly/symfony/src/EWZ/Bundle/RecaptchaBundle/Resources/views</argument>
-        <argument>EWZRecaptcha</argument>
       </call>
       <call method="addPath">
         <argument>/home/wilx/Documentos/minsal/git/nightly/symfony/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
