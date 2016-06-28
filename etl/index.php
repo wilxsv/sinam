@@ -58,7 +58,7 @@ function iterar_siaps($maestro, $cliente) {
 			$xmlm = simplexml_load_file($maestro);
 			foreach ($xmlm->maestro as $nodom) {
 				if ($nodom->system == 'SINAM'){
-					$comando = "PGPASSWORD=$nodom->passwd psql -d $nodom->name -f $DUMP_FILE -U $nodom->user && rm $DUMP_FILE && PGPASSWORD=$nodom->passwd psql -d $nodom->name -U $nodom->user -c 'SELECT prepara_tablas();' && PGPASSWORD=$nodom->passwd psql -d $nodom->name -U $nodom->user -c 'SELECT carga_datos();'";
+					$comando = "PGPASSWORD=$nodom->passwd psql -h localhost -d $nodom->name -f $DUMP_FILE -U $nodom->user && rm $DUMP_FILE && PGPASSWORD=$nodom->passwd psql -h localhost -d $nodom->name -U $nodom->user -c 'SELECT prepara_tablas();' && PGPASSWORD=$nodom->passwd psql -h localhost -d $nodom->name -U $nodom->user -c 'SELECT carga_datos();'";
 					$output = shell_exec($comando);
 				}
 			}
