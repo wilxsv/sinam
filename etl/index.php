@@ -29,11 +29,11 @@ require 'php/load_sinab.php';
 
 
 //decriptar_variables();
-if ( date('N') >= 10 && date('N') <= 5 ){
-	carga_establecimientos_sinab( $path_maestros );
-	carga_medicaentos_sinab( $path_maestros );
-	iterar_siaps($path_maestros, $path_nodos);
-}	elseif ( date('N') >= 5 && date('N') <= 6 ) {
+carga_establecimientos_sinab( $path_maestros );
+carga_medicaentos_sinab( $path_maestros );
+iterar_siaps($path_maestros, $path_nodos);
+
+if ( date('N') >= 5 && date('N') <= 6 ) {
 	iterar_sinab($path_maestros);
 }	elseif ( date('j') < 6 &&date('N') >= 5 && date('N') <= 6 ) {
 	carga_historico_siap($path_maestros, $path_nodos);
@@ -45,6 +45,7 @@ function iterar_siaps($maestro, $cliente) {
  foreach ($xml->nodo_establecimiento as $nodo) 
 	{
 		if ($nodo->system == 'SIAP' && $nodo->driver == 'PDO_PGSQL'){
+			echo "Iniciando respaldo en $nodo->host";
 			$DUMP_FILE = uniqid();
 			$DUMP_TMP = uniqid();
 			$comando = "PGPASSWORD=$nodo->passwd pg_dump $nodo->name --host $nodo->host --port $nodo->port --username $nodo->user --format plain --data-only --disable-triggers --encoding UTF8 --no-owner\
