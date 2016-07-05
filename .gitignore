@@ -1,3 +1,8 @@
 *parameters.yml
+!/symfony/app/cache/
 /symfony/app/cache/*
+!/symfony/app/cache/.gitkeep
+!/symfony/app/logs/
 /symfony/app/logs/*
+!/symfony/app/logs/.gitkeep
+/etl/db/*

@@ -20,7 +20,7 @@ class LoadMedicamento {
 		$this->ehost = $ehost;
 		$this->edbname = $edbname;
 		$this->edbuser = $edbuser;
-		$this->edbpass = $dbpass;
+		$this->edbpass = $edbpass;
 	}
 
 	function carga_medicamento(){

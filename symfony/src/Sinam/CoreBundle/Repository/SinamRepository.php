@@ -144,7 +144,7 @@ class SinamRepository extends EntityRepository
            ->createQuery("SELECT d.nombre AS depto, m.nombre AS municipio, e.nombre AS establecimiento, e.actualizado
              FROM SinamCoreBundle:CtlEstablecimiento e, SinamCoreBundle:CtlMunicipio AS m, SinamCoreBundle:CtlDepartamento AS d
              WHERE $actualizado AND e.idMunicipio = m.id AND m.idDepartamento = d.id
-             ORDER BY m.nombre $order");
+             ORDER BY d.nombre, m.nombre, e.nombre $order");
    try {
         return $query->getResult();
        } catch (\Doctrine\Orm\NoResultException $e) {

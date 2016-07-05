@@ -1,13 +1,13 @@
 <?xml version='1.0'  encoding='UTF-8'?>
 <minsal>
    <maestro>
-   	<driver>PDO_PGSQL</driver><host>10.10.50.5</host><user>indicadores</user><passwd>1nd1c4d0r3s</passwd><port>5432</port><name>siap</name><system>ESTABLECIMIENTO</system><schema>public</schema>
+   	<driver>PDO_PGSQL</driver><host>127.0.0.1</host><user>acrasame</user><passwd>acrasame</passwd><port>5432</port><name>siap1</name><system>ESTABLECIMIENTO</system><schema>public</schema>
    </maestro>
    <maestro>
-   	<driver>PDO_PGSQL</driver><host>127.0.0.1</host><user></user><passwd></passwd><port>5432</port><name>sinam-dev</name><system>SINAM</system><schema>public</schema>
+   	<driver>PDO_PGSQL</driver><host>127.0.0.1</host><user>acrasame</user><passwd>acrasame</passwd><port>5432</port><name>sinam-dev</name><system>SINAM</system><schema>public</schema>
    </maestro>
    <maestro>
-   	<driver>PDO_PGSQL</driver><host>127.0.0.1</host><user></user><passwd></passwd><port>5432</port><name>siap</name><system>MEDICAMENTO</system><schema>public</schema>
+   	<driver>PDO_PGSQL</driver><host>127.0.0.1</host><user>acrasame</user><passwd>acrasame</passwd><port>5432</port><name>siap1</name><system>MEDICAMENTO</system><schema>public</schema>
    </maestro>
    <maestro>
    	<driver>PDO_SQLSRV</driver><host>127.0.0.1</host><user>sa</user><passwd>passwd</passwd><port>1433</port><name>abastecimiento</name><system>SINAB</system><schema>do</schema>
