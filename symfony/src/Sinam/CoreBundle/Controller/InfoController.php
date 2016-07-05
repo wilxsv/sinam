@@ -27,9 +27,8 @@ class InfoController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
     	$actualizado = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByEstablecimientos( 'ASC', TRUE );
-    	$registrado = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByEstablecimientos( 'ASC', FALSE);
             
-        return $this->render('SinamCoreBundle:Info:establecimientos.html.twig', array( 'active' => $actualizado, 'noactive' => $registrado ));
+        return $this->render('SinamCoreBundle:Info:establecimientos.html.twig', array( 'active' => $actualizado ));
     }
 
     public function contactoAction(Request $request)
