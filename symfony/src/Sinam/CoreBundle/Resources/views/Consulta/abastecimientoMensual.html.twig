@@ -46,7 +46,7 @@
                 Ultimo consumo: {{ ultimo }} (año anterior)<br />
                 <b>Existencias [{{ item.unidad }}]</b><br />
                 Almacen: {{ almacen }}<br />
-                Farmacia: {{ farmacia }}<br />
+                Farmacia:  {% if farmacia == 0 %}Si datos a mostrar{% else %}{{ farmacia }}{% endif %}<br />
                 Total: {{ almacen + farmacia }} <br />
               </div>
               <div class="col-md-5">
