@@ -65,10 +65,22 @@
       </div>
       <nav id="menu" class="menu collapse navbar-collapse">
        <ul id="headernavigation" class="menu-list nav navbar-nav">
-        <li><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
-        <li><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
-        <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
-        {% if app.request.attributes.get('_route') != 'sinam_core_homepage' and app.request.attributes.get('_route') != 'sinam_core_homepage' %}
+        {% if app.request.attributes.get('_route') == 'sinam_busqueda' %}
+        	<li data-step="2" data-intro="Al dar clic en esta seccion usted podra encontrar informacion de: <ol><li>nombre largo del medicamento consultado.</li><li>Forma farmaceutica</li><li>Presentacion</li><li>Existencias en almacen y <li>Existencias en farmacias</li></ol>"><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
+        {% else %}
+        	<li><a href="{{ path( 'sinam_busqueda' ) }}">Medicamentos</a></li>
+        {% endif %}
+        {% if app.request.attributes.get('_route') == 'por_establecimiento' %}
+        	<li data-step="2" data-intro="Al dar clic en esta seccion usted podra encontrar la ubicacion mas cercana de los establecimientos donde hay existencias del medicamento consultado, los resultados de la busqueda poseen: <ol><li>Ubicacion de los establecimientos</li><li>nombre largo del medicamento consultado.</li><li>Forma farmaceutica</li><li>Presentacion</li><li>Existencias en almacen y <li>Existencias en farmacias</li></ol>"><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
+        {% else %}
+        	<li><a href="{{ path( 'por_establecimiento' ) }}">Establecimientos</a></li>
+        {% endif %}
+        {% if app.request.attributes.get('_route') == 'consulta_abastecimiento' %}
+        	 <li data-step="2" data-intro="Al dar clic en esta seccion usted podra encontrar el porcentaje de abastecimiento de un establecimiento para el medicamento consultado, tambien obtendra: <ol><li>Ubicacion de los establecimientos</li><li>nombre largo del medicamento consultado.</li><li>Forma farmaceutica</li><li>Presentacion</li><li>Existencias en almacen y <li>Existencias en farmacias</li></ol>"><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
+        {% else %}
+        	 <li><a href="{{ path( 'consulta_abastecimiento' ) }}">Abastecimiento</a></li>
+        {% endif %}
+        {% if app.request.attributes.get('_route') == 'sinam_busqueda' or app.request.attributes.get('_route') == 'por_establecimiento' or app.request.attributes.get('_route') == 'consulta_abastecimiento' %}
           <li><a onclick="javascript:introJs().setOptions({ 'skipLabel': 'Saltar', 'nextLabel': 'Siguiente', 'prevLabel': 'Anterior', 'doneLabel': 'Finalizar'}).start();" href='javascript:void(0);'>Ayuda</a></li>
         {% endif %}
         <li><a href="{{ path( 'info_contacto' ) }}">Contáctenos</a></li>        

@@ -9,11 +9,12 @@ Sinam\CoreBundle\Entity\CtlAbastecimiento:
             columns:
                 - id_producto
     uniqueConstraints:
-        un_abastecimiento:
+        ctl_abastecimiento_id_producto_id_establecimiento_mes_anyo:
             columns:
                 - id_producto
                 - id_establecimiento
                 - mes
+                - anyo
     id:
         id:
             type: bigint
@@ -31,6 +32,11 @@ Sinam\CoreBundle\Entity\CtlAbastecimiento:
             type: bigint
             nullable: false
             unsigned: false
+        anyo:
+            type: bigint
+            nullable: false
+            unsigned: false
+            default: '0::bigint'
     manyToOne:
         idEstablecimiento:
             targetEntity: CtlEstablecimiento

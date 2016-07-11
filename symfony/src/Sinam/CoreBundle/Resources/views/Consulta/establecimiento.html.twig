@@ -1,7 +1,7 @@
 {% extends 'SinamCoreBundle::default.html.twig' %}
 {% block body %}
 <div class="col-sm-12">
-          <div  id="msg" ></div>
+          <div  id="msg" >{% include 'SinamCoreBundle::Consulta/infoConsulta.html.twig' %}</div>
           <div class="service-accordion">
            <div class="accordion">
             <div aria-multiselectable="true" role="tablist" id="accordion" class="panel-group">
@@ -19,12 +19,12 @@
                      <div id="respond">
                       <form class="commentform" method="post">
                           <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
-                          {{ form_widget(form.nombre) }}<br/>
+                          <input id="establecimiento_nombre" class="ui-autocomplete-input" type="text" size="100%" required="required" name="establecimiento[nombre]" autocomplete="off" data-step="4" data-intro="En este cuadro se escribe el medicamento a consultar."><br/>
                           <label class="required" for="basica_departamento" >Ingresa su úbicación o algún lugar cercano de referencia</label><br/>
-                          {{ form_widget(form.lugar) }}
-                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
+                          <input id="establecimiento_lugar" class="ui-autocomplete-input" type="text" size="100%" required="required" name="establecimiento[lugar]" autocomplete="off" data-step="5" data-intro="En este cuadro se el lugar, territorio o region donde se quiere saber las existencias del medicamento.">
+                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="6" data-intro="Al dar clic en este boton se realiza una busqueda nacional por los establecimientos cercanos que coincidan con el medicamento y el lugar escrito.">Buscar</button>
                         <br/>
-                        <label><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
+                        <label data-step="7" data-intro="Se aplican los filtros opcionales dependiendo del campo que se seleccione (Departamento, Municipio o Establecimiento)."><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
                         {{ form_label(form.departamento) }}<br />
                         <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;">
@@ -44,8 +44,8 @@
                         {{ form_label(form.establecimiento) }}<br />
                         <select id="basica_establecimiento" style="width: 90%;">
                               <option value="0">Todos</option>
-                            {% for item in establecimiento %}
-                              <option value="{{item.id}}">{{item.nombre}}</option>
+                            {% for item in all %}
+                              <option value="{{item.id}}">{{item.establecimiento}}</option>
                             {% endfor %}
                           </select><br />
                         Numero de establecimientos: 
@@ -54,41 +54,30 @@
                          <p align="right">
                           <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
                          </p> 
-
-                        </div>
+                        </div><div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA" data-step="3" data-intro="Antes de hacer una consulta debe dar clic en la cacilla de verificacion"></div>
                       </form>
                      </div>
                     </p>
                   </div>
                 </div>
-                <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
               </div>
             </div>
           </div>    
         </div>
 </div>
-<div  id="resultado2" class="col-sm-12"></div><!--
-<div id="resMap" class="col-sm-4">
-  <div class="panel panel-primary">
-    <div class="panel-heading"><h2 class="panel-title">Establecimientos</h2></div>
-      <div class="panel-body">
-        <br /><br /><br /><br />
-      </div>
-    </div>
-</div>
-<div  id="Map" class="col-sm-8" style="height: 400px;></div>
-<div  id="resultado" class="col-sm-12"></div>
--->
+<div data-step="8" data-intro="En esta seccion se presentan los resultados de la consulta realizada, <br/>Obtendra una salida con el detalle de la busqueda por establecimientos ordenados de la forma mas cercana y con su ubicacion en el mapa" id="resultado2" class="col-sm-12"></div>
 <script type="text/javascript">
     $(document).ready(function ( $ ) {
         $('#establecimiento_save').click(function(){
         var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
         if($('#g-recaptcha-response').val() == 0){
           $('#msg').html(msg);
+          document.getElementById('top-contact').scrollIntoView();
           return false;
         }
         if($('#g-recaptcha-response').val() == ''){
           $('#msg').html(msg);
+          document.getElementById('top-contact').scrollIntoView();
           return false;
         }
         $('#msg').html('');
@@ -99,6 +88,7 @@
                 success: function(data) {
                     // Remove current options
                     $('#resultado2').html(data);
+                    document.getElementById('establecimiento_type_save').scrollIntoView();
                 }
             });
             return false;
@@ -111,6 +101,7 @@
                 url: "{{ url('ajax_localidad') }}?tipo=1&nombre=" + $('#establecimiento_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&lugar="+$('#establecimiento_lugar').val()+"&max="+$('#limite').val(),
                 success: function(data) {
                     $('#resultado2').html(data);
+                    document.getElementById('establecimiento_type_save').scrollIntoView();
                 }
             });
             return false;
@@ -122,35 +113,10 @@
     });
     });
 </script>
+<script type="text/javascript" src="{{ asset('assets/ayuda/intro.js') }}"></script>
 {% endblock %}
 {% block js_head %}
- <script src="{{ asset('assets/js/OpenLayers-2.13.1/OpenLayers.js') }}"></script>
-    <script type="text/javascript">
-        var lon = -89.218846;
-        var lat = 13.697911;
-        var zoom = 9;
-        var map, layer;
-
-        function init(){
-          map = new OpenLayers.Map("Basico");
-          var mapnik         = new OpenLayers.Layer.OSM();
-          var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-          var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-          var position       = new OpenLayers.LonLat(lon,lat).transform( fromProjection, toProjection);
-
-            map = new OpenLayers.Map( 'Map' );
-            layer = new OpenLayers.Layer.MapServer( "Establecimientos", 
-                    "https://geo.salud.gob.sv/cgi-bin/mapserv?MAP=/var/www/geo/geo/maps/wms/minsal.map&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=minsal&SRS=EPSG:4326&BBOX=-90.1913,12.7068,-87.6231,14.9026&FORMAT=image/png", {layers: 'basic'},
-                    {gutter: 15});
-
-            map.addLayer(layer);
-            map.addLayer(mapnik);
-            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
-            map.addControl( new OpenLayers.Control.LayerSwitcher() );
-        }
-        
-    </script>
-    <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
+<script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
 <style type="text/css">
     .box{
         padding: 20px;
@@ -195,8 +161,8 @@ jQuery(document).ready(function( $ ) {
   }
   function cargarEsta(valor) {
     var arrayValores=new Array( 
-      {% for item in establecimiento %}
-        new Array({{item.idMunicipio}},{{item.id}},"{{item.nombre}}"),
+      {% for item in all %}
+        new Array({{item.idMunicipio}},{{item.id}},"{{item.establecimiento}}"),
       {% endfor %}
       new Array(-1,1,"") );
     if(valor>0) {
@@ -247,5 +213,6 @@ jQuery(document).ready(function( $ ) {
     });
     });
   </script>
+  <link href="{{ asset('assets/ayuda/introjs.css') }}" rel="stylesheet">
 {% endblock %}
-{% block body_tag %}onload="init()"{% endblock %}
+{% block body_tag %}onload="cargarMun(0)"{% endblock %}

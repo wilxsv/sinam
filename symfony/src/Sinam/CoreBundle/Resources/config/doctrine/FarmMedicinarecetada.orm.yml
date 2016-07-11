@@ -8,6 +8,11 @@ Sinam\CoreBundle\Entity\FarmMedicinarecetada:
         IDX_D91F469B75BB31F7:
             columns:
                 - idestablecimiento
+    uniqueConstraints:
+        farm_medicinarecetada_idestablecimiento_secuencia_local:
+            columns:
+                - idestablecimiento
+                - secuencia_local
     id:
         id:
             type: bigint
@@ -37,6 +42,12 @@ Sinam\CoreBundle\Entity\FarmMedicinarecetada:
             nullable: true
             unsigned: false
             column: id_establecimiento_despacha
+        secuenciaLocal:
+            type: bigint
+            nullable: false
+            unsigned: false
+            default: '0'
+            column: secuencia_local
     manyToOne:
         idmedicina:
             targetEntity: FarmCatalogoproductos

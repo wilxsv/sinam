@@ -19,19 +19,24 @@ class PorAbastecimientoController extends Controller
 {    
     public function indexAction(Request $request)
     {
+    	$em = $this->getDoctrine()->getManager();
+
         if ($request->isXmlHttpRequest()){
-            
-            return $this->render('SinamCoreBundle:Consulta:abastecimientoMensual.html.twig', array( 'rest' => FALSE, 'establecimiento' => FALSE ));
+        	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
+            $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
+            $consumo = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByAbastecimiento( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
+
+            return $this->render('SinamCoreBundle:Consulta:abastecimientoMensual.html.twig', array( 'rest'=> $result, 'consumo' => $consumo, 'siap' => $siap, 'establecimiento' => FALSE ));
         }else {
             $form = $form = $this->createForm('Sinam\CoreBundle\Form\BusquedaAbastecimientoType');
-            $em = $this->getDoctrine()->getManager();
             $depto = $em->getRepository('SinamCoreBundle:CtlDepartamento')->findByidPais( 68 );
             $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlMunicipio');
             $ctlMunicipios = $repository->createQueryBuilder('p')->select('p.id, p.nombre')->addSelect('d.id AS depto')->innerJoin('p.idDepartamento', 'd')->where('p.idDepartamento = d.id')->getQuery()->getResult();
             $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlEstablecimiento');
             $CtlEstablecimiento = $repository->createQueryBuilder('e')->select('e.id, e.nombre')->addSelect('m.id AS idMunicipio')->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
+            $all = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findAllHospitales( );
 
-            return $this->render('SinamCoreBundle:Consulta:abastecimiento.html.twig', array( 'form' => $form->createView(), 'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
+            return $this->render('SinamCoreBundle:Consulta:abastecimiento.html.twig', array( 'form' => $form->createView(), 'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento, 'all' =>  $all ));
         }
     }
 }

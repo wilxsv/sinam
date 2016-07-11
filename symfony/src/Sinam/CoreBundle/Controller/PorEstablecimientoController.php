@@ -31,9 +31,10 @@ class PorEstablecimientoController extends Controller
         $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:CtlEstablecimiento');
         $CtlEstablecimiento = $repository->createQueryBuilder('e')->select('e.id, e.nombre')->addSelect('m.id AS idMunicipio')
         	->innerJoin('e.idMunicipio', 'm')->where('e.idMunicipio = m.id')->getQuery()->getResult();
+        $all = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findAllHospitales( );
 
         
-		return $this->render('SinamCoreBundle:Consulta:establecimiento.html.twig', array( 'form' => $form->createView(),'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento ));
+		return $this->render('SinamCoreBundle:Consulta:establecimiento.html.twig', array( 'form' => $form->createView(),'depto' => $depto, 'muni' => $ctlMunicipios, 'establecimiento' => $CtlEstablecimiento, 'all' =>  $all ));
     }
 
     public function ajaxAction(Request $request) 

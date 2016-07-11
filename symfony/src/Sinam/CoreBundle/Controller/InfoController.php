@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Sinam\CoreBundle\Form\BusquedaEstablecimientoType;
-
+use Sinam\CoreBundle\Form\ContactoType;
 use Sinam\CoreBundle\Form\FarmCatalogoproductosType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -33,11 +33,17 @@ class InfoController extends Controller
 
     public function contactoAction(Request $request)
     {
+        $form = $this->createForm('Sinam\CoreBundle\Form\ContactoType');
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+        }
+
         $em = $this->getDoctrine()->getManager();
         $repository = $this->getDoctrine()->getRepository('SinamCoreBundle:SabCatCatalogoproductos');
         $productos = $repository->createQueryBuilder('p')->select('p.idpro, p.nombre')->orderBy('p.visto', 'DESC')->setMaxResults(7)->getQuery()->getResult();
 
-        return $this->render('SinamCoreBundle:Default:index.html.twig', array( 'productos' => $productos) );
+        return $this->render('SinamCoreBundle:Info:index.html.twig', array( 'productos' => $productos, 'form' => $form->createView()) );
     }
 
     public function mostrarAction(Request $request)

@@ -1,0 +1,44 @@
+{% if app.request.attributes.get('_route') == 'sinam_busqueda' %}
+  <p><b>Sobre la consulta</b></p>
+  <p>Esta consulta le permitirá conocer la cantidad de medicamento que existe en los establecimientos, los resultados dependeran de los filtros aplicados:
+    <br />
+    + Departamento<br/>
+    + Municipio<br/>
+    + Establecimiento<br/>
+  </p>
+  <p>
+   Actualmente se presenta la informacion de existencias en ALMACENES a nivel nacional y a nivel de existencias en Farmacias solo en algunos hospitales
+  </p>
+  <br/>
+  <p><b>Sobre los resultados</b></p>
+  <p>En el resultado se presentan los siguientes valores:
+    + Nombre del medicamento<br/>
+    + Enlaces de ayuda para encontrar el establecimiento<br/>
+    + Existencias en almacen<br/>
+    + Existencias en farmacia<br/>
+  </p>
+{% elseif app.request.attributes.get('_route') == 'por_establecimiento' %}
+  <p><b>Sobre la consulta</b><br/>
+  Esta consulta le permitirá conocer la cantidad de medicamento que existe en los establecimientos, a partir de un lugar de referencia, resultados dependeran de los filtros aplicados: departamento, municipio o establecimiento<br/>
+   Actualmente se presenta la informacion de existencias en ALMACENES a nivel nacional y a nivel de existencias en FARMACIAS solo en algunos hospitales
+  </p>
+{% elseif app.request.attributes.get('_route') == 'consulta_abastecimiento' %}
+  <p><b>Sobre la consulta</b></p>
+  <p>Esta consulta le permitirá conocer el porcentaje de abastecimiento de un establecimiento, en relación a:
+    <br />
+    + Consumo<br/>
+    + Existencia en farmacia<br/>
+    + Existecias totales en el establecimiento<br/>
+  </p>
+  <p>
+   El valor del consumo de un medicamento representa el resultado del promedio de los totales de la medicina recetada en un mes especifico (los calculos que se presentan solo son del mes en que se consulta) y en un establecimiento especifico
+  </p>
+  <br/>
+  <p><b>Sobre los resultados</b></p>
+  <p>En el resultado se presentan los siguientes valores:
+    + Nombre del medicamento<br/>
+    + Consumo esperado del mes actual<br/>
+    + Existencias en farmacia<br/>
+    + Existencias en almacen<br/>
+  </p>
+{% endif %}

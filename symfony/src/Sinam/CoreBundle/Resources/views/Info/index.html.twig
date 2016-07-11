@@ -1,0 +1,24 @@
+{% extends 'SinamCoreBundle::default.html.twig' %}
+{% block body %}
+<div class="col-sm-8">
+  <div class="clearfix leave-comment" id="leave-comment">
+    <h3 class="title"><span class="title-icon ti-comment-alt"></span>Dejanos un comentario</h3>
+    <div id="respond">
+      {{ form_start(form, { 'attr': {'class': 'commentform'} }) }}
+        {{ form_widget(form.nombre) }}<br />
+        {{ form_widget(form.asunto) }}<br />
+        {{ form_widget(form.correo) }}<br />
+        {{ form_widget(form.comentario) }}<br />
+        <button id="submit" type="submit" class="submit-btn" name="submit"><span class="ti-shift-right"></span>Enviar</button>
+      {{ form_end(form) }}
+    </div><!-- /#respond -->
+  </div>
+</div>
+<div class="col-sm-4">
+      {% block lateral %}
+       <!-- lateral -->
+        {% include 'SinamCoreBundle::template/lateral.html.twig' %}
+       <!-- //lateral -->
+      {% endblock %}
+     </div>
+{% endblock %}

@@ -30,6 +30,7 @@ class SinamRepository extends EntityRepository
     	return $query;
     }
 */
+
   public function findByNombreMedicamento( $id ){
    $query = $this->getEntityManager()
             ->createQuery('SELECT e, m.nombre AS medicamento  FROM SinamCoreBundle:FarmMedicinaexistenciaxarea e JOIN e.idmedicina m 
@@ -152,6 +153,19 @@ class SinamRepository extends EntityRepository
        }             
   }
 
+  public function findAllHospitales( ){
+   $query = $this->getEntityManager()
+           ->createQuery("SELECT d.nombre AS depto, d.id AS idDepartamento, m.nombre AS municipio, m.id AS idMunicipio, e.nombre AS establecimiento, e.id AS id
+             FROM SinamCoreBundle:CtlEstablecimiento e, SinamCoreBundle:CtlMunicipio AS m, SinamCoreBundle:CtlDepartamento AS d
+             WHERE e.idMunicipio = m.id AND e.id <= 52 AND m.idDepartamento = d.id
+             ORDER BY d.nombre, m.nombre, e.nombre");
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }             
+  }
+
   public function findByLocalidad( $id, $depto, $munic, $estab, $max, $lat, $lng ){
    $depto = ($depto > 0) ? " AND d.id = $depto " : '';
    $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
@@ -184,5 +198,84 @@ class SinamRepository extends EntityRepository
        } catch (\Doctrine\Orm\NoResultException $e) {
         $query = null;
        }             
+  }
+
+  public function findByAbastecimiento( $id, $depto, $munic, $estab, $max ){
+   $id = ($id) ? " '$id' " : '';
+   $depto = ($depto > 0) ? " AND d.id = $depto " : '';
+   $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
+   $estab = ($estab > 0) ? " AND e.id = $estab " : '';
+   $mes = 'AND a.mes = '.date("n");
+   $query = $this->getEntityManager()
+        ->createQuery("SELECT ms.nombre AS nombre, e.id AS establecimiento, AVG(a.cantidad) AS promedio
+          FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u, SinamCoreBundle:CtlAbastecimiento AS a
+          WHERE ms.nombre  = $id AND ms.codigo = m.codigo AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND m.id = a.idProducto $mes $depto $munic $estab 
+          GROUP BY ms.nombre, e.id, a.id 
+          ORDER BY ms.nombre ASC");
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }
+  }
+
+  public function findByMesAbastecimiento( $id, $depto, $munic, $estab, $max ){
+   $id = ($id) ? " '$id' " : '';
+   $depto = ($depto > 0) ? " AND d.id = $depto " : '';
+   $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
+   $estab = ($estab > 0) ? " AND e.id = $estab " : '';
+   $max = ($max > 0) ? $max : 7;
+   $mes = 'AND a.mes = '.date("n");
+   $query = $this->getEntityManager()
+        ->createQuery("SELECT ms.nombre AS nombre, e.id AS establecimiento, AVG(a.cantidad) AS promedio
+          FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u, SinamCoreBundle:CtlAbastecimiento AS a
+          WHERE ms.nombre  = $id AND ms.codigo = m.codigo AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND m.id = a.idProducto $mes $depto $munic $estab 
+          GROUP BY ms.nombre, e.id, a.id 
+          ORDER BY ms.nombre ASC")->setMaxResults($max);;
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }
+  }
+
+  public function findByUltimoConsumo( $id, $depto, $munic, $estab, $max ){
+   $id = ($id) ? " '$id' " : '';
+   $depto = ($depto > 0) ? " AND d.id = $depto " : '';
+   $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
+   $estab = ($estab > 0) ? " AND e.id = $estab " : '';
+   $max = ($max > 0) ? $max : 7;
+   $mes = 'AND a.mes = '.date("n");
+   $query = $this->getEntityManager()
+        ->createQuery("SELECT ms.nombre AS nombre, e.id AS establecimiento, AVG(a.cantidad) AS promedio
+          FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u, SinamCoreBundle:CtlAbastecimiento AS a
+          WHERE ms.nombre  = $id AND ms.codigo = m.codigo AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND m.id = a.idProducto $mes $depto $munic $estab 
+          GROUP BY ms.nombre, e.id, a.id 
+          ORDER BY ms.nombre ASC")->setMaxResults($max);;
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }
+  }
+
+  public function findByRecetas( $id, $depto, $munic, $estab, $max ){
+   $id = ($id) ? " '$id' " : '';
+   $depto = ($depto > 0) ? " AND d.id = $depto " : '';
+   $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
+   $estab = ($estab > 0) ? " AND e.id = $estab " : '';
+   $max = ($max > 0) ? $max : 7;
+   $mes = 'AND a.mes = '.date("n");
+   $query = $this->getEntityManager()
+        ->createQuery("SELECT ms.nombre AS nombre, e.id AS establecimiento, AVG(a.cantidad) AS promedio
+          FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u, SinamCoreBundle:CtlAbastecimiento AS a
+          WHERE ms.nombre  = $id AND ms.codigo = m.codigo AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND m.id = a.idProducto $mes $depto $munic $estab 
+          GROUP BY ms.nombre, e.id, a.id 
+          ORDER BY ms.nombre ASC")->setMaxResults($max);;
+   try {
+        return $query->getResult();
+       } catch (\Doctrine\Orm\NoResultException $e) {
+        $query = null;
+       }
   }
 }

@@ -12,7 +12,7 @@ sinam_core_homepage:
     methods:  [POST]
     
 sinam_busqueda:
-    path:     /buscar
+    path:     /consulta_medicamento
     defaults: { _controller: SinamCoreBundle:Default:search }
     
 ajax_busqueda:

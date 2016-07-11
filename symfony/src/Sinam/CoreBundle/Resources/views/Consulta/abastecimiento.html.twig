@@ -1,6 +1,6 @@
 {% extends 'SinamCoreBundle::default.html.twig' %}
 {% block body %}
-<div class="col-sm-12">
+<div class="col-sm-9">
            <div  id="msg" ></div>
           <div class="service-accordion">
            <div class="accordion">
@@ -19,11 +19,11 @@
                      <div id="respond">
                       <form class="commentform" method="post">
                           <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
-                          {{ form_widget(form.nombre) }}
-                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit">Buscar</button>
+                          <input id="basica_nombre" class="ui-autocomplete-input" type="text" size="90%" required="required" name="basica[nombre]" autocomplete="off" data-step="4" data-intro="En este cuadro se puede buscar el medicamento a consultar su abastecimiento.<br>Se presenta una lista de los medicamentos">
+                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="5" data-intro="Al dar clic se realiza una busqueda a nivel nacional">Buscar</button>
                         <br/>
                         {{ form_label(form.departamento) }}<br />
-                        <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;">
+                        <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;" data-step="6" data-intro="Puede delimitar su busqueda por departamento seleccionado">
                               <option value="0">Todos</option>
                             {% for item in depto %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
@@ -31,21 +31,21 @@
                           </select>
                         <br />
                         {{ form_label(form.municipio) }}<br />
-                        <select id="basica_municipio" onchange="cargarEsta(this.value);" style="width: 90%;">
+                        <select id="basica_municipio" onchange="cargarEsta(this.value);" style="width: 90%;" data-step="7" data-intro="Puede delimitar su busqueda por municipio seleccionado">
                             {% for item in muni %}
                               <option value="{{item.id}}">{{item.nombre}}</option>
                             {% endfor %}
                           </select><br />
                         {{ form_label(form.establecimiento) }}<br />
-                        <select id="basica_establecimiento" style="width: 90%;">
-                            {% for item in establecimiento %}
-                              <option value="{{item.id}}">{{item.nombre}}</option>
+                        <select id="basica_establecimiento" style="width: 90%;"data-step="8" data-intro="Puede delimitar su busqueda un solo establecimiento">
+                            {% for item in all %}
+                              <option value="{{item.id}}">{{item.establecimiento}}</option>
                             {% endfor %}
                           </select><br />
                         Numero de establecimientos (Aplica solo a consultas de abastecimiento por departamento o municipio): 
                           <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
                           <div id="slider-range-min"></div><br />
-                         <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA"></div>
+                         <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA" data-step="3" data-intro="Antes de hacer una consulta debe dar clic en la cacilla de verificacion"></div>
                      </div>
                     </p>
                   </div>
@@ -55,17 +55,19 @@
             </div>
           </div><!-- /.accordion -->      
         </div><!-- /.service-accordion -->
-        <div  id="resultado" ></div>
+        <div id="resultado" data-step="9" data-intro="En esta seccion se presentan los resultados de la consulta realizada, <br/>Obtendra una salida con el detalle de las existencias en almacen, en la farmacia y el consumo atravez de los años"></div>
 <script type="text/javascript">
     $(document).ready(function ( $ ) {
         $('#establecimiento_save').click(function(){
         var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
         if($('#g-recaptcha-response').val() == 0){
           $('#msg').html(msg);
+          document.getElementById('top-contact').scrollIntoView();
           return false;
         }
         if($('#g-recaptcha-response').val() == ''){
           $('#msg').html(msg);
+          document.getElementById('top-contact').scrollIntoView();
           return false;
         }
         $('#msg').html('');
@@ -76,28 +78,7 @@
                 success: function(data) {
                     // Remove current options
                     $('#resultado').html(data);
-                }
-            });
-            return false;
-        });
-        $('#establecimiento_type_save').click(function(){
-        var msg = '<div class="alert alert-danger" role="alert"><strong>Recordatorio!</strong> Antes de hacer una consulta debe marcar la casilla reCAPTCHA</div>';
-        if($('#g-recaptcha-response').val() == 0){
-          $('#msg').html(msg);
-          return false;
-        }
-        if($('#g-recaptcha-response').val() == ''){
-          $('#msg').html(msg);
-          return false;
-        }
-        $('#msg').html('');
-           $('#resultado').html('');
-           var val = $('#establecimiento_type_establecimiento').val(), nombre = $('#establecimiento_type_nombre').val();
-           $.ajax({
-                type: "POST",
-                url: "{{ url('ajax_busqueda') }}?tipo=1&nombre=" + $('#basica_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&max="+$('#limite').val(),
-                success: function(data) {
-                    $('#resultado').html(data);
+                    document.getElementById('resultado').scrollIntoView();
                 }
             });
             return false;
@@ -109,6 +90,9 @@
     });
     });
 </script>
+</div>
+<div class="col-sm-3">
+  {% include 'SinamCoreBundle::Consulta/infoConsulta.html.twig' %}
 </div>
 {% endblock %}
 {% block js_head %}
@@ -157,8 +141,8 @@ jQuery(document).ready(function( $ ) {
   }
   function cargarEsta(valor) {
     var arrayValores=new Array( 
-      {% for item in establecimiento %}
-        new Array({{item.idMunicipio}},{{item.id}},"{{item.nombre}}"),
+      {% for item in all %}
+        new Array({{item.idMunicipio}},{{item.id}},"{{item.establecimiento}}"),
       {% endfor %}
       new Array(-1,1,"") );
     if(valor>0) {
@@ -207,5 +191,12 @@ jQuery(document).ready(function( $ ) {
     });
   });
   </script>
+  <link href="{{ asset('assets/ayuda/introjs.css') }}" rel="stylesheet">
 {% endblock %}
 {% block body_tag %}onload="cargarMun(0)"{% endblock %}
+{% block javascripts %}
+  <script type="text/javascript" src="{{ asset('assets/ayuda/intro.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('assets/js/morris.js-0.5.1/morris.css') }}">
+  <script type="text/javascript" src="{{ asset('assets/js/raphael-min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/morris.js-0.5.1/morris.js') }}"></script>
+{% endblock %}
