@@ -224,14 +224,14 @@ class SinamRepository extends EntityRepository
    $depto = ($depto > 0) ? " AND d.id = $depto " : '';
    $munic = ($munic > 0) ? " AND mu.id = $munic " : '';
    $estab = ($estab > 0) ? " AND e.id = $estab " : '';
-   $max = ($max > 0) ? $max : 7;
+   $max = ($max > 0) ? $max : 300;
    $mes = 'AND a.mes = '.date("n");
    $query = $this->getEntityManager()
-        ->createQuery("SELECT ms.nombre AS nombre, e.id AS establecimiento, AVG(a.cantidad) AS promedio
+        ->createQuery("SELECT SUM(a.cantidad) AS cantidad, ms.nombre AS nombre, e.id AS establecimiento, AVG(a.cantidad) AS promedio, a.anyo AS anyo, a.mes AS mes, COUNT(a.id) AS anyos
           FROM SinamCoreBundle:SabCatCatalogoproductos AS ms, SinamCoreBundle:FarmCatalogoproductos AS m, SinamCoreBundle:CtlEstablecimiento AS e, SinamCoreBundle:CtlMunicipio AS mu, SinamCoreBundle:CtlDepartamento AS d, SinamCoreBundle:SabCatUnidadmedidas AS u, SinamCoreBundle:CtlAbastecimiento AS a
           WHERE ms.nombre  = $id AND ms.codigo = m.codigo AND ms.idUnidadmedida = u.id AND e.idMunicipio = mu.id AND mu.idDepartamento = d.id AND m.id = a.idProducto $mes $depto $munic $estab 
-          GROUP BY ms.nombre, e.id, a.id 
-          ORDER BY ms.nombre ASC")->setMaxResults($max);;
+          GROUP BY ms.nombre, e.id, a.id, a.anyo, a.mes
+          ORDER BY a.id ASC");
    try {
         return $query->getResult();
        } catch (\Doctrine\Orm\NoResultException $e) {

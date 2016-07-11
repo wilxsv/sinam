@@ -74,7 +74,7 @@
            $('#resultado').html('');
            $.ajax({
                 type: "POST",
-                url: "{{ url('consulta_abastecimiento') }}?tipo=0&nombre=" + $('#basica_nombre').val()+"&max="+$('#limite').val(),
+                url: "{{ url('consulta_abastecimiento') }}?tipo=0&nombre=" + $('#basica_nombre').val()+"&depto="+$('#basica_departamento').val()+"&munic="+$('#basica_municipio').val()+"&estab="+$('#basica_establecimiento').val()+"&max="+$('#limite').val(),
                 success: function(data) {
                     // Remove current options
                     $('#resultado').html(data);

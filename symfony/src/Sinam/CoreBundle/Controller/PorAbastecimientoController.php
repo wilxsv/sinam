@@ -25,8 +25,9 @@ class PorAbastecimientoController extends Controller
         	$result = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSINABSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
             $siap = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByIdMedicamentoSIAP( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab') );
             $consumo = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByAbastecimiento( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), $request->query->get('max') );
+            $max = $em->getRepository('SinamCoreBundle:FarmCatalogoproductos')->findByMesAbastecimiento( $request->query->get('nombre'), $request->query->get('depto'), $request->query->get('munic'), $request->query->get('estab'), 0 );
 
-            return $this->render('SinamCoreBundle:Consulta:abastecimientoMensual.html.twig', array( 'rest'=> $result, 'consumo' => $consumo, 'siap' => $siap, 'establecimiento' => FALSE ));
+            return $this->render('SinamCoreBundle:Consulta:abastecimientoMensual.html.twig', array( 'rest'=> $result, 'consumo' => $consumo, 'siap' => $siap, 'last' => $max ));
         }else {
             $form = $form = $this->createForm('Sinam\CoreBundle\Form\BusquedaAbastecimientoType');
             $depto = $em->getRepository('SinamCoreBundle:CtlDepartamento')->findByidPais( 68 );
