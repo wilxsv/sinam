@@ -54,5 +54,12 @@
   <script src="{{ asset('assets/js/functions.js') }}"></script>
   <script src="{{ asset('assets/js/wow.min.js') }}"></script>
   {% block javascripts %}{% endblock %}
+  <div  id="myModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <img src="{{ asset('images/loader_64_64.gif') }}"> Procesando información
+    </div>
+  </div>
+</div>
  </body>
 </html>

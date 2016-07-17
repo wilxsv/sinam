@@ -59,3 +59,7 @@ info_contacto:
 info_ayuda:
     path:     /mostrar
     defaults: { _controller: SinamCoreBundle:Info:mostrar }
+
+consulta_grafico:
+    path:     /consulta_grafico
+    defaults: { _controller: SinamCoreBundle:PorAbastecimiento:grafico }

@@ -19,7 +19,7 @@
                      <div id="respond">
                       <form class="commentform" method="post">
                           <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
-                          <input id="basica_nombre" class="ui-autocomplete-input" type="text" size="90%" required="required" name="basica[nombre]" autocomplete="off" data-step="4" data-intro="En este cuadro se puede buscar el medicamento a consultar su abastecimiento.<br>Se presenta una lista de los medicamentos">
+                          <input id="basica_nombre" type="text" size="90%" required="required" name="basica[nombre]" data-step="4" data-intro="En este cuadro se puede buscar el medicamento a consultar su abastecimiento.<br>Se presenta una lista de los medicamentos">
                           <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="5" data-intro="Al dar clic se realiza una busqueda a nivel nacional">Buscar</button>
                         <br/>
                         {{ form_label(form.departamento) }}<br />
@@ -185,7 +185,6 @@ jQuery(document).ready(function( $ ) {
       source: 'jsonmedicamentos',
       minLength: 4,
       highlight: false,
-      width: 320,
       scroll: true,
       scrollHeight: 300
     });

@@ -1,0 +1,90 @@
+ <section id="services" class="services">
+ <div id="comments" class="comments">
+  <div class="comments-area">
+   {% set max = 100 %}
+   {% set id = 0 %}
+   {% if rest == true %}
+    {% set med = 0 %}
+    {% for item in rest %}
+    {% set id = id + 1 %}
+    {% if med == 0 %}
+      <h3 class="comment-title">{{ item.nombre }}</h3>
+      <p>Descripción: {{ item.descripcion}}<br/>
+      Presentación: {{ item.presentacion}}</p>
+      {% set med = 1 %}
+    {% endif %}
+    {% if id < max %}
+      <div class="comments-details">
+        <ul class="comment-list">
+         <li class="parent">
+          <article class="comment">
+            <div class="comment-content">
+            <h4 class="author-name pull-left">Establecimiento: {{ item.establecimiento }}</h4>
+            <div class="row">
+              {% set almacen = item.cantidaddisponible|number_format(0, '.', ',') %}
+              {% set promedio = '0' %}
+              {% set ultimo = '0' %}
+              {% set farmacia = '0' %}
+              {% for s in siap %}
+                {% if s.id == item.id %}
+                  {% set farmacia = s.existencia|number_format(0, '.', ',') %}
+                {% endif %}
+              {% endfor %}
+              {% for s in consumo %}
+                {% if s.establecimiento == item.id %}
+                  {% set promedio = s.promedio|number_format(0, '.', ',') %}
+                {% endif %}
+              {% endfor %}
+              {% for s in last %}
+                {% if s.establecimiento == item.id %}
+                  {% set ultimo = s.cantidad |number_format(0, '.', ',') %}
+                {% endif %}
+              {% endfor %}
+              <div class="col-md-5">
+                <b>Consumo [{{ item.unidad }}]</b><br />
+                Promedio: {{ promedio }}<br />
+                Ultimo consumo: {{ ultimo }} (año anterior)<br />
+                <b>Existencias [{{ item.unidad }}]</b><br />
+                Almacen: {{ almacen }}<br />
+                Farmacia:  {% if farmacia == 0 %}Si datos a mostrar{% else %}{{ farmacia }}{% endif %}<br />
+                Total: {{ almacen + farmacia }} <br />
+              </div>
+              <div class="col-md-5">
+                <div id="grafico{{item.id}}"></div>
+                <script>
+                  Morris.Bar({
+                    element: 'grafico{{item.id}}',
+                    data: [ { y: 'Cantidades', a: {{ promedio }}, b: {{ almacen }}, c: {{ farmacia }}, d: {{ almacen + farmacia }} }, ],
+                    xkey: 'y',
+                    ykeys: ['a', 'b', 'c', 'd'],
+                    labels: ['Consumo', 'Almacen', 'Farmacia', 'Total']
+                  });
+                </script>
+              </div>
+            </div>
+          </div>
+          </article>
+         </li>
+        </ul>
+      </div>
+    {% endif %}
+    {% endfor %}
+   {% else %}<div class="item">
+      <div class="row">
+      <p align="center">
+        <div class="alert alert-danger" role="alert">
+          <p><strong>:: Establecimiento si registros ::</strong></p>
+          <p>No se pudo encontrar datos historicos de consumo de ese medicamento en la busqueda realizada, Intente repetir la búsqueda utilizando los filtros, verifique que el establecimiento este en el listado de establecimientos conectados al sistema y consulte los medicamentos de la tabla de medicamentos.</p>
+        </div>
+      </p>
+      </div>
+     </div>
+   {% endif %}
+   </div>
+  </div>
+ </section>
+
+ 
+{% block js_head %}
+ 
+{% endblock %}
