@@ -35,6 +35,11 @@ class FarmMedicinarecetada
     private $idEstablecimientoDespacha;
 
     /**
+     * @var integer
+     */
+    private $secuenciaLocal;
+
+    /**
      * @var \Sinam\CoreBundle\Entity\FarmCatalogoproductos
      */
     private $idmedicina;
@@ -145,6 +150,29 @@ class FarmMedicinarecetada
     public function getIdEstablecimientoDespacha()
     {
         return $this->idEstablecimientoDespacha;
+    }
+
+    /**
+     * Set secuenciaLocal
+     *
+     * @param integer $secuenciaLocal
+     * @return FarmMedicinarecetada
+     */
+    public function setSecuenciaLocal($secuenciaLocal)
+    {
+        $this->secuenciaLocal = $secuenciaLocal;
+
+        return $this;
+    }
+
+    /**
+     * Get secuenciaLocal
+     *
+     * @return integer 
+     */
+    public function getSecuenciaLocal()
+    {
+        return $this->secuenciaLocal;
     }
 
     /**

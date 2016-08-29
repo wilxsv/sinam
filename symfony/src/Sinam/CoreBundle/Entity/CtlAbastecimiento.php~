@@ -25,6 +25,11 @@ class CtlAbastecimiento
     private $cantidad;
 
     /**
+     * @var integer
+     */
+    private $anyo;
+
+    /**
      * @var \Sinam\CoreBundle\Entity\CtlEstablecimiento
      */
     private $idEstablecimiento;
@@ -89,6 +94,29 @@ class CtlAbastecimiento
     public function getCantidad()
     {
         return $this->cantidad;
+    }
+
+    /**
+     * Set anyo
+     *
+     * @param integer $anyo
+     * @return CtlAbastecimiento
+     */
+    public function setAnyo($anyo)
+    {
+        $this->anyo = $anyo;
+
+        return $this;
+    }
+
+    /**
+     * Get anyo
+     *
+     * @return integer 
+     */
+    public function getAnyo()
+    {
+        return $this->anyo;
     }
 
     /**

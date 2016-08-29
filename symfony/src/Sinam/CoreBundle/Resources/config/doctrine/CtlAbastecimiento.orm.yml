@@ -1,5 +1,6 @@
 Sinam\CoreBundle\Entity\CtlAbastecimiento:
     type: entity
+    repositoryClass: Sinam\CoreBundle\Repository\ResumeRepository
     table: ctl_abastecimiento
     indexes:
         IDX_C36938037DFA12F6:

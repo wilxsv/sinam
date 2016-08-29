@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class BusquedaHistorialType extends AbstractType
 {
@@ -17,26 +18,16 @@ class BusquedaHistorialType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '')))
-            ->add('unidad',  'entity', array('label' => 'Unidad de medida','class' => 'SinamCoreBundle:FarmUnidadmedidas'))
-            ->add('almacen',  'choice', array('label' => 'Incluir informacion de almacenes','choices'  => array('1' => 'Si','0' => 'No')))
-            ->add('periodo',  'text', array('label' => 'Periodo','attr'=>  array('size' => '')))
+            ->add('nombre',  'text', array('label' => 'Nombre del medicamento','attr'=>  array('size' => '100%')))
+            ->add('departamento',  EntityType::class, array('label' => 'Seleccione el departamento', 'required' => false,'attr'=>  array('onchange' => 'cargarMun(this.value);', 'style' => 'width: 90%'), 'class' => 'SinamCoreBundle:CtlDepartamento','choice_label'=>'nombre'))
+            ->add('municipio',  EntityType::class, array('label' => 'Seleccione el municipio', 'required' => false, 'class' => 'SinamCoreBundle:CtlMunicipio','choice_label'=>'nombre', 'attr'=>  array('onchange' => 'cargarEsta(this.value);', 'style' => 'width: 90%')))
+            ->add('establecimiento', EntityType::class, array('label' => 'Seleccione el establecimiento', 'required' => false,'class' => 'SinamCoreBundle:CtlEstablecimiento', 'choice_label' => 'nombre', 'attr'=>  array('style' => 'width: 90%')))
             ->add('save', 'submit', array('label' => 'Buscar','attr'=>  array('class' => 'submit-btn')))
         ;
     }
     public function getName()
     {
-        return "historial_type";
+        return "historial";
     }
 
 }
-/*
-            ->add('presentacion',  'entity', array('label' => 'Presentación','class' => 'SinamCoreBundle:FarmCatalogoproductos','property'=>'presentacion',
-                'choices_as_values' => true,
-                'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('p')
-                    ->groupBy('p.presentacion, p.id')
-                    ->addGroupBy('p.id')
-                    ->orderBy('p.presentacion', 'ASC');
-                },
-            ))*/

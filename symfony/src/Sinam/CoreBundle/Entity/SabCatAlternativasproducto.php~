@@ -1,9 +1,6 @@
 <?php
-
 namespace Sinam\CoreBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * SabCatAlternativasproducto
  */
@@ -13,28 +10,22 @@ class SabCatAlternativasproducto
      * @var string
      */
     private $multiplicador;
-
     /**
      * @var string
      */
     private $divisor;
-
     /**
      * @var integer
      */
     private $estasincronizada;
-
     /**
      * @var \Sinam\CoreBundle\Entity\SabCatCatalogoproductos
      */
     private $id;
-
     /**
      * @var \Sinam\CoreBundle\Entity\SabCatCatalogoproductos
      */
     private $idProducto;
-
-
     /**
      * Set multiplicador
      *
@@ -44,10 +35,8 @@ class SabCatAlternativasproducto
     public function setMultiplicador($multiplicador)
     {
         $this->multiplicador = $multiplicador;
-
         return $this;
     }
-
     /**
      * Get multiplicador
      *
@@ -57,7 +46,6 @@ class SabCatAlternativasproducto
     {
         return $this->multiplicador;
     }
-
     /**
      * Set divisor
      *
@@ -67,10 +55,8 @@ class SabCatAlternativasproducto
     public function setDivisor($divisor)
     {
         $this->divisor = $divisor;
-
         return $this;
     }
-
     /**
      * Get divisor
      *
@@ -80,7 +66,6 @@ class SabCatAlternativasproducto
     {
         return $this->divisor;
     }
-
     /**
      * Set estasincronizada
      *
@@ -90,10 +75,8 @@ class SabCatAlternativasproducto
     public function setEstasincronizada($estasincronizada)
     {
         $this->estasincronizada = $estasincronizada;
-
         return $this;
     }
-
     /**
      * Get estasincronizada
      *
@@ -103,7 +86,6 @@ class SabCatAlternativasproducto
     {
         return $this->estasincronizada;
     }
-
     /**
      * Set id
      *
@@ -113,10 +95,8 @@ class SabCatAlternativasproducto
     public function setId(\Sinam\CoreBundle\Entity\SabCatCatalogoproductos $id = null)
     {
         $this->id = $id;
-
         return $this;
     }
-
     /**
      * Get id
      *
@@ -126,7 +106,6 @@ class SabCatAlternativasproducto
     {
         return $this->id;
     }
-
     /**
      * Set idProducto
      *
@@ -136,10 +115,8 @@ class SabCatAlternativasproducto
     public function setIdProducto(\Sinam\CoreBundle\Entity\SabCatCatalogoproductos $idProducto = null)
     {
         $this->idProducto = $idProducto;
-
         return $this;
     }
-
     /**
      * Get idProducto
      *
