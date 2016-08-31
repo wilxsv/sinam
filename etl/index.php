@@ -111,11 +111,11 @@ function iterar_sinab($maestro) {
 					$obj = new LoadSinab( $l->host, $l->name, $l->user, $l->passwd, $e->host, $e->port, $e->name, $e->schema, $e->user, $e->passwd );
 					//$r = $obj->carga_departamento();
 					//$r = $obj->carga_municipio();
-					//$r = $obj->carga_medicamento();
-					//$r = $obj->carga_almacen();
-					//$r = $obj->carga_establecimiento();
+					$r = $obj->carga_medicamento();
+					$r = $obj->carga_almacen();
+					$r = $obj->carga_establecimiento();
 					$r = $obj->carga_alternativa();
-					//$r = $obj->carga_almacenestablecimiento();
+					$r = $obj->carga_almacenestablecimiento();
 					$r = $obj->carga_existenciasalmacenes();
 				}
 			}

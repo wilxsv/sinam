@@ -5,4 +5,4 @@
 !/symfony/app/logs/
 /symfony/app/logs/*
 !/symfony/app/logs/.gitkeep
-/etl/db/*
+/etl
