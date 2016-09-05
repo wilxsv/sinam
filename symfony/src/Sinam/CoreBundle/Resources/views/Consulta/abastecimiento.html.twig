@@ -20,7 +20,6 @@
                       <form class="commentform" method="post">
                           <label class="required" for="basica_departamento">Ingresa el nombre del medicamento a buscar</label><br/>
                           <input id="basica_nombre" type="text" size="90%" required="required" name="basica[nombre]" data-step="4" data-intro="En este cuadro se puede buscar el medicamento a consultar su abastecimiento.<br>Se presenta una lista de los medicamentos">
-                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="5" data-intro="Al dar clic se realiza una busqueda a nivel nacional">Buscar</button>
                         <br/>
                         {{ form_label(form.departamento) }}<br />
                         <select id="basica_departamento" onchange="cargarMun(this.value);" style="width: 90%;" data-step="6" data-intro="Puede delimitar su busqueda por departamento seleccionado">
@@ -45,7 +44,14 @@
                         Numero de establecimientos (Aplica solo a consultas de abastecimiento por departamento o municipio): 
                           <input type="text" id="limite" readonly style="border:0; color:#f6931f; font-weight:bold;">
                           <div id="slider-range-min"></div><br />
-                         <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA" data-step="3" data-intro="Antes de hacer una consulta debe dar clic en la cacilla de verificacion"></div>
+                     <div class="row">
+                       <div class="col-md-6">
+                        <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA" data-step="3" data-intro="Antes de hacer una consulta debe dar clic en la cacilla de verificacion"></div>
+                       </div>
+                       <div class="col-md-6">
+                        <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="5" data-intro="Al dar clic se realiza una busqueda a nivel nacional">Buscar</button>
+                       </div>
+                     </div>
                      </div>
                     </p>
                   </div>

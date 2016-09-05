@@ -175,7 +175,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .site-banner {
 	background-color: #ffffff;
-	height: 170px;
+	height: 100px;
 }
 .site-logo {
 	padding-top: 35px;
@@ -206,8 +206,8 @@ h1,h2,h3,h4,h5,h6 {
 	color: #6f7678;
 	display: inline-block;
 	font-size: .875em;
-	padding: 25px;
-	text-transform: capitalize;
+	/*padding: 25px;
+	text-transform: capitalize;*/
 
 	-webkit-transition: all .25s ease;
 	-moz-transition: all .25s ease;

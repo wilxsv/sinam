@@ -22,7 +22,6 @@
                           <input id="establecimiento_nombre" class="ui-autocomplete-input" type="text" size="100%" required="required" name="establecimiento[nombre]" autocomplete="off" data-step="4" data-intro="En este cuadro se escribe el medicamento a consultar."><br/>
                           <label class="required" for="basica_departamento" >Ingresa su úbicación o algún lugar cercano de referencia</label><br/>
                           <input id="establecimiento_lugar" class="ui-autocomplete-input" type="text" size="100%" required="required" name="establecimiento[lugar]" autocomplete="off" data-step="5" data-intro="En este cuadro se el lugar, territorio o region donde se quiere saber las existencias del medicamento.">
-                          <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="6" data-intro="Al dar clic en este boton se realiza una busqueda nacional por los establecimientos cercanos que coincidan con el medicamento y el lugar escrito.">Buscar</button>
                         <br/>
                         <label data-step="7" data-intro="Se aplican los filtros opcionales dependiendo del campo que se seleccione (Departamento, Municipio o Establecimiento)."><input type="checkbox" name="colorCheckbox" value="filtro"> Filtrar búsqueda</label>
                         <div class="filtro box">
@@ -53,8 +52,17 @@
                           <div id="slider-range-min"></div><br />
                          <p align="right">
                           <button id="establecimiento_type_save" class="submit-btn" type="submit" >Aplicar filtro</button>
-                         </p> 
-                        </div><div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA" data-step="3" data-intro="Antes de hacer una consulta debe dar clic en la cacilla de verificacion"></div>
+                         </p>  
+                        </div>
+                        <br/>
+                     <div class="row">
+                       <div class="col-md-6">
+                        <div class="g-recaptcha" data-sitekey="6LccTyITAAAAALuynzFnB2AqpAxftp07FedqKVUA" data-step="3" data-intro="Antes de hacer una consulta debe dar clic en la cacilla de verificacion"></div>
+                       </div>
+                       <div class="col-md-6">
+                        <button id="establecimiento_save" class="submit-btn pull-right" type="submit" data-step="6" data-intro="Al dar clic en este boton se realiza una busqueda nacional por los establecimientos cercanos que coincidan con el medicamento y el lugar escrito.">Buscar</button>
+                       </div>
+                     </div>  
                       </form>
                      </div>
                     </p>
